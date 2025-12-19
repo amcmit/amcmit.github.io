@@ -1,0 +1,23 @@
+# --- Site Settings ---
+title: Alex Carroll's Website
+author: Alex Carroll
+description: "A simple, beautiful personal website."
+
+# --- The Theme Setup ---
+remote_theme: daattali/beautiful-jekyll
+
+# --- Navigation Bar ---
+navbar-links:
+  About Me: "about"
+  Projects: "projects"
+
+# --- Social Media Icons ---
+social-network-links:
+  github: amcmit
+  linkedin: https://www.linkedin.com/in/alex-carroll629/
+  email: alex629@mit.edu
+
+# --- Build Settings ---
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
