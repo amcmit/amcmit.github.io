@@ -1,0 +1,25 @@
+# --- Site Settings ---
+title: [Alex Carroll]'s Website
+author: [Alex Carroll]
+description: "A simple, beautiful personal website."
+
+# --- The Theme Setup (Do not change this) ---
+remote_theme: daattali/beautiful-jekyll
+
+# --- Navigation Bar ---
+# These appear at the top of every page
+navbar-links:
+  About Me: "about"
+  Projects: "projects"
+
+# --- Social Media Icons ---
+# Fill these in to show icons in the footer. Delete the lines you don't need.
+social-network-links:
+  github: [amcmit]
+  linkedin: [https://www.linkedin.com/in/alex-carroll629/]
+  email: [alex629@mit.edu]
+
+# --- Build Settings ---
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
