@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+*.swp
+*.swo
+*~
+
+# Old Jekyll site (not needed)
+amcmit.github.io-main/
+
+# Misc
+*.log
+.idea/
+.vscode/
+
