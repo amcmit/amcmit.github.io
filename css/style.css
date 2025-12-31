@@ -1057,6 +1057,38 @@ ul {
     font-weight: 500;
 }
 
+.contact-social h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--black);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.contact-social h3:first-of-type {
+    margin-top: 0;
+}
+
+.membership-list {
+    list-style: none;
+    padding: 0;
+}
+
+.membership-list li {
+    padding: var(--space-xs) 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    padding-left: var(--space-md);
+    position: relative;
+}
+
+.membership-list li::before {
+    content: '•';
+    color: var(--mit-red);
+    position: absolute;
+    left: 0;
+}
+
 /* ===================================
    Footer
    =================================== */
