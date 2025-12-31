@@ -715,10 +715,36 @@ ul {
     background: var(--cream);
 }
 
+.publication-category {
+    margin-bottom: var(--space-xl);
+}
+
+.publication-category:last-child {
+    margin-bottom: 0;
+}
+
+.category-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--mit-red);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.category-title i {
+    color: var(--mit-red);
+    font-size: 1.25rem;
+}
+
 .publication-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
+    gap: var(--space-md);
 }
 
 .publication-item {
