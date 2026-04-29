@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Arcade | Alex Carroll</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --mit-red: #A31F34;
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray: #2a2a2a;
+            --text: #e0e0e0;
+            --text-muted: #888;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--black);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Scanline effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--gray);
+        }
+        
+        .logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.25rem;
+            color: var(--mit-red);
+            text-shadow: 2px 2px 0 #000;
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover {
+            color: var(--mit-red);
+        }
+        
+        /* Hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--mit-red), #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+        
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Emulator Container */
+        .emulator-section {
+            background: var(--dark);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--gray);
+        }
+        
+        .emulator-section h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: var(--mit-red);
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--mit-red);
+            background: rgba(163, 31, 52, 0.1);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--mit-red);
+            background: rgba(163, 31, 52, 0.2);
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--mit-red);
+            margin-bottom: 1rem;
+        }
+        
+        .upload-area h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-area p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .upload-area input {
+            display: none;
+        }
+        
+        /* Console Selection */
+        .console-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .console-btn {
+            background: var(--gray);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .console-btn:hover {
+            border-color: var(--mit-red);
+            transform: translateY(-2px);
+        }
+        
+        .console-btn.active {
+            border-color: var(--mit-red);
+            background: rgba(163, 31, 52, 0.2);
+        }
+        
+        .console-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: var(--mit-red);
+        }
+        
+        .console-btn span {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        /* Game Display */
+        #game-container {
+            width: 100%;
+            aspect-ratio: 4/3;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            position: relative;
+        }
+        
+        #game-container.active {
+            display: block;
+        }
+        
+        #game-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Controls Info */
+        .controls-info {
+            background: var(--gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .controls-info h4 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            margin-bottom: 1rem;
+            color: var(--mit-red);
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .control-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .control-item:last-child {
+            border-bottom: none;
+        }
+        
+        .key {
+            background: var(--dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+        
+        /* Supported Formats */
+        .formats {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--gray);
+            border-radius: 8px;
+        }
+        
+        .formats h4 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            margin-bottom: 1rem;
+            color: var(--mit-red);
+        }
+        
+        .format-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .format-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .format-item i {
+            color: var(--mit-red);
+            width: 20px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .footer a {
+            color: var(--mit-red);
+            text-decoration: none;
+        }
+        
+        .disclaimer {
+            max-width: 600px;
+            margin: 1rem auto 0;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+        
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gray);
+            border-top-color: var(--mit-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .emulator-section {
+                padding: 1.5rem;
+            }
+            
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+            
+            .console-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">RETRO ARCADE</div>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Main Site
+            </a>
+        </header>
+        
+        <div class="hero">
+            <h1>🎮 Retro Game Emulator</h1>
+            <p>Play classic games right in your browser. Select a console, upload a ROM, and start playing!</p>
+        </div>
+        
+        <div class="emulator-section">
+            <h2>1. SELECT CONSOLE</h2>
+            <div class="console-grid">
+                <div class="console-btn" data-core="nes" data-ext=".nes">
+                    <i class="fas fa-gamepad"></i>
+                    <span>NES</span>
+                </div>
+                <div class="console-btn" data-core="snes" data-ext=".smc,.sfc">
+                    <i class="fas fa-gamepad"></i>
+                    <span>SNES</span>
+                </div>
+                <div class="console-btn" data-core="gb" data-ext=".gb">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game Boy</span>
+                </div>
+                <div class="console-btn" data-core="gbc" data-ext=".gbc">
+                    <i class="fas fa-gamepad"></i>
+                    <span>GB Color</span>
+                </div>
+                <div class="console-btn" data-core="gba" data-ext=".gba">
+                    <i class="fas fa-gamepad"></i>
+                    <span>GBA</span>
+                </div>
+                <div class="console-btn" data-core="n64" data-ext=".n64,.z64">
+                    <i class="fas fa-gamepad"></i>
+                    <span>N64</span>
+                </div>
+                <div class="console-btn" data-core="nds" data-ext=".nds">
+                    <i class="fas fa-gamepad"></i>
+                    <span>DS</span>
+                </div>
+                <div class="console-btn" data-core="segaMD" data-ext=".md,.gen">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Genesis</span>
+                </div>
+            </div>
+            
+            <h2>2. UPLOAD ROM</h2>
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="rom-input" accept="*">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Drop ROM file here</h3>
+                <p>or click to browse • Select a console first</p>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading emulator...</p>
+            </div>
+            
+            <div id="game-container">
+                <div id="emulator-target"></div>
+            </div>
+        </div>
+        
+        <div class="controls-info">
+            <h4>KEYBOARD CONTROLS</h4>
+            <div class="controls-grid">
+                <div>
+                    <div class="control-item">
+                        <span>D-Pad</span>
+                        <span><span class="key">Arrow Keys</span></span>
+                    </div>
+                    <div class="control-item">
+                        <span>A Button</span>
+                        <span><span class="key">X</span></span>
+                    </div>
+                    <div class="control-item">
+                        <span>B Button</span>
+                        <span><span class="key">Z</span></span>
+                    </div>
+                </div>
+                <div>
+                    <div class="control-item">
+                        <span>Start</span>
+                        <span><span class="key">Enter</span></span>
+                    </div>
+                    <div class="control-item">
+                        <span>Select</span>
+                        <span><span class="key">Shift</span></span>
+                    </div>
+                    <div class="control-item">
+                        <span>L/R Shoulder</span>
+                        <span><span class="key">Q</span> / <span class="key">E</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="formats">
+            <h4>SUPPORTED FORMATS</h4>
+            <div class="format-list">
+                <div class="format-item"><i class="fas fa-check"></i> NES: .nes</div>
+                <div class="format-item"><i class="fas fa-check"></i> SNES: .smc, .sfc</div>
+                <div class="format-item"><i class="fas fa-check"></i> Game Boy: .gb</div>
+                <div class="format-item"><i class="fas fa-check"></i> GB Color: .gbc</div>
+                <div class="format-item"><i class="fas fa-check"></i> GBA: .gba</div>
+                <div class="format-item"><i class="fas fa-check"></i> N64: .n64, .z64</div>
+                <div class="format-item"><i class="fas fa-check"></i> DS: .nds</div>
+                <div class="format-item"><i class="fas fa-check"></i> Genesis: .md, .gen</div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>A side project by <a href="index.html">Alex Carroll</a></p>
+            <p class="disclaimer">
+                This emulator is for educational purposes. You must own the original games to legally use ROM files. 
+                No ROMs are provided or hosted on this site.
+            </p>
+        </footer>
+    </div>
+    
+    <!-- EmulatorJS -->
+    <script>
+        // State
+        let selectedCore = null;
+        let selectedExt = null;
+        
+        // Console buttons
+        const consoleBtns = document.querySelectorAll('.console-btn');
+        const uploadArea = document.getElementById('upload-area');
+        const romInput = document.getElementById('rom-input');
+        const gameContainer = document.getElementById('game-container');
+        const loading = document.getElementById('loading');
+        const emulatorTarget = document.getElementById('emulator-target');
+        
+        // Console selection
+        consoleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                consoleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedCore = btn.dataset.core;
+                selectedExt = btn.dataset.ext;
+                uploadArea.querySelector('p').textContent = `or click to browse • Accepts: ${selectedExt}`;
+            });
+        });
+        
+        // Upload area click
+        uploadArea.addEventListener('click', () => {
+            if (!selectedCore) {
+                alert('Please select a console first!');
+                return;
+            }
+            romInput.click();
+        });
+        
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (!selectedCore) {
+                alert('Please select a console first!');
+                return;
+            }
+            const file = e.dataTransfer.files[0];
+            if (file) loadROM(file);
+        });
+        
+        // File input change
+        romInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) loadROM(file);
+        });
+        
+        // Load ROM
+        function loadROM(file) {
+            loading.classList.add('active');
+            uploadArea.style.display = 'none';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const romData = e.target.result;
+                startEmulator(romData, file.name);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+        
+        // Start emulator
+        function startEmulator(romData, fileName) {
+            // Create blob URL for the ROM
+            const blob = new Blob([romData]);
+            const romURL = URL.createObjectURL(blob);
+            
+            // Clear previous emulator
+            emulatorTarget.innerHTML = '';
+            
+            // Configure EmulatorJS
+            window.EJS_player = '#emulator-target';
+            window.EJS_gameUrl = romURL;
+            window.EJS_core = selectedCore;
+            window.EJS_gameName = fileName;
+            window.EJS_color = '#A31F34';
+            window.EJS_startOnLoaded = true;
+            window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+            
+            // Load EmulatorJS
+            const script = document.createElement('script');
+            script.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
+            script.onload = () => {
+                loading.classList.remove('active');
+                gameContainer.classList.add('active');
+            };
+            document.body.appendChild(script);
+        }
+    </script>
+</body>
+</html>
