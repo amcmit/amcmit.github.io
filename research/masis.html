@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+
+    <title>MASIS — Multi-Agent Supplier Intelligence System | Alex Carroll</title>
+    <meta name="description" content="MASIS: a five-stage agentic pipeline that orchestrates vector, relational, and graph databases behind a single natural-language interface for procurement intelligence.">
+    <link rel="canonical" href="https://amcmit.github.io/research/masis.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="project-page level-plain">
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">Alex Carroll</a>
+            <div class="project-nav-actions">
+                <a href="../index.html#research" class="project-back"><i class="fas fa-arrow-left"></i> All research</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="project-hero">
+        <div class="container">
+            <p class="project-eyebrow">Featured Research · Agentic Procurement Intelligence</p>
+            <h1 class="project-title">MASIS</h1>
+            <p class="project-subtitle">Multi-Agent Supplier Intelligence System</p>
+            <p class="project-lede">
+                A five-stage agentic pipeline — Plan, Route, Retrieve, Verify, Synthesize — that orchestrates vector,
+                relational, and graph databases behind a single natural-language interface, so procurement teams can ask
+                cross-source questions that used to require three separate tools and manual reconciliation.
+            </p>
+            <div class="project-tags">
+                <span>Multi-Agent Orchestration</span>
+                <span>LangGraph</span>
+                <span>Hybrid 3-Tier Routing</span>
+                <span>Knowledge Graphs</span>
+                <span>Bounded Verification</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container project-body">
+        <div class="explain-toggle" role="group" aria-label="Explanation level">
+            <span class="label">Explain it:</span>
+            <button type="button" data-level="plain" class="active">Plainly</button>
+            <button type="button" data-level="technical">Technically</button>
+        </div>
+
+        <section class="project-section">
+            <h2>The problem</h2>
+            <div class="level plain">
+                <p>
+                    A procurement team's knowledge is scattered: contracts in one system, spend in another, supplier
+                    relationships in a third. Answering one real question — "who are we single-sourced with and out of
+                    contract?" — means logging into several tools and stitching the answers together by hand.
+                </p>
+                <p>
+                    MASIS lets you ask in plain English and does the stitching for you — and it can show its work.
+                </p>
+            </div>
+            <div class="level technical">
+                <p>
+                    MASIS orchestrates six databases across three modalities (vector, SQL, graph) through a five-stage
+                    agentic pipeline. A hybrid 3-tier router — LLM reasoning → embedding similarity → domain heuristics —
+                    decides which sources a question needs, and bounded verification loops gate the answer on
+                    correctness and provenance before synthesis.
+                </p>
+                <p>
+                    It serves both human users and other AI agents, and consolidates years of prior in-house research
+                    (spend categorization, text-to-SQL, RFx retrieval) into one orchestrated layer — benchmarked across
+                    five enterprise retrieval architectures on 80 curated queries.
+                </p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Try it: watch a question get routed</h2>
+            <p>Pick a procurement question and watch MASIS plan, route to the right data sources, verify, and synthesize.</p>
+            <div class="demo" id="masis-demo">
+                <div id="masis-questions"></div>
+
+                <div class="masis-pipeline" id="masis-pipeline" aria-label="Agentic pipeline stages">
+                    <div class="masis-stage" data-stage="0">Plan</div>
+                    <div class="masis-stage" data-stage="1">Route</div>
+                    <div class="masis-stage" data-stage="2">Retrieve</div>
+                    <div class="masis-stage" data-stage="3">Verify</div>
+                    <div class="masis-stage" data-stage="4">Synthesize</div>
+                </div>
+
+                <div class="masis-sources" id="masis-sources">
+                    <span class="masis-src" data-src="vector"><i class="fas fa-vector-square"></i> Vector · RFx &amp; contracts</span>
+                    <span class="masis-src" data-src="sql"><i class="fas fa-table"></i> SQL · spend &amp; pricing</span>
+                    <span class="masis-src" data-src="graph"><i class="fas fa-diagram-project"></i> Graph · supplier network</span>
+                </div>
+
+                <div class="masis-answer" id="masis-answer"></div>
+                <p class="demo-note">Illustrative orchestration for intuition — canned questions and answers, not a live database connection.</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Why it matters</h2>
+            <ul>
+                <li>One natural-language interface over <strong>vector, relational, and graph</strong> sources — no tool-switching or manual reconciliation.</li>
+                <li><strong>Bounded verification</strong> gates answers on correctness and provenance, which is essential for high-stakes procurement decisions.</li>
+                <li>Serves <strong>both people and other agents</strong>, turning siloed prior work into one reusable intelligence layer.</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Related work</h2>
+            <ul>
+                <li><em>Agentic Generative AI for Procurement Intelligence: A Source-Routing Evaluation</em> — International Journal of Production Research (under review).</li>
+                <li><em>Performance Engineering of Retrieval Architectures for Enterprise Supply-Chain Question Answering</em> — IEEE HPEC (under review).</li>
+                <li>Presented at the MIT CTL Agentic AI Roundtable (December 2025).</li>
+            </ul>
+        </section>
+
+        <p style="margin-top:var(--space-xl);"><a href="../index.html#research" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to research</a></p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Alex Carroll. All rights reserved.</p>
+            <p class="footer-affiliation">PhD Candidate · MIT Center for Transportation &amp; Logistics</p>
+        </div>
+    </footer>
+
+    <script>
+    // --- Theme toggle ---
+    (function(){
+        var btn=document.getElementById('theme-toggle');
+        if(!btn) return;
+        var root=document.documentElement, mq=window.matchMedia('(prefers-color-scheme: dark)');
+        function eff(){return root.getAttribute('data-theme')||(mq.matches?'dark':'light');}
+        function label(){var d=eff()==='dark';btn.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');btn.setAttribute('aria-pressed',String(d));}
+        btn.addEventListener('click',function(){var n=eff()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n);}catch(e){}label();});
+        label();
+    })();
+
+    // --- Plain / technical toggle ---
+    (function(){
+        var buttons=document.querySelectorAll('.explain-toggle button');
+        buttons.forEach(function(b){ b.addEventListener('click',function(){
+            buttons.forEach(function(x){x.classList.remove('active');});
+            b.classList.add('active');
+            document.body.classList.remove('level-plain','level-technical');
+            document.body.classList.add('level-'+b.dataset.level);
+        });});
+    })();
+
+    // --- MASIS routing demo ---
+    (function(){
+        var questions=[
+            { q:'Which suppliers of titanium fasteners are single-sourced and out of contract?',
+              sources:['sql','graph'],
+              a:'3 single-source suppliers found; 2 have contracts that expired in the last quarter. Ownership graph flags one as a subsidiary of a consolidated parent.' },
+            { q:'Summarize the risk and termination clauses across our cold-chain RFx documents.',
+              sources:['vector'],
+              a:'Retrieved 11 RFx documents; termination-for-convenience appears in 7, and only 4 specify temperature-excursion penalties. Consolidated summary with citations returned.' },
+            { q:'What is our total spend with tier-2 suppliers linked to a flagged parent company?',
+              sources:['sql','graph'],
+              a:'$4.2M across 6 tier-2 suppliers traced through the ownership graph to the flagged parent; 68% concentrated in a single category.' },
+            { q:'Find contracts similar to our current MRI service agreement and compare pricing.',
+              sources:['vector','sql'],
+              a:'5 similar agreements retrieved by embedding similarity; joined to spend shows current pricing is 12% above the median of comparable contracts.' }
+        ];
+
+        var qWrap=document.getElementById('masis-questions');
+        questions.forEach(function(item,i){
+            var b=document.createElement('button');
+            b.className='masis-qbtn'; b.type='button';
+            b.textContent=item.q;
+            b.addEventListener('click',function(){ run(item, b); });
+            qWrap.appendChild(b);
+        });
+
+        var stages=[].slice.call(document.querySelectorAll('#masis-pipeline .masis-stage'));
+        var srcs=[].slice.call(document.querySelectorAll('#masis-sources .masis-src'));
+        var answerEl=document.getElementById('masis-answer');
+        var timers=[];
+        function clearAll(){
+            timers.forEach(clearTimeout); timers=[];
+            stages.forEach(function(s){s.classList.remove('on');});
+            srcs.forEach(function(s){s.classList.remove('hit');});
+            answerEl.textContent='';
+        }
+        function run(item, btn){
+            clearAll();
+            document.querySelectorAll('.masis-qbtn').forEach(function(x){x.style.borderColor='';});
+            if(btn) btn.style.borderColor='var(--mit-red)';
+            var step=520;
+            stages.forEach(function(s,idx){
+                timers.push(setTimeout(function(){
+                    s.classList.add('on');
+                    if(idx>0) stages[idx-1].classList.remove('on');
+                    if(idx===1){ // Route -> light up chosen sources
+                        item.sources.forEach(function(src){
+                            var el=document.querySelector('.masis-src[data-src="'+src+'"]');
+                            if(el) el.classList.add('hit');
+                        });
+                    }
+                    if(idx===stages.length-1){
+                        timers.push(setTimeout(function(){
+                            s.classList.add('on');
+                            answerEl.textContent=item.a;
+                        }, step));
+                    }
+                }, step*idx));
+            });
+        }
+    })();
+    </script>
+</body>
+</html>

@@ -10,7 +10,41 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initSmoothScroll();
     initActiveNavLink();
+    initThemeToggle();
 });
+
+/**
+ * Manual light/dark theme toggle (persisted; falls back to OS preference)
+ */
+function initThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    const root = document.documentElement;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const effectiveTheme = () => root.getAttribute('data-theme') || (prefersDark.matches ? 'dark' : 'light');
+
+    const updateLabel = () => {
+        const isDark = effectiveTheme() === 'dark';
+        btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        btn.setAttribute('aria-pressed', String(isDark));
+    };
+
+    btn.addEventListener('click', () => {
+        const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) { /* ignore */ }
+        updateLabel();
+    });
+
+    // If the visitor hasn't made an explicit choice, follow OS changes live
+    prefersDark.addEventListener('change', () => {
+        if (!root.getAttribute('data-theme')) updateLabel();
+    });
+
+    updateLabel();
+}
 
 /**
  * Navbar scroll effect
@@ -82,7 +116,7 @@ function initMobileNav() {
 function initScrollReveal() {
     const revealElements = document.querySelectorAll(
         '.section-title, .section-intro, .about-text, .about-sidebar > *, ' +
-        '.research-card, .publication-item, .timeline-item, .gallery-item, ' +
+        '.news-item, .research-card, .publication-item, .timeline-item, .gallery-item, ' +
         '.contact-item, .social-link, .current-work'
     );
     

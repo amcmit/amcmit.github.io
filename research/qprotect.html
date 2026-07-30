@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+
+    <title>Q-PROTECT — Mapping Quantum Hardware Supply Chains | Alex Carroll</title>
+    <meta name="description" content="Q-PROTECT: a firm-level, multi-platform map of quantum hardware supply chain dependencies across superconducting, ion-trap, and photonic qubit ecosystems.">
+    <link rel="canonical" href="https://amcmit.github.io/research/qprotect.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="project-page level-plain">
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">Alex Carroll</a>
+            <div class="project-nav-actions">
+                <a href="../index.html#research" class="project-back"><i class="fas fa-arrow-left"></i> All research</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="project-hero">
+        <div class="container">
+            <p class="project-eyebrow">Featured Research · Quantum Supply Chains</p>
+            <h1 class="project-title">Q-PROTECT</h1>
+            <p class="project-subtitle">Quantum Platform Risk Observation through Embedded Company Tracking</p>
+            <p class="project-lede">
+                A firm-level, multi-platform map of quantum hardware supply chain dependencies — across superconducting,
+                ion-trap, and photonic qubit ecosystems — built to surface chokepoints and single-source dependencies
+                before a disruption, not after.
+            </p>
+            <div class="project-tags">
+                <span>Knowledge Graphs</span>
+                <span>Trade-Flow Analysis</span>
+                <span>Patent / CPC Linkage</span>
+                <span>Scenario Stress-Testing</span>
+                <span>Local LLMs</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container project-body">
+        <div class="explain-toggle" role="group" aria-label="Explanation level">
+            <span class="label">Explain it:</span>
+            <button type="button" data-level="plain" class="active">Plainly</button>
+            <button type="button" data-level="technical">Technically</button>
+        </div>
+
+        <section class="project-section">
+            <h2>The problem</h2>
+            <div class="level plain">
+                <p>
+                    Quantum computers are built from exotic materials — some of which come from just one or two places in
+                    the world. If any of those inputs is disrupted, whole families of quantum hardware could stall. Today
+                    almost nobody has a clear, company-by-company picture of who depends on what.
+                </p>
+                <p>
+                    Q-PROTECT builds that picture, so the fragile points are visible in advance.
+                </p>
+            </div>
+            <div class="level technical">
+                <p>
+                    I map supply networks in emerging quantum computing using self-hosted search, local language models,
+                    and provenance-aware property graphs. A four-pillar methodology combines firm-network expansion
+                    (~160 → 500+ entities), patent and CPC-code linkage of materials to qubit architectures,
+                    transaction-level trade-flow analysis, and scenario-based stress testing on critical inputs.
+                </p>
+                <p>
+                    The graph is auditable — every edge carries provenance — so chokepoints and single-source
+                    dependencies can be traced back to the evidence that established them.
+                </p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Try it: simulate a supply disruption</h2>
+            <p>
+                Click a <strong>material</strong> on the left to simulate a disruption to its supply. The quantum
+                platforms that depend on it light up as <em>at&#8209;risk</em>. Notice how a single material can put
+                more than one platform in jeopardy.
+            </p>
+            <div class="demo" id="qp-demo">
+                <svg id="qp-svg" viewBox="0 0 660 380" role="img" aria-label="Interactive dependency graph between quantum hardware materials and qubit platforms">
+                    <text class="qp-col-label" x="120" y="40">Critical materials</text>
+                    <text class="qp-col-label" x="470" y="40" text-anchor="start">Qubit platforms</text>
+                    <g id="qp-edges"></g>
+                    <g id="qp-nodes"></g>
+                </svg>
+                <div class="demo-controls">
+                    <button type="button" class="demo-btn ghost" id="qp-reset"><i class="fas fa-rotate-left"></i> Reset</button>
+                    <span id="qp-status" style="color:var(--ink-soft);font-size:0.92rem;">No disruptions — all platforms nominal.</span>
+                </div>
+                <p class="demo-note">Illustrative dependency map for intuition — a simplified, public-domain sketch, not Q-PROTECT's proprietary firm-level graph or data.</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Four pillars</h2>
+            <ul>
+                <li><strong>Firm-network expansion</strong> — grow the entity set from a seed of ~160 to 500+ companies across the ecosystem.</li>
+                <li><strong>Patent &amp; CPC linkage</strong> — connect materials and components to the qubit architectures that rely on them.</li>
+                <li><strong>Trade-flow analysis</strong> — transaction-level import/export evidence to see where inputs actually move.</li>
+                <li><strong>Scenario stress-testing</strong> — remove or constrain critical inputs and trace the cascade through the network.</li>
+            </ul>
+        </section>
+
+        <p style="margin-top:var(--space-xl);"><a href="../index.html#research" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to research</a></p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Alex Carroll. All rights reserved.</p>
+            <p class="footer-affiliation">PhD Candidate · MIT Center for Transportation &amp; Logistics</p>
+        </div>
+    </footer>
+
+    <script>
+    // --- Theme toggle ---
+    (function(){
+        var btn=document.getElementById('theme-toggle');
+        if(!btn) return;
+        var root=document.documentElement, mq=window.matchMedia('(prefers-color-scheme: dark)');
+        function eff(){return root.getAttribute('data-theme')||(mq.matches?'dark':'light');}
+        function label(){var d=eff()==='dark';btn.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');btn.setAttribute('aria-pressed',String(d));}
+        btn.addEventListener('click',function(){var n=eff()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n);}catch(e){}label();});
+        label();
+    })();
+
+    // --- Plain / technical toggle ---
+    (function(){
+        var buttons=document.querySelectorAll('.explain-toggle button');
+        buttons.forEach(function(b){ b.addEventListener('click',function(){
+            buttons.forEach(function(x){x.classList.remove('active');});
+            b.classList.add('active');
+            document.body.classList.remove('level-plain','level-technical');
+            document.body.classList.add('level-'+b.dataset.level);
+        });});
+    })();
+
+    // --- Q-PROTECT dependency graph demo ---
+    (function(){
+        var SVGNS='http://www.w3.org/2000/svg';
+        var mats=[
+            {id:'he3',   label:'Helium-3'},
+            {id:'nb',    label:'Niobium'},
+            {id:'xtal',  label:'Nonlinear crystals'},
+            {id:'ree',   label:'Rare earths'},
+            {id:'laser', label:'Specialty lasers'}
+        ];
+        var plats=[
+            {id:'sc',  label:'Superconducting'},
+            {id:'ion', label:'Ion-trap'},
+            {id:'pho', label:'Photonic'}
+        ];
+        var edges=[
+            ['he3','sc'], ['nb','sc'],
+            ['ree','ion'], ['laser','ion'],
+            ['xtal','pho'], ['laser','pho']
+        ];
+
+        var MX=150, PX=470, TOP=80, GAPm=62, GAPp=100;
+        mats.forEach(function(m,i){ m.x=MX; m.y=TOP+i*GAPm; });
+        plats.forEach(function(p,i){ p.x=PX; p.y=TOP+40+i*GAPp; });
+        var byId={}; mats.concat(plats).forEach(function(n){ byId[n.id]=n; });
+
+        var edgesG=document.getElementById('qp-edges');
+        var nodesG=document.getElementById('qp-nodes');
+        var disrupted={};
+
+        edges.forEach(function(e,idx){
+            var a=byId[e[0]], b=byId[e[1]];
+            var line=document.createElementNS(SVGNS,'line');
+            line.setAttribute('class','qp-edge');
+            line.setAttribute('x1',a.x); line.setAttribute('y1',a.y);
+            line.setAttribute('x2',b.x); line.setAttribute('y2',b.y);
+            line.dataset.mat=e[0]; line.dataset.plat=e[1];
+            edgesG.appendChild(line);
+        });
+
+        function node(n, isMat){
+            var g=document.createElementNS(SVGNS,'g');
+            g.setAttribute('class','qp-node'+(isMat?' qp-mat':' qp-plat'));
+            g.dataset.id=n.id;
+            var c=document.createElementNS(SVGNS,'circle');
+            c.setAttribute('cx',n.x); c.setAttribute('cy',n.y); c.setAttribute('r','9');
+            var t=document.createElementNS(SVGNS,'text');
+            t.setAttribute('y',n.y+4);
+            if(isMat){ t.setAttribute('x',n.x-16); t.setAttribute('text-anchor','end'); }
+            else { t.setAttribute('x',n.x+16); t.setAttribute('text-anchor','start'); }
+            t.textContent=n.label;
+            g.appendChild(c); g.appendChild(t);
+            return g;
+        }
+        mats.forEach(function(m){ var g=node(m,true); g.addEventListener('click',function(){toggle(m.id);}); nodesG.appendChild(g); });
+        plats.forEach(function(p){ nodesG.appendChild(node(p,false)); });
+
+        var statusEl=document.getElementById('qp-status');
+
+        function render(){
+            // reset classes
+            document.querySelectorAll('.qp-node').forEach(function(g){ g.classList.remove('disrupted','atrisk'); });
+            document.querySelectorAll('.qp-edge').forEach(function(l){ l.classList.remove('hot'); });
+            var atRisk={};
+            Object.keys(disrupted).forEach(function(mid){
+                if(!disrupted[mid]) return;
+                var g=document.querySelector('.qp-node[data-id="'+mid+'"]'); if(g) g.classList.add('disrupted');
+                edges.forEach(function(e){ if(e[0]===mid){ atRisk[e[1]]=true;
+                    var l=document.querySelector('.qp-edge[data-mat="'+mid+'"][data-plat="'+e[1]+'"]'); if(l) l.classList.add('hot');
+                }});
+            });
+            Object.keys(atRisk).forEach(function(pid){ var g=document.querySelector('.qp-node[data-id="'+pid+'"]'); if(g) g.classList.add('atrisk'); });
+            var names=Object.keys(atRisk).map(function(pid){ return byId[pid].label; });
+            if(names.length===0){ statusEl.textContent='No disruptions — all platforms nominal.'; }
+            else { statusEl.innerHTML='<strong>'+names.length+' of 3 platforms at risk:</strong> '+names.join(', ')+'.'; }
+        }
+        function toggle(mid){ disrupted[mid]=!disrupted[mid]; render(); }
+        document.getElementById('qp-reset').addEventListener('click',function(){ disrupted={}; render(); });
+        render();
+    })();
+    </script>
+</body>
+</html>

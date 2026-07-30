@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+
+    <title>MARLIN — Deep RL for Inland Freight Pricing | Alex Carroll</title>
+    <meta name="description" content="MARLIN: Maritime Adaptive Reinforcement Learning for Inland Networks — deep reinforcement learning for dynamic pricing and routing of Mississippi River container barge service.">
+    <link rel="canonical" href="https://amcmit.github.io/research/marlin.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .mk-axis { stroke: var(--rule-strong); stroke-width: 1; }
+        .mk-grid { stroke: var(--rule); stroke-width: 1; }
+        .mk-baseline { fill: none; stroke: var(--ink-mute); stroke-width: 2; stroke-dasharray: 5 4; }
+        .mk-learned { fill: none; stroke: var(--mit-red); stroke-width: 2.5; }
+        .mk-marker { stroke: var(--rule-strong); stroke-width: 1; stroke-dasharray: 2 3; }
+        .mk-dot-learned { fill: var(--mit-red); }
+        .mk-dot-baseline { fill: var(--ink-mute); }
+        .mk-label { fill: var(--ink-mute); font-size: 11px; font-family: var(--font-body); }
+        .mk-legend { fill: var(--ink-soft); font-size: 12px; font-family: var(--font-body); }
+    </style>
+</head>
+<body class="project-page level-plain">
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">Alex Carroll</a>
+            <div class="project-nav-actions">
+                <a href="../index.html#research" class="project-back"><i class="fas fa-arrow-left"></i> All research</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="project-hero">
+        <div class="container">
+            <p class="project-eyebrow">Featured Research · Reinforcement Learning</p>
+            <h1 class="project-title">MARLIN</h1>
+            <p class="project-subtitle">Maritime Adaptive Reinforcement Learning for Inland Networks</p>
+            <p class="project-lede">
+                Deep reinforcement learning for dynamic pricing and routing of containerized barge service on the
+                Mississippi River — learning when to discount to fill capacity and when to hold price to capture value,
+                under real capacity, service-time, and cost constraints.
+            </p>
+            <div class="project-tags">
+                <span>Deep RL</span>
+                <span>Constrained MDPs</span>
+                <span>PPO · A2C · SAC · DQN · TD3</span>
+                <span>Dynamic Pricing</span>
+                <span>Ensemble ML</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container project-body">
+        <div class="explain-toggle" role="group" aria-label="Explanation level">
+            <span class="label">Explain it:</span>
+            <button type="button" data-level="plain" class="active">Plainly</button>
+            <button type="button" data-level="technical">Technically</button>
+        </div>
+
+        <section class="project-section">
+            <h2>The problem</h2>
+            <div class="level plain">
+                <p>
+                    Barges are a cheap, low-carbon way to move freight — but only if they run full and on time. Price
+                    too high and containers go to trucks; price too low and you leave money on the table and still have
+                    to cover fixed costs. The right price changes week to week with demand, weather, and how much
+                    capacity is already committed.
+                </p>
+                <p>
+                    MARLIN learns a pricing policy that adapts to those conditions automatically, instead of relying on
+                    a fixed markup that is wrong most of the time.
+                </p>
+            </div>
+            <div class="level technical">
+                <p>
+                    Pricing and routing are formulated as a finite-horizon <em>constrained Markov decision process</em>.
+                    The state captures committed load, remaining capacity, service-time slack, and demand signals; the
+                    action sets a price (and allocation) each week; the reward is discounted profit subject to capacity,
+                    dwell, and service-time constraints.
+                </p>
+                <p>
+                    I implement and benchmark value-based and actor-critic algorithms — PPO, A2C, SAC, DQN, and TD3 —
+                    against an operationally grounded, sponsor-calibrated cost model and a transparent shadow-price
+                    (cost-plus) baseline.
+                </p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Try it: adaptive pricing vs. cost-plus</h2>
+            <p>
+                Drag the slider to change how much demand there is for a given sailing. Watch how a learned adaptive
+                policy prices differently from a fixed cost-plus rule — and what that does to expected profit.
+            </p>
+            <div class="demo" id="marlin-demo">
+                <svg viewBox="0 0 640 320" role="img" aria-label="Price versus demand chart comparing a learned policy against a cost-plus baseline">
+                    <g id="mk-grid"></g>
+                    <line class="mk-axis" x1="56" y1="20" x2="56" y2="270"></line>
+                    <line class="mk-axis" x1="56" y1="270" x2="616" y2="270"></line>
+                    <path id="mk-baseline" class="mk-baseline"></path>
+                    <path id="mk-learned" class="mk-learned"></path>
+                    <line id="mk-marker" class="mk-marker" y1="20" y2="270"></line>
+                    <circle id="mk-dot-base" class="mk-dot-baseline" r="4"></circle>
+                    <circle id="mk-dot-learn" class="mk-dot-learned" r="5"></circle>
+                    <text class="mk-label" x="330" y="298" text-anchor="middle">Demand for the sailing →</text>
+                    <text class="mk-label" x="16" y="150" transform="rotate(-90 16 150)" text-anchor="middle">Price $/TEU</text>
+                    <rect x="470" y="26" width="12" height="3" class="mk-learned" rx="1"></rect>
+                    <text class="mk-legend" x="488" y="30">Learned policy</text>
+                    <rect x="470" y="42" width="12" height="3" class="mk-baseline" rx="1"></rect>
+                    <text class="mk-legend" x="488" y="46">Cost-plus baseline</text>
+                </svg>
+                <div class="demo-controls">
+                    <label for="mk-slider">Demand</label>
+                    <input type="range" id="mk-slider" min="0" max="100" value="50">
+                    <span id="mk-demand-label" style="min-width:3ch;color:var(--ink-soft);font-size:0.9rem;">50%</span>
+                </div>
+                <div class="demo-readout">
+                    <div class="demo-stat"><span class="k">Learned price</span><span class="v accent" id="mk-learn-price">—</span></div>
+                    <div class="demo-stat"><span class="k">Cost-plus price</span><span class="v" id="mk-base-price">—</span></div>
+                    <div class="demo-stat"><span class="k">Expected-profit uplift</span><span class="v accent" id="mk-uplift">—</span></div>
+                </div>
+                <p class="demo-note">Illustrative model for intuition — not the paper's calibrated results. It shows the qualitative behavior: discount into soft demand to fill capacity, hold price into strong demand to capture value.</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>What the learned policy does</h2>
+            <ul>
+                <li>In <strong>soft demand</strong>, it prices below cost-plus to win volume and fill scarce capacity that would otherwise sail empty.</li>
+                <li>In <strong>strong demand</strong>, it holds price above cost-plus, capturing willingness-to-pay instead of underselling committed capacity.</li>
+                <li>It respects the <strong>shared capacity constraint</strong> — tightening fixed hours reshapes the policy, and some algorithms degrade more gracefully than others under stress.</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Related work</h2>
+            <ul>
+                <li><em>Fast Barge, Smart Prices: Deep Reinforcement Learning for Mississippi Container Service</em> — Annals of Operations Research (in revision).</li>
+                <li><em>A Multi-Filter Market-Sizing Framework for Mississippi River Containerized Freight</em> — Transportation Research Record (in revision).</li>
+                <li>Presented as a poster at the INFORMS Transportation Science &amp; Logistics Society Conference, MIT (July 2026).</li>
+            </ul>
+        </section>
+
+        <p style="margin-top:var(--space-xl);"><a href="../index.html#research" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to research</a></p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Alex Carroll. All rights reserved.</p>
+            <p class="footer-affiliation">PhD Candidate · MIT Center for Transportation &amp; Logistics</p>
+        </div>
+    </footer>
+
+    <script>
+    // --- Theme toggle (standalone; homepage script not loaded here) ---
+    (function(){
+        var btn=document.getElementById('theme-toggle');
+        if(!btn) return;
+        var root=document.documentElement;
+        var mq=window.matchMedia('(prefers-color-scheme: dark)');
+        function eff(){return root.getAttribute('data-theme')||(mq.matches?'dark':'light');}
+        function label(){var d=eff()==='dark';btn.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');btn.setAttribute('aria-pressed',String(d));}
+        btn.addEventListener('click',function(){var n=eff()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n);}catch(e){}label();});
+        label();
+    })();
+
+    // --- Plain / technical explainer toggle ---
+    (function(){
+        var buttons=document.querySelectorAll('.explain-toggle button');
+        buttons.forEach(function(b){
+            b.addEventListener('click',function(){
+                buttons.forEach(function(x){x.classList.remove('active');});
+                b.classList.add('active');
+                document.body.classList.remove('level-plain','level-technical');
+                document.body.classList.add('level-'+b.dataset.level);
+            });
+        });
+    })();
+
+    // --- MARLIN pricing demo ---
+    (function(){
+        var X0=56, X1=616, Y0=270, Y1=20;      // plot box
+        var PMIN=120, PMAX=320;                  // price axis range
+        var UNIT_COST=150;                       // $/TEU marginal cost
+        function px(d){ return X0 + (d/100)*(X1-X0); }
+        function py(p){ return Y0 + ((p-PMIN)/(PMAX-PMIN))*(Y1-Y0); }
+        function baseline(d){ return 188 + 0.14*d; }                       // near-flat cost-plus
+        function value(d){ return 165 + 1.35*d; }                          // customer willingness-to-pay
+        function accept(p,d){ return 1/(1+Math.exp((p-value(d))/9)); }      // logistic acceptance
+        function profit(p,d){ return (p-UNIT_COST)*accept(p,d); }
+        // "Learned" policy ≈ the profit-maximizing price for each demand level
+        // (what a well-trained RL agent converges toward): discount into soft
+        // demand to keep acceptance high, hold price into strong demand.
+        function learned(d){
+            var best=UNIT_COST, bestP=-Infinity;
+            for(var p=UNIT_COST;p<=PMAX;p+=1){ var pr=profit(p,d); if(pr>bestP){ bestP=pr; best=p; } }
+            return best;
+        }
+
+        // grid lines
+        var grid=document.getElementById('mk-grid'), gtxt='';
+        for(var i=0;i<=4;i++){ var yy=Y1+(Y0-Y1)*i/4; var pv=Math.round(PMAX-(PMAX-PMIN)*i/4);
+            gtxt+='<line class="mk-grid" x1="'+X0+'" y1="'+yy+'" x2="'+X1+'" y2="'+yy+'"></line>';
+            gtxt+='<text class="mk-label" x="'+(X0-8)+'" y="'+(yy+3)+'" text-anchor="end">$'+pv+'</text>';
+        }
+        grid.innerHTML=gtxt;
+
+        function path(fn){ var d=''; for(var x=0;x<=100;x+=2){ d+=(x===0?'M':'L')+px(x).toFixed(1)+' '+py(fn(x)).toFixed(1)+' '; } return d.trim(); }
+        document.getElementById('mk-baseline').setAttribute('d', path(baseline));
+        document.getElementById('mk-learned').setAttribute('d', path(learned));
+
+        var slider=document.getElementById('mk-slider');
+        function update(){
+            var d=+slider.value;
+            var lp=learned(d), bp=baseline(d);
+            document.getElementById('mk-marker').setAttribute('x1', px(d));
+            document.getElementById('mk-marker').setAttribute('x2', px(d));
+            document.getElementById('mk-dot-learn').setAttribute('cx', px(d));
+            document.getElementById('mk-dot-learn').setAttribute('cy', py(lp));
+            document.getElementById('mk-dot-base').setAttribute('cx', px(d));
+            document.getElementById('mk-dot-base').setAttribute('cy', py(bp));
+            document.getElementById('mk-demand-label').textContent=d+'%';
+            document.getElementById('mk-learn-price').textContent='$'+Math.round(lp);
+            document.getElementById('mk-base-price').textContent='$'+Math.round(bp);
+            var upl=(profit(lp,d)/Math.max(profit(bp,d),1)-1)*100;
+            var el=document.getElementById('mk-uplift');
+            el.textContent=(upl>=0?'+':'')+upl.toFixed(0)+'%';
+        }
+        slider.addEventListener('input', update);
+        update();
+    })();
+    </script>
+</body>
+</html>

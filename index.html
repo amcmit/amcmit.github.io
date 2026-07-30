@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Apply saved theme before paint to avoid a flash -->
+    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+
     <!-- Primary Meta Tags -->
     <title>Alex Carroll | PhD Candidate at MIT — Agentic AI &amp; Quantum Supply Chains</title>
     <meta name="title" content="Alex Carroll | PhD Candidate at MIT — Agentic AI & Quantum Supply Chains">
@@ -18,9 +21,10 @@
     <meta property="og:url" content="https://amcmit.github.io/">
     <meta property="og:title" content="Alex Carroll | PhD Candidate at MIT">
     <meta property="og:description" content="PhD Candidate at MIT researching agentic AI architectures, reinforcement learning for freight, and firm-level quantum supply chain risk.">
-    <meta property="og:image" content="https://amcmit.github.io/images/me.jpg">
+    <meta property="og:image" content="https://amcmit.github.io/images/og-card.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Alex Carroll — PhD Candidate at MIT CTL. AI for supply chain decision-making under uncertainty.">
     <meta property="og:site_name" content="Alex Carroll">
 
     <!-- Twitter -->
@@ -28,7 +32,7 @@
     <meta property="twitter:url" content="https://amcmit.github.io/">
     <meta property="twitter:title" content="Alex Carroll | PhD Candidate at MIT">
     <meta property="twitter:description" content="PhD Candidate at MIT researching agentic AI, reinforcement learning, and quantum supply chains.">
-    <meta property="twitter:image" content="https://amcmit.github.io/images/me.jpg">
+    <meta property="twitter:image" content="https://amcmit.github.io/images/og-card.png">
 
     <!-- Structured Data - Person Schema -->
     <script type="application/ld+json">
@@ -80,20 +84,25 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#home" class="nav-logo">Alex Carroll</a>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#news" class="nav-link">News</a></li>
                 <li><a href="#research" class="nav-link">Research</a></li>
                 <li><a href="#publications" class="nav-link">Publications</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#gallery" class="nav-link">Gallery</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
@@ -151,7 +160,7 @@
         <div class="container">
             <h2 class="section-title">About</h2>
             <div class="about-featured-image">
-                <img src="images/Supply_Chain_AI.png" alt="MIT CTL Agentic AI Roundtable">
+                <img src="images/Supply_Chain_AI.jpg" alt="MIT CTL Agentic AI Roundtable">
                 <p class="image-caption">MIT Center for Transportation &amp; Logistics — Deep Knowledge Lab</p>
             </div>
             <div class="about-content">
@@ -308,6 +317,56 @@
         </div>
     </section>
 
+    <!-- News Section -->
+    <section id="news" class="section news">
+        <div class="container">
+            <h2 class="section-title">Recent</h2>
+            <p class="section-intro">Talks, papers, and milestones from the last few months.</p>
+
+            <ul class="news-list">
+                <li class="news-item">
+                    <span class="news-date">Jul 2026</span>
+                    <div class="news-body">
+                        <p class="news-headline">Presented the <strong>MARLIN</strong> deep-RL poster at the INFORMS TSL Conference, MIT</p>
+                        <p class="news-detail">Also served as an invited instructor for MIT CTL's executive program, <em>The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders</em>.</p>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="news-date">Jul 2026</span>
+                    <div class="news-body">
+                        <p class="news-headline">Session chair &amp; presenter at the World Conference on Transport Research (WCTR 2026), Toulouse</p>
+                        <p class="news-detail">Presented drop-trailer analytics and freight decarbonization work; invited to submit an extended manuscript to <em>Transportation Research Record</em>.</p>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="news-date">Jun 2026</span>
+                    <div class="news-body">
+                        <p class="news-headline">New paper under review: <em>Agentic Generative AI for Procurement Intelligence</em></p>
+                        <p class="news-detail">Submitted to the <em>International Journal of Production Research</em> special issue on the Agentic Supply Chain.</p>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="news-date">Mar 2026</span>
+                    <div class="news-body">
+                        <p class="news-headline">Spoke on AI-powered automation in ports at the Rutgers DIMACS workshop</p>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="news-date">Jan 2026</span>
+                    <div class="news-body">
+                        <p class="news-headline">Presented barge market-sizing research at the TRB Annual Meeting, Washington, DC</p>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="news-date">Dec 2025</span>
+                    <div class="news-body">
+                        <p class="news-headline">Presented <em>From Silos to Agentic Systems</em> at the MIT CTL Agentic AI Roundtable</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
     <!-- Research Section -->
     <section id="research" class="section research">
         <div class="container">
@@ -350,6 +409,7 @@
                         <span>Hybrid Routing</span>
                         <span>Knowledge Graphs</span>
                     </div>
+                    <a class="research-feature-link" href="research/masis.html">Explore MASIS — with an interactive routing demo <i class="fas fa-arrow-right"></i></a>
                 </article>
 
                 <article class="research-feature">
@@ -376,6 +436,7 @@
                         <span>Ensemble ML</span>
                         <span>Dynamic Pricing</span>
                     </div>
+                    <a class="research-feature-link" href="research/marlin.html">Explore MARLIN — try the live pricing demo <i class="fas fa-arrow-right"></i></a>
                 </article>
 
                 <article class="research-feature">
@@ -400,6 +461,7 @@
                         <span>Scenario Modeling</span>
                         <span>Provenance Graphs</span>
                     </div>
+                    <a class="research-feature-link" href="research/qprotect.html">Explore Q-PROTECT — try the disruption simulator <i class="fas fa-arrow-right"></i></a>
                 </article>
             </div>
 
@@ -760,19 +822,19 @@
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="images/team.png" alt="Alex Carroll with research team" loading="lazy">
+                    <img src="images/team.jpg" alt="Alex Carroll with research team" loading="lazy">
                     <div class="gallery-overlay">
                         <p>Research Collaboration</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="images/roundtable-1.png" alt="Academic roundtable discussion" loading="lazy">
+                    <img src="images/roundtable-1.jpg" alt="Academic roundtable discussion" loading="lazy">
                     <div class="gallery-overlay">
                         <p>Industry-Academic Roundtable</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="images/roundtable-2.png" alt="Working session at conference" loading="lazy">
+                    <img src="images/roundtable-2.jpg" alt="Working session at conference" loading="lazy">
                     <div class="gallery-overlay">
                         <p>Working Session</p>
                     </div>
