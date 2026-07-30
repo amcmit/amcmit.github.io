@@ -34,38 +34,74 @@
     <meta property="twitter:description" content="PhD Candidate at MIT researching agentic AI, reinforcement learning, and quantum supply chains.">
     <meta property="twitter:image" content="https://amcmit.github.io/images/og-card.png">
 
-    <!-- Structured Data - Person Schema -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Alex Carroll",
-        "url": "https://amcmit.github.io",
-        "image": "https://amcmit.github.io/images/me.jpg",
-        "jobTitle": "PhD Candidate",
-        "worksFor": {
-            "@type": "Organization",
-            "name": "MIT Center for Transportation & Logistics"
-        },
-        "alumniOf": [
+        "@graph": [
             {
-                "@type": "CollegeOrUniversity",
-                "name": "Massachusetts Institute of Technology"
+                "@type": "Person",
+                "@id": "https://amcmit.github.io/#alex",
+                "name": "Alex Carroll",
+                "url": "https://amcmit.github.io/",
+                "image": "https://amcmit.github.io/images/me.jpg",
+                "jobTitle": "PhD Candidate",
+                "email": "mailto:alex629@mit.edu",
+                "worksFor": {
+                    "@type": "Organization",
+                    "name": "MIT Center for Transportation & Logistics",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Cambridge",
+                        "addressRegion": "MA",
+                        "addressCountry": "US"
+                    }
+                },
+                "alumniOf": [
+                    { "@type": "CollegeOrUniversity", "name": "Massachusetts Institute of Technology" },
+                    { "@type": "CollegeOrUniversity", "name": "University of Illinois at Urbana-Champaign" },
+                    { "@type": "CollegeOrUniversity", "name": "The University of Texas at Austin" }
+                ],
+                "sameAs": [
+                    "https://www.linkedin.com/in/alex-carroll629/",
+                    "https://github.com/amcmit"
+                ],
+                "knowsAbout": ["Agentic AI", "Multi-Agent Systems", "Quantum Supply Chains", "Knowledge Graphs", "Supply Chain Management", "Machine Learning", "Reinforcement Learning", "Dynamic Programming", "Procurement Analytics", "Supplier Intelligence", "Logistics Optimization"]
             },
             {
-                "@type": "CollegeOrUniversity",
-                "name": "University of Illinois at Urbana-Champaign"
+                "@type": "WebSite",
+                "@id": "https://amcmit.github.io/#website",
+                "url": "https://amcmit.github.io/",
+                "name": "Alex Carroll",
+                "description": "PhD Candidate at MIT CTL researching agentic AI, reinforcement learning for freight, and quantum supply chains.",
+                "author": { "@id": "https://amcmit.github.io/#alex" },
+                "inLanguage": "en"
             },
             {
-                "@type": "CollegeOrUniversity",
-                "name": "The University of Texas at Austin"
+                "@type": "ScholarlyArticle",
+                "headline": "Enhancing Sentiment Classification of E-commerce Reviews for Actionable Insights Using Large Language Models",
+                "author": [
+                    { "@type": "Person", "name": "K. Power" },
+                    { "@id": "https://amcmit.github.io/#alex" }
+                ],
+                "datePublished": "2025-09",
+                "isPartOf": { "@type": "PublicationEvent", "name": "IEEE High Performance Extreme Computing Conference" },
+                "publisher": { "@type": "Organization", "name": "IEEE" }
+            },
+            {
+                "@type": "ScholarlyArticle",
+                "headline": "Drop Trailer Forecasting in Volatile Networks",
+                "author": [
+                    { "@id": "https://amcmit.github.io/#alex" },
+                    { "@type": "Person", "name": "T. Egar" },
+                    { "@type": "Person", "name": "T. Koch" },
+                    { "@type": "Person", "name": "E. Dugundji" }
+                ],
+                "datePublished": "2024-04",
+                "isPartOf": { "@type": "PublicationEvent", "name": "15th International Conference on Ambient Systems, Networks and Technologies (ANT)" },
+                "publisher": { "@type": "Organization", "name": "Elsevier" }
             }
-        ],
-        "sameAs": [
-            "https://www.linkedin.com/in/alex-carroll629/",
-            "https://github.com/amcmit"
-        ],
-        "knowsAbout": ["Agentic AI", "Multi-Agent Systems", "Quantum Supply Chains", "Knowledge Graphs", "Supply Chain Management", "Machine Learning", "Reinforcement Learning", "Dynamic Programming", "Procurement Analytics", "Supplier Intelligence", "Logistics Optimization"]
+        ]
     }
     </script>
 
