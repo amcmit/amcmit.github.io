@@ -161,12 +161,15 @@
                         how AI systems can transform supply chain decision-making under uncertainty.
                     </p>
                     <p>
-                        My work spans three interconnected thrusts: agentic retrieval and reasoning over heterogeneous
-                        enterprise data; reinforcement learning and dynamic programming for operational pricing and
-                        routing; and governance, auditability, and reproducibility in AI-augmented procurement and
-                        logistics. I'm currently building the orchestration layer that lets procurement teams ask
-                        cross-source questions across vector, relational, and graph databases — and mapping the
-                        firm-level supply chains behind emerging quantum hardware.
+                        My research examines how AI and operations research can improve supply chain decisions under
+                        uncertainty across three linked areas. First, I build agentic procurement-intelligence systems
+                        that combine hybrid retrieval, knowledge graphs, and bounded verification across heterogeneous
+                        enterprise data — including a multinational supplier-intelligence deployment and a hyperscaler
+                        collaboration on agentic bill-of-materials knowledge graphs. Second, I apply reinforcement
+                        learning, dynamic programming, and ensemble learning to freight pricing, routing, market sizing,
+                        and decarbonization. Third, I map the supply networks behind emerging technologies — especially
+                        quantum computing — using self-hosted search, local language models, and provenance-aware
+                        property graphs to surface chokepoints and single-source dependencies.
                     </p>
                     <p>
                         Before MIT, I held leadership and analytics roles at Amazon (Tokyo), Flock Freight, Zillow, and
@@ -219,29 +222,69 @@
 
                     <div class="skills-card">
                         <h3>Methods &amp; Tools</h3>
-                        <div class="skill-tags">
-                            <span>Python</span>
-                            <span>PyTorch</span>
-                            <span>SQL</span>
-                            <span>LangGraph</span>
-                            <span>Neo4j</span>
-                            <span>Amazon Neptune</span>
-                            <span>FAISS</span>
-                            <span>Pinecone</span>
-                            <span>ChromaDB</span>
-                            <span>Stable Baselines3</span>
-                            <span>HuggingFace</span>
-                            <span>Anthropic API</span>
-                            <span>OpenAI API</span>
-                            <span>Gurobi</span>
-                            <span>NetworkX</span>
-                            <span>Weights &amp; Biases</span>
-                            <span>AWS</span>
-                            <span>Docker</span>
-                            <span>Power BI</span>
-                            <span>Tableau</span>
-                            <span>LaTeX</span>
-                            <span>Git</span>
+                        <div class="skill-group">
+                            <h4>Optimization &amp; Decision Science</h4>
+                            <div class="skill-tags">
+                                <span>Deep RL (PPO, A2C, SAC, DQN, TD3)</span>
+                                <span>Dynamic Programming</span>
+                                <span>Constrained MDPs</span>
+                                <span>MILP</span>
+                                <span>Vehicle Routing</span>
+                                <span>Dynamic Pricing</span>
+                                <span>Gurobi</span>
+                                <span>Stable-Baselines3</span>
+                                <span>Gymnasium</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h4>AI Systems &amp; NLP</h4>
+                            <div class="skill-tags">
+                                <span>Agentic &amp; Multi-Agent Systems</span>
+                                <span>RAG &amp; GraphRAG</span>
+                                <span>Hybrid Retrieval</span>
+                                <span>Knowledge Graphs</span>
+                                <span>Entity Resolution</span>
+                                <span>Transformer Fine-Tuning</span>
+                                <span>Vector Search</span>
+                                <span>LangGraph</span>
+                                <span>Hugging Face</span>
+                                <span>Local LLMs</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h4>Programming &amp; Frameworks</h4>
+                            <div class="skill-tags">
+                                <span>Python</span>
+                                <span>SQL</span>
+                                <span>Cypher</span>
+                                <span>PyTorch</span>
+                                <span>TensorFlow</span>
+                                <span>Scikit-learn</span>
+                                <span>XGBoost</span>
+                                <span>CatBoost</span>
+                                <span>SHAP</span>
+                                <span>NetworkX</span>
+                                <span>SUMO</span>
+                                <span>Git</span>
+                                <span>LaTeX</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h4>Data &amp; Infrastructure</h4>
+                            <div class="skill-tags">
+                                <span>Neo4j</span>
+                                <span>Amazon Neptune</span>
+                                <span>FAISS</span>
+                                <span>Pinecone</span>
+                                <span>ChromaDB</span>
+                                <span>Docker</span>
+                                <span>AWS (S3, EC2, SageMaker)</span>
+                                <span>Anthropic API</span>
+                                <span>OpenAI API</span>
+                                <span>Ollama</span>
+                                <span>Power BI</span>
+                                <span>Tableau</span>
+                            </div>
                         </div>
                     </div>
 
@@ -277,8 +320,8 @@
 
             <!-- Featured Projects -->
             <div class="research-featured">
-                <article class="research-feature">
-                    <p class="research-feature-tag">Featured · Multi-Agent Architectures</p>
+                <article class="research-feature is-flagship">
+                    <p class="research-feature-tag">Featured · Agentic Procurement Intelligence</p>
                     <h3>MASIS — Multi-Agent Supplier Intelligence System</h3>
                     <p class="research-feature-subtitle">Sponsored research with a global healthcare conglomerate</p>
                     <p>
@@ -290,8 +333,17 @@
                     </p>
                     <p>
                         The system serves both human users and other AI agents, turning years of prior in-house
-                        research (spend categorization, text-to-SQL, RFx RAG) into one orchestrated intelligence layer.
+                        research (spend categorization, text-to-SQL, RFx RAG) into one orchestrated intelligence layer —
+                        benchmarked across five enterprise retrieval architectures on exact-match accuracy, F1,
+                        multi-source recall, abstention, latency, and cache performance.
                     </p>
+                    <div class="research-feature-refs">
+                        <span class="refs-label">Related work</span>
+                        <ul>
+                            <li>Agentic Generative AI for Procurement Intelligence: A Source-Routing Evaluation — <em>Int. Journal of Production Research</em> (under review)</li>
+                            <li>Performance Engineering of Retrieval Architectures for Enterprise Supply-Chain QA — <em>IEEE HPEC</em> (under review)</li>
+                        </ul>
+                    </div>
                     <div class="research-feature-tags">
                         <span>Multi-Agent Orchestration</span>
                         <span>LangGraph</span>
@@ -301,9 +353,35 @@
                 </article>
 
                 <article class="research-feature">
+                    <p class="research-feature-tag">Featured · Reinforcement Learning</p>
+                    <h3>MARLIN — Maritime Adaptive Reinforcement Learning for Inland Networks</h3>
+                    <p class="research-feature-subtitle">Constrained-MDP pricing &amp; routing for Mississippi container barge service</p>
+                    <p>
+                        Constrained Markov decision processes and stochastic simulators for containerized barge
+                        pricing and routing — implementing and benchmarking value-based and actor-critic methods
+                        (PPO, A2C, SAC, DQN, TD3) under capacity, service-time, and cost constraints. Paired with
+                        ensemble market-sizing across 12,587 freight lanes (XGBoost, CatBoost, SHAP) quantifying
+                        serviceable demand under 2030, 2035, and 2040 scenarios.
+                    </p>
+                    <div class="research-feature-refs">
+                        <span class="refs-label">Related work</span>
+                        <ul>
+                            <li>Fast Barge, Smart Prices: Deep RL for Mississippi Container Service — <em>Annals of Operations Research</em> (in revision)</li>
+                            <li>A Multi-Filter Market-Sizing Framework — <em>Transportation Research Record</em> (in revision)</li>
+                        </ul>
+                    </div>
+                    <div class="research-feature-tags">
+                        <span>Deep RL</span>
+                        <span>Constrained MDPs</span>
+                        <span>Ensemble ML</span>
+                        <span>Dynamic Pricing</span>
+                    </div>
+                </article>
+
+                <article class="research-feature">
                     <p class="research-feature-tag">Featured · Quantum Supply Chains</p>
                     <h3>Q-PROTECT — Quantum Platform Risk Observation through Embedded Company Tracking</h3>
-                    <p class="research-feature-subtitle">MIT CTL national security research · Profs. Sheffi, Dugundji &amp; Jackson</p>
+                    <p class="research-feature-subtitle">MIT CTL — firm-level supply-network research</p>
                     <p>
                         The first firm-level, multi-platform map of quantum hardware supply chain dependencies
                         across superconducting, ion-trap, and photonic qubit ecosystems. A four-pillar methodology
@@ -320,7 +398,7 @@
                         <span>Quantum Supply Chains</span>
                         <span>Trade-Flow Analysis</span>
                         <span>Scenario Modeling</span>
-                        <span>Policy</span>
+                        <span>Provenance Graphs</span>
                     </div>
                 </article>
             </div>
@@ -330,25 +408,25 @@
             <div class="research-areas">
                 <div class="research-card">
                     <div class="research-icon">
-                        <i class="fas fa-route"></i>
+                        <i class="fas fa-diagram-project"></i>
                     </div>
-                    <h3>Reinforcement Learning for Freight &amp; Maritime</h3>
+                    <h3>Procurement Knowledge Graphs</h3>
                     <p>
-                        Deep RL for dynamic pricing of containerized barge services on the Mississippi River,
-                        ensemble ML market-sizing for serviceable inland-waterway demand, and corridor-level
-                        decarbonization analysis.
+                        Tier-1 hyperscaler collaboration on agentic bill-of-materials knowledge graphs that produce
+                        reproducible, joinable parameter tables for downstream optimization — bridging unstructured
+                        documents and structured decision models.
                     </p>
                 </div>
 
                 <div class="research-card">
                     <div class="research-icon">
-                        <i class="fas fa-diagram-project"></i>
+                        <i class="fas fa-comments"></i>
                     </div>
-                    <h3>Procurement Knowledge Graphs</h3>
+                    <h3>LLMs for Review Mining &amp; Sentiment</h3>
                     <p>
-                        Tier-1 hyperscaler collaboration on agentic BOM knowledge graphs that produce reproducible,
-                        joinable parameter tables for downstream optimization — bridging unstructured documents
-                        and structured decision models.
+                        Transformer fine-tuning and large language models for sentiment classification of
+                        e-commerce reviews, turning unstructured customer feedback into actionable operational
+                        insight — presented at IEEE HPEC.
                     </p>
                 </div>
 
@@ -372,70 +450,56 @@
         <div class="container">
             <h2 class="section-title">Publications &amp; Academic Work</h2>
 
-            <!-- Peer-Reviewed / Under Review -->
+            <!-- Journal Articles Under Review -->
             <div class="publication-category">
-                <h3 class="category-title"><i class="fas fa-book"></i> Peer-Reviewed &amp; Under Review</h3>
+                <h3 class="category-title"><i class="fas fa-book"></i> Journal Articles Under Review</h3>
                 <div class="publication-list">
                     <div class="publication-item in-progress">
                         <div class="publication-type">Under Review</div>
-                        <h4 class="publication-title">A Multi-Filter Market-Sizing Framework for Mississippi River Containerized Freight: Assessing Serviceable Obtainable Demand through Ensemble Machine Learning</h4>
-                        <p class="publication-venue">Transportation Research Record</p>
-                        <p class="publication-date">March 2026</p>
+                        <h4 class="publication-title">Agentic Generative AI for Procurement Intelligence: A Source-Routing Evaluation</h4>
+                        <p class="publication-venue">Carroll, A., &amp; Dugundji, E. · International Journal of Production Research — Special Issue on The Agentic Supply Chain</p>
+                        <p class="publication-date">Submitted June 2026</p>
                     </div>
 
                     <div class="publication-item in-progress">
-                        <div class="publication-type">Under Review</div>
+                        <div class="publication-type">In Revision</div>
+                        <h4 class="publication-title">A Multi-Filter Market-Sizing Framework for Mississippi River Containerized Freight: Assessing Serviceable Obtainable Demand through Ensemble Machine Learning</h4>
+                        <p class="publication-venue">Carroll, A., &amp; Dugundji, E. · Transportation Research Record</p>
+                        <p class="publication-date">Submitted March 2026</p>
+                    </div>
+
+                    <div class="publication-item in-progress">
+                        <div class="publication-type">In Revision</div>
                         <h4 class="publication-title">Fast Barge, Smart Prices: Deep Reinforcement Learning for Mississippi Container Service</h4>
-                        <p class="publication-venue">Annals of Operations Research — Special Issue on Innovations in Maritime and Port Logistics</p>
-                        <p class="publication-date">January 2026</p>
+                        <p class="publication-venue">Carroll, A. · Annals of Operations Research — Special Issue on Innovations in Maritime and Port Logistics</p>
+                        <p class="publication-date">Submitted January 2026</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conference Papers & Proceedings -->
+            <div class="publication-category">
+                <h3 class="category-title"><i class="fas fa-file-alt"></i> Conference Papers &amp; Proceedings</h3>
+                <div class="publication-list">
+                    <div class="publication-item in-progress">
+                        <div class="publication-type">Under Review</div>
+                        <h4 class="publication-title">Performance Engineering of Retrieval Architectures for Enterprise Supply-Chain Question Answering</h4>
+                        <p class="publication-venue">Carroll, A., &amp; Dugundji, E. · IEEE High Performance Extreme Computing Conference (Virtual)</p>
+                        <p class="publication-date">Submitted July 2026</p>
                     </div>
 
                     <div class="publication-item">
                         <div class="publication-type">IEEE Conference Proceedings</div>
-                        <h4 class="publication-title">Enhancing Sentiment Classification of E-commerce Reviews for Actionable Insights using Large Language Models</h4>
-                        <p class="publication-venue">IEEE</p>
+                        <h4 class="publication-title">Enhancing Sentiment Classification of E-commerce Reviews for Actionable Insights Using Large Language Models</h4>
+                        <p class="publication-venue">Power, K., &amp; Carroll, A. · IEEE High Performance Extreme Computing Conference (Virtual)</p>
                         <p class="publication-date">September 2025</p>
                     </div>
 
                     <div class="publication-item">
                         <div class="publication-type">Procedia Computer Science · Elsevier</div>
                         <h4 class="publication-title">Drop Trailer Forecasting in Volatile Networks</h4>
-                        <p class="publication-venue">15th International Conference on Ambient Systems, Networks and Technologies (ANT)</p>
+                        <p class="publication-venue">Carroll, A., Egar, T., Koch, T., &amp; Dugundji, E. · 15th International Conference on Ambient Systems, Networks and Technologies (ANT)</p>
                         <p class="publication-date">April 2024</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Conference Papers -->
-            <div class="publication-category">
-                <h3 class="category-title"><i class="fas fa-file-alt"></i> Conference Papers</h3>
-                <div class="publication-list">
-                    <div class="publication-item">
-                        <div class="publication-type">INFORMS</div>
-                        <h4 class="publication-title">Deep Reinforcement Learning for Mississippi Container Service</h4>
-                        <p class="publication-venue">INFORMS Transportation Science and Logistics Society Conference</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">WCTR</div>
-                        <h4 class="publication-title">Optimizing Drop Trailer Networks: Advanced Analytics for Efficient Supply Chains</h4>
-                        <p class="publication-venue">World Conference on Transport Research</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">WCTR</div>
-                        <h4 class="publication-title">Strategic Investments in Freight Decarbonization: Quantifying the Benefits of Zero-Emission Corridor Deployment and Strategic Rail Modal Shifts</h4>
-                        <p class="publication-venue">World Conference on Transport Research</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">TRB Annual Meeting</div>
-                        <h4 class="publication-title">Assessing the Total Addressable Market of Barge Service on the Mississippi River</h4>
-                        <p class="publication-venue">Transportation Research Board · Inland Waterways Operations and Infrastructure</p>
-                        <p class="publication-date">January 2026</p>
                     </div>
                 </div>
             </div>
@@ -447,7 +511,7 @@
                     <div class="publication-item">
                         <div class="publication-type">Supply Chain Management Review</div>
                         <h4 class="publication-title">Drop Trailer Management in Volatile Networks</h4>
-                        <p class="publication-venue">Trade publication article</p>
+                        <p class="publication-venue">Carroll, A., Egar, T., Koch, T., &amp; Dugundji, E. · Trade publication article</p>
                         <p class="publication-date">June 2025</p>
                     </div>
 
@@ -465,9 +529,44 @@
                 <h3 class="category-title"><i class="fas fa-microphone"></i> Talks &amp; Presentations</h3>
                 <div class="publication-list">
                     <div class="publication-item">
+                        <div class="publication-type">Session Chair &amp; Presenter</div>
+                        <h4 class="publication-title">Optimizing Drop Trailer Networks: Advanced Analytics for Efficient Supply Chains</h4>
+                        <p class="publication-venue">World Conference on Transport Research (WCTR 2026), Toulouse, France · Invited to submit an extended manuscript to Transportation Research Record</p>
+                        <p class="publication-date">July 2026</p>
+                    </div>
+
+                    <div class="publication-item">
+                        <div class="publication-type">Presenter</div>
+                        <h4 class="publication-title">Strategic Investments in Freight Decarbonization: Quantifying the Benefits of Zero-Emission Corridor Deployment and Strategic Rail Modal Shifts</h4>
+                        <p class="publication-venue">World Conference on Transport Research (WCTR 2026), Toulouse, France</p>
+                        <p class="publication-date">July 2026</p>
+                    </div>
+
+                    <div class="publication-item">
+                        <div class="publication-type">Poster Session</div>
+                        <h4 class="publication-title">Deep Reinforcement Learning for Mississippi Container Service</h4>
+                        <p class="publication-venue">INFORMS Transportation Science and Logistics Society Conference, MIT, Cambridge, MA</p>
+                        <p class="publication-date">July 2026</p>
+                    </div>
+
+                    <div class="publication-item">
+                        <div class="publication-type">Invited Instructor</div>
+                        <h4 class="publication-title">The Price is Right: Deep Reinforcement Learning for Dynamic Pricing in Freight Markets</h4>
+                        <p class="publication-venue">The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders, MIT, Cambridge, MA</p>
+                        <p class="publication-date">July 2026</p>
+                    </div>
+
+                    <div class="publication-item">
+                        <div class="publication-type">Invited Instructor</div>
+                        <h4 class="publication-title">Review Mining with Transformers and LLMs</h4>
+                        <p class="publication-venue">The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders, MIT, Cambridge, MA</p>
+                        <p class="publication-date">July 2026</p>
+                    </div>
+
+                    <div class="publication-item">
                         <div class="publication-type">Workshop Speaker</div>
-                        <h4 class="publication-title">AI-powered Automation in Ports</h4>
-                        <p class="publication-venue">Rutgers University · DIMACS Center, Piscataway, NJ</p>
+                        <h4 class="publication-title">AI-Powered Automation in Ports</h4>
+                        <p class="publication-venue">Workshop on AI-Powered Automation in Ports, Rutgers University DIMACS Center, Piscataway, NJ</p>
                         <p class="publication-date">March 2026</p>
                     </div>
 
@@ -487,13 +586,6 @@
 
                     <div class="publication-item">
                         <div class="publication-type">Presenter</div>
-                        <h4 class="publication-title">Enhancing Sentiment Classification of E-commerce Reviews using Large Language Models</h4>
-                        <p class="publication-venue">IEEE High Performance Extreme Computing Conference</p>
-                        <p class="publication-date">September 2025</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Lecturer</div>
                         <h4 class="publication-title">Advanced Analytics for Efficient Supply Chains</h4>
                         <p class="publication-venue">7th Interdisciplinary Conference on Production, Logistics and Traffic, Darmstadt, Germany</p>
                         <p class="publication-date">March 2025</p>
@@ -512,6 +604,13 @@
             <div class="publication-category">
                 <h3 class="category-title"><i class="fas fa-chalkboard-teacher"></i> Teaching</h3>
                 <div class="publication-list">
+                    <div class="publication-item">
+                        <div class="publication-type">Instructor</div>
+                        <h4 class="publication-title">The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders</h4>
+                        <p class="publication-venue">MIT Center for Transportation &amp; Logistics</p>
+                        <p class="publication-date">July 2026</p>
+                    </div>
+
                     <div class="publication-item">
                         <div class="publication-type">Teaching Assistant</div>
                         <h4 class="publication-title">SCM.256 Data Science and Machine Learning for Supply Chain Management</h4>
@@ -554,17 +653,17 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <div class="timeline-header">
-                            <h3>Senior Operations Manager, Amazon Logistics (AMZL)</h3>
+                            <h3>Senior Operations Manager, Amazon Logistics</h3>
                             <span class="timeline-company">Amazon</span>
                             <span class="timeline-location">Tokyo, Japan</span>
                         </div>
                         <div class="timeline-date">Jun 2024 – Aug 2025</div>
                         <ul class="timeline-details">
-                            <li>Led site operations for 300+ associates, achieving #1 ranked site metrics (Q3 &amp; Q4) for JP Super Region 3</li>
-                            <li>Drove an 11% QTR increase in throughput per hour, processing 110,000+ packages per day</li>
-                            <li>Directed implementation of an AI-driven sortation process — reduced mis-sorts by 9% and saved a projected 11,500 labor hours annually</li>
-                            <li>Streamlined inbound, sortation, and pick workflows — improved WIP compliance by 10% and contributed to a 5% improvement in PDD rates</li>
-                            <li>Boosted employee engagement scores by 22% and reduced incident rates by 15% through safety and productivity initiatives</li>
+                            <li>Increased throughput per labor hour by 11% quarter over quarter, led daily processing of 110,000+ packages across 300+ associates, and achieved the region's highest-ranked site performance in Q3 and Q4</li>
+                            <li>Directed implementation of an AI-driven sortation process — reduced mis-sorts by 9% and saved a projected 11,500 labor hours annually across multiple cycle shifts</li>
+                            <li>Streamlined inbound, sortation, and pick workflows — improved work-in-process compliance by 10% and contributed to a 5% improvement in on-time outbound delivery performance</li>
+                            <li>Launched safety and productivity initiatives that reduced incident rates by 15% and increased employee engagement scores by 22% from Q2 to Q4 2024</li>
+                            <li>Collaborated with academic partners and internal research teams on data-driven process improvement and applied machine learning initiatives</li>
                         </ul>
                     </div>
                 </div>
@@ -583,6 +682,7 @@
                             <li>Improved costing model accuracy by 10% (MAPE), generating $6MM YoY in cost savings and a $4.2MM increase in gross profit</li>
                             <li>Implemented APE ML pricing engine cross-functionally with engineering and data science — reduced labor hours by 40%</li>
                             <li>Built batch rating quoting automation for enterprise customers, removing workload equivalent of four QA associates</li>
+                            <li>Directed daily pricing audits with Customer Success and Sales, using conversion, gross-profit, and cost-savings data to shape customer-specific strategies</li>
                         </ul>
                     </div>
                 </div>
@@ -597,7 +697,8 @@
                         </div>
                         <div class="timeline-date">Jun 2021 – Dec 2021</div>
                         <ul class="timeline-details">
-                            <li>Led valuation of $200MM+ in residential real estate using internal and external datasets</li>
+                            <li>Led valuation of $200MM+ in residential real estate using internal and external datasets, financial models, and risk analysis</li>
+                            <li>Led Austin and San Antonio market research using Tableau, Excel, SQL, Python, and proprietary machine learning tools</li>
                             <li>Enhanced team accuracy (MAPE) by 2.7% through outlier analysis within the sales funnel</li>
                             <li>Executed five adopted proposals to revamp efficiency metrics — reduced case time per analyst by 18%</li>
                         </ul>
@@ -635,6 +736,18 @@
 
             <div class="gallery-grid">
                 <div class="gallery-item large">
+                    <img src="images/informs-tsl-mit.jpg" alt="Alex Carroll presenting the Deep Reinforcement Learning for Mississippi Container Service poster at the INFORMS TSL Conference at MIT" loading="lazy">
+                    <div class="gallery-overlay">
+                        <p>Deep RL Poster · INFORMS TSL Conference, MIT</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/wctr-toulouse.jpg" alt="Alex Carroll presenting a two-stage forecast-then-optimize analytics pipeline at the World Conference on Transport Research in Toulouse, France" loading="lazy">
+                    <div class="gallery-overlay">
+                        <p>Drop Trailer Analytics · WCTR 2026, Toulouse</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
                     <img src="images/presenting-1.png" alt="Alex Carroll presenting on Three Approaches — Descriptive to Prescriptive Analytics" loading="lazy">
                     <div class="gallery-overlay">
                         <p>Presenting on Prescriptive Analytics</p>
@@ -715,16 +828,16 @@
                     <h3>Memberships</h3>
                     <ul class="membership-list">
                         <li>INFORMS</li>
-                        <li>Transportation Research Board</li>
                         <li>World Conference on Transport Research Society</li>
                     </ul>
 
                     <h3>Service &amp; Community</h3>
                     <ul class="membership-list">
-                        <li>MIT Science Policy Initiative — ExVD Member</li>
-                        <li>Austin Oita Sister City Committee Member</li>
-                        <li>Keep Austin Beautiful Volunteer</li>
-                        <li>Japan Society of Boston (Member)</li>
+                        <li>Session Chair, SIG B1: Supply Chain Management — WCTR 2026</li>
+                        <li>MIT Science Policy Initiative — Executive Visit Days Participant</li>
+                        <li>Austin-Oita Sister City Committee Member</li>
+                        <li>Japan Society of Boston Member</li>
+                        <li>Keep Austin Beautiful Member</li>
                     </ul>
                 </div>
             </div>

@@ -86,6 +86,16 @@ ul {
     color: var(--paper);
 }
 
+/* Keyboard focus visibility */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.nav-toggle:focus-visible {
+    outline: 2px solid var(--mit-red);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
 .container {
     width: 100%;
     max-width: 1180px;
@@ -380,7 +390,14 @@ ul {
 }
 
 .hero-image-accent {
-    display: none;
+    display: block;
+    position: absolute;
+    inset: 0;
+    transform: translate(16px, 16px);
+    border: 1px solid var(--mit-red);
+    border-radius: 2px;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Hero Scroll Indicator */
@@ -639,6 +656,20 @@ ul {
     letter-spacing: 0.02em;
 }
 
+.skill-group + .skill-group {
+    margin-top: var(--space-lg);
+}
+
+.skill-group h4 {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    margin-bottom: var(--space-sm);
+}
+
 .skill-tags {
     display: flex;
     flex-wrap: wrap;
@@ -709,6 +740,53 @@ ul {
 .research-feature:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+}
+
+.research-feature.is-flagship {
+    grid-column: 1 / -1;
+}
+
+.research-feature-refs {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--rule);
+}
+
+.research-feature-refs .refs-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+    margin-bottom: var(--space-sm);
+}
+
+.research-feature-refs ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.research-feature-refs li {
+    position: relative;
+    padding-left: var(--space-md);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+}
+
+.research-feature-refs li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--mit-red);
+}
+
+.research-feature-refs em {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--ink-mute);
 }
 
 .research-feature-tag {
@@ -875,6 +953,10 @@ ul {
     border-left: none;
     border-top: 1px solid var(--rule);
     box-shadow: none;
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    column-gap: var(--space-lg);
+    align-items: start;
     transition: padding-left var(--transition-base);
 }
 
@@ -894,17 +976,35 @@ ul {
     opacity: 1;
 }
 
+.publication-type,
+.publication-title,
+.publication-venue,
+.publication-description {
+    grid-column: 2;
+}
+
 .publication-type {
-    font-size: 0.72rem;
-    font-weight: 500;
+    justify-self: start;
+    font-size: 0.66rem;
+    font-weight: 600;
     color: var(--ink-mute);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     margin-bottom: var(--space-sm);
+    padding: 3px 11px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
 }
 
 .publication-item.in-progress .publication-type {
     color: var(--mit-red);
+    border-color: rgba(163, 31, 52, 0.35);
+    background: rgba(163, 31, 52, 0.07);
+}
+
+.publication-date {
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .publication-title {
@@ -932,9 +1032,10 @@ ul {
 
 .publication-date {
     color: var(--ink-mute);
-    font-size: 0.85rem;
-    margin-top: var(--space-xs);
+    font-size: 0.82rem;
+    margin-top: 3px;
     letter-spacing: 0.02em;
+    line-height: 1.4;
 }
 
 /* ===================================
@@ -1502,5 +1603,92 @@ ul {
 
     .research-feature {
         padding: var(--space-lg);
+    }
+}
+
+/* Publications: collapse the year gutter on small screens */
+@media (max-width: 640px) {
+    .publication-item {
+        display: block;
+    }
+
+    .publication-date {
+        margin-top: var(--space-xs);
+    }
+}
+
+/* ===================================
+   Reduced Motion
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    .hero-text,
+    .hero-image {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+    }
+
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .hero-scroll a::after {
+        animation: none !important;
+    }
+}
+
+/* ===================================
+   Dark Mode
+   =================================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --mit-red: #e0596b;
+        --mit-red-dark: #c4354a;
+        --mit-red-light: #ec7482;
+
+        --ink: #f1eee6;
+        --ink-soft: #cdc8bb;
+        --ink-mute: #928c7c;
+        --paper: #141310;
+        --paper-2: #1c1a15;
+        --rule: #2c2a22;
+        --rule-strong: #413d32;
+    }
+
+    .navbar.scrolled {
+        background: rgba(20, 19, 16, 0.9);
+    }
+
+    /* Keep white text on the red primary button */
+    .btn-primary {
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(224, 89, 107, 0.28);
+    }
+
+    /* Status chip tint tuned for dark surfaces */
+    .publication-item.in-progress .publication-type {
+        border-color: rgba(224, 89, 107, 0.4);
+        background: rgba(224, 89, 107, 0.12);
+    }
+
+    /* Portrait sits a touch softer against the dark page */
+    .hero-image-wrapper img {
+        border-color: var(--rule-strong);
     }
 }
