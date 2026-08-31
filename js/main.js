@@ -117,7 +117,7 @@ function initScrollReveal() {
     const revealElements = document.querySelectorAll(
         '.section-title, .section-intro, .about-text, .about-sidebar > *, ' +
         '.news-item, .research-card, .publication-item, .timeline-item, .gallery-item, ' +
-        '.contact-item, .social-link, .current-work'
+        '.project-card, .contact-item, .social-link, .current-work'
     );
     
     // Add reveal class
