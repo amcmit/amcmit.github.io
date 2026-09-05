@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Sudoku Versus</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1c1c1e; color: #f2f2f7; min-height: 100vh;
+    display: flex; justify-content: center; padding: 14px;
+  }
+  .app { width: 100%; max-width: 420px; position: relative; }
+  .hidden { display: none !important; }
+  h1 { font-size: 20px; text-align: center; margin: 4px 0 20px; }
+  .card { background: #2c2c2e; border-radius: 14px; padding: 18px; margin-bottom: 12px; }
+  label { font-size: 12px; opacity: 0.7; display: block; margin-bottom: 6px; }
+  input[type=text] {
+    width: 100%; padding: 12px; border-radius: 10px; border: none;
+    background: #3a3a3c; color: #fff; font-size: 16px; margin-bottom: 12px;
+  }
+  input[type=text].code { text-align: center; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; }
+  .btn {
+    width: 100%; padding: 13px; border: none; border-radius: 10px;
+    background: #0a84ff; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 8px;
+  }
+  .btn.secondary { background: #3a3a3c; }
+  .btn:disabled { opacity: 0.4; }
+  .code-display { text-align: center; font-size: 32px; font-weight: 800; letter-spacing: 6px; margin: 10px 0; color: #0a84ff; }
+  .hint { text-align: center; font-size: 12px; opacity: 0.6; margin-bottom: 14px; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; padding: 6px 0; }
+  .diff-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .diff-row button {
+    flex: 1; padding: 8px 0; border: none; border-radius: 8px; background: #3a3a3c; color: #aeaeb2; font-size: 13px; cursor: pointer;
+  }
+  .diff-row button.active { background: #0a84ff; color: #fff; }
+  .err { color: #ff453a; font-size: 13px; text-align: center; margin-bottom: 8px; }
+
+  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; }
+  .score { font-weight: 700; font-size: 15px; }
+  .score .me { color: #0a84ff; }
+  .timer { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .opp-card { display: flex; justify-content: space-between; align-items: center; background: #2c2c2e; border-radius: 10px; padding: 8px 12px; margin-bottom: 8px; font-size: 13px; }
+  .opp-bar { flex: 1; height: 6px; background: #3a3a3c; border-radius: 3px; margin: 0 10px; overflow: hidden; }
+  .opp-bar-fill { height: 100%; background: #30d158; width: 0%; }
+
+  .app.solo-mode .opp-card, .app.solo-mode #chatToggle, .app.solo-mode #scoreLine { display: none !important; }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr);
+    aspect-ratio: 1; background: #000; gap: 1px; border: 2px solid #000; border-radius: 6px; overflow: hidden; margin-bottom: 8px;
+  }
+  .cell { position: relative; background: #2c2c2e; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; user-select: none; }
+  .cell.given { font-weight: 700; }
+  .cell-main.given-text { color: #f2f2f7; font-weight: 700; }
+  .cell-main.entry-text { color: #0a84ff; font-weight: 600; }
+  .cell.conflict .cell-main { color: #ff453a; }
+  .cell.selected { background: #48484a; }
+  .cell.thick-right { border-right: 2px solid #000; }
+  .cell.thick-bottom { border-bottom: 2px solid #000; }
+  .notes-grid { position: absolute; inset: 2px; display: none; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(3,1fr); font-size: 10px; font-weight: 700; color: #c7c7cc; line-height: 1; }
+  .note-digit { display: flex; align-items: center; justify-content: center; }
+  .numpad { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .numpad button { flex: 1; min-width: 28px; padding: 10px 0; border: none; border-radius: 6px; background: #3a3a3c; color: #f2f2f7; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .mode-row { margin-bottom: 8px; }
+  #notesToggle.active-toggle { background: #0a84ff; color: #fff; }
+
+  .win-banner { text-align: center; background: #2c2c2e; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+  .win-banner .title { font-size: 17px; font-weight: 800; color: #30d158; margin-bottom: 8px; }
+
+  .chat-toggle { position: fixed; bottom: 20px; right: max(20px, calc(50% - 190px)); width: 48px; height: 48px; border-radius: 24px; background: #0a84ff; border: none; color: #fff; font-size: 20px; cursor: pointer; z-index: 10; }
+  .chat-panel { position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: 0 auto; background: #2c2c2e; border-radius: 16px 16px 0 0; padding: 12px; z-index: 20; max-height: 55vh; display: flex; flex-direction: column; }
+  .chat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 700; font-size: 14px; }
+  .chat-header button { background: none; border: none; color: #aeaeb2; font-size: 16px; cursor: pointer; }
+  .chat-msgs { overflow-y: auto; flex: 1; margin-bottom: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .chat-msg { font-size: 13px; padding: 6px 10px; border-radius: 10px; background: #3a3a3c; max-width: 80%; }
+  .chat-msg.mine { align-self: flex-end; background: #0a84ff; }
+  .chat-msg .name { font-size: 10px; opacity: 0.7; display: block; margin-bottom: 2px; }
+  .chat-input-row { display: flex; gap: 6px; }
+  .chat-input-row input { flex: 1; margin: 0; padding: 10px; }
+  .chat-input-row button { padding: 0 14px; border: none; border-radius: 10px; background: #0a84ff; color: #fff; font-weight: 700; }
+
+  .sync-badge { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: #ff453a; color: #fff; font-size: 12px; padding: 6px 12px; border-radius: 20px; z-index: 30; }
+  .back-btn { display: block; background: none; border: none; color: #0a84ff; font-size: 14px; font-weight: 700; cursor: pointer; padding: 6px 0; margin-bottom: 6px; }
+  .cell.same-number .cell-main { font-weight: 900; color: #ffd60a; }
+  .lb-row { border-bottom: 1px solid #3a3a3c; padding: 10px 0; }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-top { display: flex; justify-content: space-between; font-weight: 700; }
+  .lb-sub { display: flex; justify-content: space-between; font-size: 12px; opacity: 0.7; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div id="syncBadge" class="sync-badge hidden">⚠️ Sync issue — retrying…</div>
+  <button id="backBtn" class="back-btn hidden">← Menu</button>
+
+  <div id="screen-name">
+    <h1>🧩 Sudoku Versus</h1>
+    <div class="card">
+      <label>Your name</label>
+      <input type="text" id="nameInput" maxlength="16" placeholder="e.g. Alex">
+      <button class="btn" id="soloBtn">Play Solo</button>
+      <button class="btn secondary" id="createBtn">Create Versus Game</button>
+      <button class="btn secondary" id="showJoinBtn">Join Versus Game</button>
+      <button class="btn secondary" id="leaderboardBtn">🏆 Leaderboard</button>
+
+      <div id="soloBox" class="hidden">
+        <label style="margin-top:10px;">Difficulty</label>
+        <div class="diff-row" id="soloDiffPicker">
+          <button data-d="easy">Easy</button>
+          <button data-d="medium" class="active">Medium</button>
+          <button data-d="hard">Hard</button>
+        </div>
+        <button class="btn" id="soloStartBtn">Start</button>
+        <button class="btn secondary" id="soloCancelBtn">Cancel</button>
+      </div>
+
+      <div id="joinBox" class="hidden">
+        <label style="margin-top:10px;">Room code</label>
+        <input type="text" id="codeInput" class="code" maxlength="5" placeholder="ABCDE">
+        <button class="btn" id="joinBtn">Join</button>
+        <button class="btn secondary" id="joinCancelBtn">Cancel</button>
+      </div>
+      <div class="err hidden" id="nameErr"></div>
+    </div>
+    <div class="hint">Versus: both players open this same app on their own phone. One creates a game and shares the code; the other joins with it.</div>
+  </div>
+
+  <div id="screen-lobby" class="hidden">
+    <h1>🧩 Sudoku Versus</h1>
+    <div class="card">
+      <div class="hint" style="margin-bottom:2px;">Room code — share this</div>
+      <div class="code-display" id="lobbyCode">-----</div>
+      <div class="row"><span>Host</span><span id="lobbyHost">-</span></div>
+      <div class="row"><span>Guest</span><span id="lobbyGuest">Waiting…</span></div>
+    </div>
+    <div class="card" id="hostControls">
+      <label>Difficulty</label>
+      <div class="diff-row" id="diffPicker">
+        <button data-d="easy">Easy</button>
+        <button data-d="medium" class="active">Medium</button>
+        <button data-d="hard">Hard</button>
+      </div>
+      <button class="btn" id="startBtn" disabled>Waiting for opponent…</button>
+    </div>
+    <div class="card hidden" id="guestWaiting">
+      <div class="hint" style="margin:0;">Waiting for host to start the game…</div>
+    </div>
+  </div>
+
+  <div id="screen-game" class="hidden">
+    <div class="top-bar">
+      <div class="score" id="scoreLine">- 0 — 0 -</div>
+      <div class="timer" id="timer">0.0s</div>
+    </div>
+    <div class="opp-card">
+      <span id="oppName">Opponent</span>
+      <div class="opp-bar"><div class="opp-bar-fill" id="oppBarFill"></div></div>
+      <span id="oppPct">0%</span>
+    </div>
+
+    <div id="winBanner" class="win-banner hidden">
+      <div class="title" id="winTitle"></div>
+      <button class="btn hidden" id="playAgainBtn">Play Again</button>
+      <div class="hint hidden" id="waitAgainHint" style="margin:0 0 8px;">Waiting for host to start next round…</div>
+      <button class="btn secondary" id="menuBtn">Back to Menu</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="mode-row">
+      <button class="btn secondary" id="notesToggle">✏️ Notes: Off</button>
+    </div>
+    <div class="numpad" id="pad"></div>
+  </div>
+
+  <div id="screen-leaderboard" class="hidden">
+    <h1>🏆 Leaderboard</h1>
+    <div class="card" id="leaderboardTable"></div>
+    <button class="btn secondary" id="lbBackBtn">Back</button>
+  </div>
+
+  <button class="chat-toggle hidden" id="chatToggle">💬</button>
+  <div class="chat-panel hidden" id="chatPanel">
+    <div class="chat-header"><span>Chat</span><button id="chatClose">✕</button></div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" maxlength="200" placeholder="Message…">
+      <button id="chatSend">Send</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script>
+const DIFF = { easy: 35, medium: 45, hard: 55 };
+const NS = 'sudokuversus';
+
+// ==== Firebase setup — replace with YOUR project's config (Firebase Console → Project settings → Your apps) ====
+const firebaseConfig = {
+  apiKey: "AIzaSyDU2ctbpScA-SJwNUPNK9h-h0HRa1mSQK0",
+  authDomain: "sudoku-wa.firebaseapp.com",
+  databaseURL: "https://sudoku-wa-default-rtdb.firebaseio.com",
+  projectId: "sudoku-wa",
+  storageBucket: "sudoku-wa.firebasestorage.app",
+  messagingSenderId: "100163390156",
+  appId: "1:100163390156:web:67fe3ffc04b08d137b9069"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let myName = '', myRole = null, mode = null, roomCode = '';
+let localRound = 0, localPhase = 'idle';
+let selected = null, localGrid = null, localNotes = null, notesMode = false;
+let puzzle = null, solution = null, difficulty = 'medium';
+let pollTimer = null, tickTimer = null, startedAt = null;
+let seenChatCount = 0, leaderboardUpdated = false;
+
+// ---------- storage helpers (retry-wrapped, backed by Firebase) ----------
+async function sGet(path) {
+  try {
+    const snap = await db.ref(path).once('value');
+    return snap.exists() ? snap.val() : null;
+  } catch (e) { return null; }
+}
+async function sSet(path, value, retries = 2) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      await db.ref(path).set(value);
+      setSyncOk();
+      return true;
+    } catch (e) {
+      if (attempt === retries) { setSyncErr(); return false; }
+      await new Promise(r => setTimeout(r, 300 * (attempt + 1)));
+    }
+  }
+  return false;
+}
+function setSyncErr(){ document.getElementById('syncBadge').classList.remove('hidden'); }
+function setSyncOk(){ document.getElementById('syncBadge').classList.add('hidden'); }
+
+const roomKey = () => `${NS}/rooms/${roomCode}`;
+const gridKey = (n) => `${NS}/rooms/${roomCode}/grid${n}`;
+const chatKey = () => `${NS}/rooms/${roomCode}/chat`;
+const claimsKey = () => `${NS}/rooms/${roomCode}/claims`;
+const leaderboardKey = () => `${NS}/leaderboard`;
+
+// ---------- sudoku generation ----------
+function emptyGrid() { return Array.from({length:9}, () => Array(9).fill(0)); }
+function makeEmptyNotes() { return Array.from({length:9}, () => Array.from({length:9}, () => new Set())); }
+function isValid(g,r,c,n){
+  for(let i=0;i<9;i++){ if(g[r][i]===n||g[i][c]===n) return false; }
+  const br=Math.floor(r/3)*3, bc=Math.floor(c/3)*3;
+  for(let rr=br;rr<br+3;rr++) for(let cc=bc;cc<bc+3;cc++) if(g[rr][cc]===n) return false;
+  return true;
+}
+function shuffled(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+function fill(g){
+  for(let r=0;r<9;r++) for(let c=0;c<9;c++) if(g[r][c]===0){
+    for(const n of shuffled([1,2,3,4,5,6,7,8,9])) if(isValid(g,r,c,n)){
+      g[r][c]=n; if(fill(g)) return true; g[r][c]=0;
+    }
+    return false;
+  }
+  return true;
+}
+function generatePuzzle(diff){
+  const g=emptyGrid(); fill(g);
+  const sol=g.map(r=>r.slice()); const puz=g.map(r=>r.slice());
+  const pos=shuffled(Array.from({length:81},(_,i)=>i)).slice(0,DIFF[diff]);
+  for(const p of pos) puz[Math.floor(p/9)][p%9]=0;
+  return { solution: sol, puzzle: puz };
+}
+function hasConflict(g,r,c){
+  const v=g[r][c]; if(v===0) return false;
+  for(let i=0;i<9;i++){ if(i!==c&&g[r][i]===v) return true; if(i!==r&&g[i][c]===v) return true; }
+  const br=Math.floor(r/3)*3, bc=Math.floor(c/3)*3;
+  for(let rr=br;rr<br+3;rr++) for(let cc=bc;cc<bc+3;cc++) if((rr!==r||cc!==c)&&g[rr][cc]===v) return true;
+  return false;
+}
+function gridsEqual(a,b){ for(let r=0;r<9;r++) for(let c=0;c<9;c++) if(a[r][c]!==b[r][c]) return false; return true; }
+function genCode(){ const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s=''; for(let i=0;i<5;i++) s+=chars[Math.floor(Math.random()*chars.length)]; return s; }
+function myPlayerNum(){ return myRole==='host' ? 1 : 2; }
+function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// ---------- screens ----------
+function show(id){
+  document.querySelectorAll('.app > div[id^="screen-"]').forEach(el=>el.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.getElementById('backBtn').classList.toggle('hidden', id==='screen-name' || id==='screen-leaderboard');
+}
+document.getElementById('backBtn').addEventListener('click', leaveToMenu);
+function leaveToMenu(){
+  clearInterval(pollTimer); clearInterval(tickTimer);
+  document.querySelector('.app').classList.remove('solo-mode');
+  document.getElementById('chatPanel').classList.add('hidden');
+  document.getElementById('chatToggle').classList.add('hidden');
+  mode = null; myRole = null; roomCode = ''; localPhase = 'idle';
+  show('screen-name');
+}
+
+document.getElementById('showJoinBtn').addEventListener('click', ()=>{
+  document.getElementById('soloBox').classList.add('hidden');
+  document.getElementById('joinBox').classList.remove('hidden');
+});
+document.getElementById('soloBtn').addEventListener('click', ()=>{
+  document.getElementById('joinBox').classList.add('hidden');
+  document.getElementById('soloBox').classList.remove('hidden');
+});
+document.getElementById('soloCancelBtn').addEventListener('click', ()=> document.getElementById('soloBox').classList.add('hidden'));
+document.getElementById('joinCancelBtn').addEventListener('click', ()=> document.getElementById('joinBox').classList.add('hidden'));
+
+document.getElementById('soloDiffPicker').addEventListener('click', (e)=>{
+  if(e.target.tagName!=='BUTTON') return;
+  document.querySelectorAll('#soloDiffPicker button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  difficulty = e.target.dataset.d;
+});
+document.getElementById('soloStartBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('nameInput').value.trim();
+  if(!name){ showNameErr('Enter your name first.'); return; }
+  document.getElementById('nameErr').classList.add('hidden');
+  myName = name; myRole = 'solo'; mode = 'solo';
+  startSoloRound();
+});
+
+document.getElementById('createBtn').addEventListener('click', async ()=>{
+  const name = document.getElementById('nameInput').value.trim();
+  if(!name){ showNameErr('Enter your name first.'); return; }
+  myName = name; myRole = 'host'; mode = 'versus'; roomCode = genCode();
+  const ok = await sSet(roomKey(), {
+    hostName: myName, guestName: null, difficulty: 'medium',
+    status: 'waiting', round: 0, puzzle: null, solution: null,
+    startedAt: null, winner: null, pointsHost: 0, pointsGuest: 0
+  });
+  if(!ok){ showNameErr('Could not create game — check connection and try again.'); myRole=null; return; }
+  enterLobby();
+});
+
+document.getElementById('joinBtn').addEventListener('click', async ()=>{
+  const name = document.getElementById('nameInput').value.trim();
+  const code = document.getElementById('codeInput').value.trim().toUpperCase();
+  if(!name){ showNameErr('Enter your name first.'); return; }
+  if(!code){ showNameErr('Enter a room code.'); return; }
+  roomCode = code;
+  const meta = await sGet(roomKey());
+  if(!meta){ showNameErr('Room not found — check the code.'); return; }
+  if(meta.guestName){ showNameErr('That room is already full.'); return; }
+  myName = name; myRole = 'guest'; mode = 'versus';
+  meta.guestName = myName;
+  const ok = await sSet(roomKey(), meta);
+  if(!ok){ showNameErr('Could not join — check connection and try again.'); myRole=null; return; }
+  enterLobby();
+});
+
+function showNameErr(msg){ const el=document.getElementById('nameErr'); el.textContent=msg; el.classList.remove('hidden'); }
+
+function enterLobby(){
+  document.getElementById('nameErr').classList.add('hidden');
+  document.getElementById('lobbyCode').textContent = roomCode;
+  document.getElementById('hostControls').classList.toggle('hidden', myRole!=='host');
+  document.getElementById('guestWaiting').classList.toggle('hidden', myRole==='host');
+  show('screen-lobby');
+  startPolling();
+}
+
+document.getElementById('diffPicker').addEventListener('click', async (e)=>{
+  if(e.target.tagName!=='BUTTON') return;
+  document.querySelectorAll('#diffPicker button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  const meta = await sGet(roomKey());
+  if(meta){ meta.difficulty = e.target.dataset.d; await sSet(roomKey(), meta); }
+});
+
+document.getElementById('startBtn').addEventListener('click', async ()=>{
+  const meta = await sGet(roomKey());
+  if(!meta || !meta.guestName) return;
+  await beginRound(meta, 1);
+});
+
+document.getElementById('playAgainBtn').addEventListener('click', async ()=>{
+  if(mode==='solo'){ startSoloRound(); return; }
+  const meta = await sGet(roomKey());
+  if(!meta) return;
+  await beginRound(meta, meta.round + 1);
+});
+
+document.getElementById('menuBtn').addEventListener('click', leaveToMenu);
+
+async function beginRound(meta, round){
+  const p = generatePuzzle(meta.difficulty);
+  meta.puzzle = p.puzzle; meta.solution = p.solution;
+  meta.status = 'playing'; meta.round = round;
+  meta.startedAt = Date.now(); meta.winner = null;
+  meta.pointsHost = 0; meta.pointsGuest = 0;
+  await sSet(roomKey(), meta);
+  await sSet(gridKey(1), p.puzzle);
+  await sSet(claimsKey(), '0'.repeat(81));
+  applyRound(meta);
+}
+
+function applyRound(meta){
+  localRound = meta.round; localPhase = 'playing';
+  puzzle = meta.puzzle; solution = meta.solution;
+  localGrid = puzzle.map(r=>r.slice());
+  localNotes = makeEmptyNotes();
+  selected = null; notesMode = false; leaderboardUpdated = false;
+  updateNotesToggleLabel();
+  buildBoardIfNeeded();
+  renderBoard();
+  document.getElementById('winBanner').classList.add('hidden');
+  document.getElementById('chatToggle').classList.remove('hidden');
+  startTimer(meta.startedAt);
+  setupGameScreenForMode();
+  show('screen-game');
+}
+
+function startSoloRound(){
+  const p = generatePuzzle(difficulty);
+  puzzle = p.puzzle; solution = p.solution;
+  localGrid = puzzle.map(r=>r.slice());
+  localNotes = makeEmptyNotes();
+  selected = null; notesMode = false; leaderboardUpdated = false;
+  updateNotesToggleLabel();
+  localRound += 1; localPhase = 'playing';
+  startedAt = Date.now();
+  buildBoardIfNeeded();
+  renderBoard();
+  document.getElementById('winBanner').classList.add('hidden');
+  startTimer(startedAt);
+  setupGameScreenForMode();
+  show('screen-game');
+}
+
+function setupGameScreenForMode(){
+  document.querySelector('.app').classList.toggle('solo-mode', mode==='solo');
+}
+
+// ---------- notes toggle ----------
+document.getElementById('notesToggle').addEventListener('click', ()=>{
+  notesMode = !notesMode;
+  updateNotesToggleLabel();
+});
+function updateNotesToggleLabel(){
+  const btn = document.getElementById('notesToggle');
+  btn.textContent = notesMode ? '✏️ Notes: On' : '✏️ Notes: Off';
+  btn.classList.toggle('active-toggle', notesMode);
+}
+
+document.addEventListener('keydown', (e)=>{
+  const tag = e.target.tagName;
+  if(tag==='INPUT' || tag==='TEXTAREA') return;
+  if(document.getElementById('screen-game').classList.contains('hidden')) return;
+  if(localPhase!=='playing') return;
+  if(e.key>='1' && e.key<='9'){ enterValue(Number(e.key)); }
+  else if(e.key==='Backspace' || e.key==='Delete' || e.key==='0'){ enterValue(0); }
+});
+
+// ---------- board ----------
+let boardBuilt = false;
+function buildBoardIfNeeded(){
+  if(boardBuilt) return;
+  const gridEl = document.getElementById('grid');
+  const padEl = document.getElementById('pad');
+  for(let r=0;r<9;r++) for(let c=0;c<9;c++){
+    const cell=document.createElement('div');
+    cell.className='cell'; cell.dataset.r=r; cell.dataset.c=c;
+    if(c%3===2&&c!==8) cell.classList.add('thick-right');
+    if(r%3===2&&r!==8) cell.classList.add('thick-bottom');
+    const mainSpan = document.createElement('span'); mainSpan.className='cell-main';
+    const notesGrid = document.createElement('div'); notesGrid.className='notes-grid';
+    for(let n=1;n<=9;n++){
+      const ns = document.createElement('span'); ns.className='note-digit'; ns.dataset.n=n;
+      notesGrid.appendChild(ns);
+    }
+    cell.appendChild(mainSpan); cell.appendChild(notesGrid);
+    cell.addEventListener('click', ()=>selectCell(r,c));
+    gridEl.appendChild(cell);
+  }
+  for(let n=1;n<=9;n++){
+    const b=document.createElement('button'); b.textContent=n;
+    b.addEventListener('click', ()=>enterValue(n));
+    padEl.appendChild(b);
+  }
+  const er=document.createElement('button'); er.textContent='⌫';
+  er.addEventListener('click', ()=>enterValue(0));
+  padEl.appendChild(er);
+  boardBuilt = true;
+}
+function selectCell(r,c){
+  if(localPhase!=='playing') return;
+  selected=[r,c]; renderBoard();
+}
+async function enterValue(n){
+  if(localPhase!=='playing'||!selected) return;
+  const [r,c]=selected;
+  if(puzzle[r][c]!==0) return;
+
+  if(notesMode){
+    if(n===0){ localNotes[r][c] = new Set(); }
+    else if(localGrid[r][c]===0){
+      const set = localNotes[r][c];
+      if(set.has(n)) set.delete(n); else set.add(n);
+    }
+    renderBoard();
+    return;
+  }
+
+  localGrid[r][c] = n;
+  localNotes[r][c] = new Set();
+  renderBoard();
+
+  if(mode==='versus'){
+    await sSet(gridKey(myRole==='host'?1:2), localGrid);
+    if(n!==0){
+      if(n===solution[r][c]) await claimCell(r,c);
+      else await addPoints(myPlayerNum(), -2);
+    }
+  }
+
+  if(n!==0 && gridsEqual(localGrid, solution)){
+    if(mode==='versus') await tryClaimWin();
+    else await finishSolo();
+  }
+}
+function renderBoard(){
+  const gridEl=document.getElementById('grid');
+  const cells=gridEl.children;
+  const selVal = selected ? localGrid[selected[0]][selected[1]] : 0;
+  for(let r=0;r<9;r++) for(let c=0;c<9;c++){
+    const idx=r*9+c, cell=cells[idx];
+    const given = puzzle[r][c]!==0;
+    const val = localGrid[r][c];
+    const mainSpan = cell.querySelector('.cell-main');
+    const notesGrid = cell.querySelector('.notes-grid');
+    if(val!==0){
+      mainSpan.textContent = val;
+      mainSpan.className = 'cell-main ' + (given ? 'given-text' : 'entry-text');
+      notesGrid.style.display = 'none';
+    } else {
+      mainSpan.textContent = '';
+      const notesSet = localNotes[r][c] || new Set();
+      notesGrid.style.display = notesSet.size>0 ? 'grid' : 'none';
+      notesGrid.querySelectorAll('.note-digit').forEach(ns=>{
+        const n = Number(ns.dataset.n);
+        ns.textContent = notesSet.has(n) ? n : '';
+      });
+    }
+    const isSelectedCell = !!selected && selected[0]===r && selected[1]===c;
+    cell.classList.toggle('given', given);
+    cell.classList.toggle('conflict', !given && val!==0 && hasConflict(localGrid,r,c));
+    cell.classList.toggle('selected', isSelectedCell);
+    cell.classList.toggle('same-number', selVal!==0 && val===selVal && !isSelectedCell);
+  }
+}
+
+// ---------- versus points / claims ----------
+async function claimCell(r,c){
+  const idx = r*9+c;
+  let claims = await sGet(claimsKey());
+  if(!claims) claims = '0'.repeat(81);
+  if(claims[idx] !== '0') return;
+  const num = myPlayerNum();
+  claims = claims.substring(0,idx) + num + claims.substring(idx+1);
+  const ok = await sSet(claimsKey(), claims);
+  if(ok) await addPoints(num, 10);
+}
+async function addPoints(playerNum, delta){
+  const meta = await sGet(roomKey());
+  if(!meta) return;
+  if(playerNum===1) meta.pointsHost = (meta.pointsHost||0) + delta;
+  else meta.pointsGuest = (meta.pointsGuest||0) + delta;
+  await sSet(roomKey(), meta);
+}
+
+// ---------- win / leaderboard ----------
+async function tryClaimWin(){
+  const meta = await sGet(roomKey());
+  if(!meta || meta.status!=='playing' || meta.round!==localRound) return;
+  const myNum = myPlayerNum();
+  meta.status='finished'; meta.winner=myNum;
+  if(myNum===1) meta.pointsHost=(meta.pointsHost||0)+25; else meta.pointsGuest=(meta.pointsGuest||0)+25;
+  await sSet(roomKey(), meta);
+}
+function showWinBanner(meta){
+  localPhase='finished';
+  const iWon = (meta.winner===1 && myRole==='host') || (meta.winner===2 && myRole==='guest');
+  const winnerName = meta.winner===1 ? meta.hostName : meta.guestName;
+  document.getElementById('winTitle').textContent = iWon ? 'You win! 🎉' : `${winnerName} wins!`;
+  document.getElementById('winBanner').classList.remove('hidden');
+  document.getElementById('playAgainBtn').classList.toggle('hidden', myRole!=='host');
+  document.getElementById('playAgainBtn').textContent = 'Play Again';
+  document.getElementById('waitAgainHint').classList.toggle('hidden', myRole==='host');
+  if(!leaderboardUpdated){
+    leaderboardUpdated = true;
+    recordVersusResult(meta, iWon);
+  }
+}
+async function recordVersusResult(meta, iWon){
+  const myPoints = myRole==='host' ? (meta.pointsHost||0) : (meta.pointsGuest||0);
+  const delay = myRole==='guest' ? 500 : 0;
+  await new Promise(res=>setTimeout(res, delay));
+  await updateLeaderboardEntry(myName, entry=>{
+    entry.points = (entry.points||0) + myPoints;
+    entry.gamesPlayed = (entry.gamesPlayed||0) + 1;
+    if(iWon){
+      entry.wins = (entry.wins||0) + 1;
+      const key = 'best'+capitalize(meta.difficulty);
+      const t = (Date.now()-meta.startedAt)/1000;
+      if(entry[key]==null || t < entry[key]) entry[key] = t;
+    } else {
+      entry.losses = (entry.losses||0) + 1;
+    }
+  });
+}
+async function finishSolo(){
+  localPhase='finished';
+  clearInterval(tickTimer);
+  const elapsed = (Date.now()-startedAt)/1000;
+  document.getElementById('winTitle').textContent = `Solved in ${elapsed.toFixed(1)}s! 🎉`;
+  document.getElementById('winBanner').classList.remove('hidden');
+  document.getElementById('playAgainBtn').classList.remove('hidden');
+  document.getElementById('playAgainBtn').textContent = 'Play Again';
+  document.getElementById('waitAgainHint').classList.add('hidden');
+  await updateLeaderboardEntry(myName, entry=>{
+    entry.points = (entry.points||0) + 20;
+    entry.gamesPlayed = (entry.gamesPlayed||0) + 1;
+    const key = 'best'+capitalize(difficulty);
+    if(entry[key]==null || elapsed < entry[key]) entry[key] = elapsed;
+  });
+}
+function defaultEntry(){ return { wins:0, losses:0, points:0, gamesPlayed:0, bestEasy:null, bestMedium:null, bestHard:null }; }
+async function updateLeaderboardEntry(name, mutateFn){
+  const board = (await sGet(leaderboardKey())) || {};
+  const entry = Object.assign(defaultEntry(), board[name] || {});
+  mutateFn(entry);
+  board[name] = entry;
+  await sSet(leaderboardKey(), board);
+}
+
+document.getElementById('leaderboardBtn').addEventListener('click', async ()=>{
+  show('screen-leaderboard');
+  const board = (await sGet(leaderboardKey())) || {};
+  renderLeaderboardTable(board);
+});
+document.getElementById('lbBackBtn').addEventListener('click', ()=> show('screen-name'));
+function renderLeaderboardTable(board){
+  const el = document.getElementById('leaderboardTable');
+  const names = Object.keys(board).sort((a,b)=> (board[b].points||0)-(board[a].points||0));
+  if(names.length===0){ el.innerHTML = '<div class="hint" style="margin:0;">No games played yet.</div>'; return; }
+  const fmt = t => t==null ? '–' : t.toFixed(1)+'s';
+  el.innerHTML = names.map(name=>{
+    const e = board[name];
+    return `<div class="lb-row">
+      <div class="lb-top"><span>${escapeHtml(name)}</span><span>${e.points||0} pts</span></div>
+      <div class="lb-sub"><span>${e.wins||0}W – ${e.losses||0}L</span><span>E ${fmt(e.bestEasy)} · M ${fmt(e.bestMedium)} · H ${fmt(e.bestHard)}</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ---------- timer ----------
+function startTimer(started){
+  clearInterval(tickTimer);
+  tickTimer = setInterval(()=>{
+    const el = (Date.now()-started)/1000;
+    document.getElementById('timer').textContent = el.toFixed(1)+'s';
+  }, 100);
+}
+
+// ---------- polling (versus only) ----------
+function startPolling(){
+  clearInterval(pollTimer);
+  pollTimer = setInterval(syncTick, 1200);
+  syncTick();
+}
+async function syncTick(){
+  if(!roomCode || mode!=='versus') return;
+  const meta = await sGet(roomKey());
+  if(!meta) return;
+
+  if(!document.getElementById('screen-lobby').classList.contains('hidden')){
+    document.getElementById('lobbyHost').textContent = meta.hostName || '-';
+    document.getElementById('lobbyGuest').textContent = meta.guestName || 'Waiting…';
+    document.getElementById('startBtn').disabled = !meta.guestName;
+    document.getElementById('startBtn').textContent = meta.guestName ? 'Start Game' : 'Waiting for opponent…';
+    if(myRole==='guest' && meta.status==='playing' && meta.round!==localRound){
+      await sSet(gridKey(2), meta.puzzle);
+      applyRound(meta);
+    }
+  }
+
+  if(!document.getElementById('screen-game').classList.contains('hidden')){
+    document.getElementById('scoreLine').innerHTML =
+      `<span class="${myRole==='host'?'me':''}">${meta.hostName} ${meta.pointsHost||0}</span> — <span class="${myRole==='guest'?'me':''}">${meta.pointsGuest||0} ${meta.guestName}</span>`;
+    document.getElementById('oppName').textContent = myRole==='host' ? meta.guestName : meta.hostName;
+
+    if(meta.round === localRound){
+      const oppKey = myRole==='host' ? gridKey(2) : gridKey(1);
+      const oppGrid = await sGet(oppKey);
+      if(oppGrid){
+        const blanks = puzzle.flat().filter(v=>v===0).length || 1;
+        let correct = 0;
+        for(let r=0;r<9;r++) for(let c=0;c<9;c++) if(puzzle[r][c]===0 && oppGrid[r][c]===solution[r][c]) correct++;
+        const pct = Math.round((correct/blanks)*100);
+        document.getElementById('oppBarFill').style.width = pct+'%';
+        document.getElementById('oppPct').textContent = pct+'%';
+      }
+    }
+
+    if(meta.status==='finished' && localPhase==='playing' && meta.round===localRound){
+      clearInterval(tickTimer);
+      showWinBanner(meta);
+    }
+    if(meta.round > localRound && myRole==='guest' && meta.status==='playing'){
+      await sSet(gridKey(2), meta.puzzle);
+      applyRound(meta);
+    }
+  }
+
+  const chat = await sGet(chatKey());
+  if(chat && chat.length !== seenChatCount){
+    seenChatCount = chat.length;
+    renderChat(chat);
+  }
+}
+
+// ---------- chat ----------
+document.getElementById('chatToggle').addEventListener('click', ()=>{
+  document.getElementById('chatPanel').classList.remove('hidden');
+});
+document.getElementById('chatClose').addEventListener('click', ()=>{
+  document.getElementById('chatPanel').classList.add('hidden');
+});
+document.getElementById('chatSend').addEventListener('click', sendChat);
+document.getElementById('chatInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') sendChat(); });
+
+async function sendChat(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value='';
+  const chat = (await sGet(chatKey())) || [];
+  chat.push({ name: myName, text, ts: Date.now() });
+  await sSet(chatKey(), chat.slice(-100));
+  seenChatCount = chat.length;
+  renderChat(chat);
+}
+function renderChat(chat){
+  const el = document.getElementById('chatMsgs');
+  el.innerHTML = '';
+  for(const m of chat){
+    const div = document.createElement('div');
+    div.className = 'chat-msg' + (m.name===myName ? ' mine' : '');
+    div.innerHTML = `<span class="name">${escapeHtml(m.name)}</span>${escapeHtml(m.text)}`;
+    el.appendChild(div);
+  }
+  el.scrollTop = el.scrollHeight;
+}
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+</script>
+</body>
+</html>

@@ -11,6 +11,14 @@
 # Old Jekyll site (not needed)
 amcmit.github.io-main/
 
+# Retirement Planner source project — only its build output
+# (served from /retirement-planner/) is part of the deployed site.
+retirement-planner-main/
+
+# Sudoku drop-in package — only its served copy (/sudoku/index.html)
+# is part of the deployed site.
+sudoku-package/
+
 # Misc
 *.log
 .idea/
