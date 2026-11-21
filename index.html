@@ -1,1009 +1,710 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alex Carroll</title>
+<style>
+/* Layout: single column academic profile, sticky square-block nav, MIT Red top rule, network hero. Tokens from ARC Deck. */
+:root{
+  --surface:#ffffff; --surface-alt:#f2f2f2; --ink:#000000; --muted:#5f6062; --hairline:#c8c9ca;
+  --brand:#a31f34; --mit-gray:#8a8b8c; --planner:#2e2f31; --block-deep:#000000; --block-red:#a31f34;
+  --tint:#f3dde1; --on-block:#ffffff; --caution:#7a4a00;
+  --display:"Neue Haas Grotesk Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --sans:"Neue Haas Grotesk Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --surface:#000000; --surface-alt:#1c1c1d; --ink:#ffffff; --muted:#b4b5b6; --hairline:#444546;
+    --brand:#e8667a; --planner:#e1e2e3; --block-deep:#3a3b3d; --tint:#3d1b22; --caution:#f0b45c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --surface:#000000; --surface-alt:#1c1c1d; --ink:#ffffff; --muted:#b4b5b6; --hairline:#444546;
+  --brand:#e8667a; --planner:#e1e2e3; --block-deep:#3a3b3d; --tint:#3d1b22; --caution:#f0b45c;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;border-top:6px solid var(--block-red)}
+a{color:var(--brand);text-underline-offset:3px}
+a:hover{background:var(--brand);color:var(--on-block);text-decoration:none}
+a:focus-visible,button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+h2{font-size:32px;line-height:1.1;font-weight:700;letter-spacing:-.01em}
+h3{font-size:19px;line-height:1.3;font-weight:700}
+h4{font-family:var(--display);font-size:13px;line-height:18px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:32px 0 4px}
+.label{font-size:13px;line-height:18px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.caption{font-size:14px;line-height:20px;color:var(--muted)}
 
-    <!-- Apply saved theme before paint to avoid a flash -->
-    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+nav{position:sticky;top:0;z-index:10;background:var(--surface);border-bottom:1px solid var(--hairline)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;flex-wrap:wrap}
+nav .name{font-family:var(--display);font-weight:700;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+nav .name:hover{background:none;color:var(--ink)}
+nav .sq{width:4px;height:4px;display:inline-block;margin-right:10px;transform:translateY(-5px);background:var(--block-red);box-shadow:10px 0 0 var(--block-deep),5px 5px 0 var(--mit-gray),10px 5px 0 var(--block-red),0 10px 0 var(--block-deep),5px 10px 0 var(--block-red)}
+nav ul{list-style:none;margin:0;padding:0;display:flex;gap:2px;flex-wrap:wrap}
+nav li a{display:block;padding:12px 8px;color:var(--ink);text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+nav li a:hover{background:var(--block-red);color:var(--on-block)}
 
-    <!-- Primary Meta Tags -->
-    <title>Alex Carroll | PhD Candidate at MIT — Agentic AI &amp; Quantum Supply Chains</title>
-    <meta name="title" content="Alex Carroll | PhD Candidate at MIT — Agentic AI & Quantum Supply Chains">
-    <meta name="description" content="Alex Carroll is a PhD Candidate at MIT Center for Transportation & Logistics, researching agentic AI architectures, reinforcement learning for freight, and firm-level visibility into quantum supply chains.">
-    <meta name="keywords" content="Alex Carroll, MIT, PhD, Supply Chain, Agentic AI, Multi-Agent Systems, Quantum Supply Chains, Knowledge Graphs, Reinforcement Learning, MIT CTL">
-    <meta name="author" content="Alex Carroll">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://amcmit.github.io/">
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--hairline)}
+#net{position:absolute;inset:0;width:100%;height:100%;display:block;-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,.14),rgba(0,0,0,.4) 55%,#000 88%);mask-image:linear-gradient(to right,rgba(0,0,0,.14),rgba(0,0,0,.4) 55%,#000 88%)}
+.hero .label,.hero h1,.hero .role,.hero p.bio{text-shadow:0 0 4px var(--surface),0 0 10px var(--surface),0 0 18px var(--surface),0 0 28px var(--surface)}
+.hero .label{color:var(--planner)}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr;gap:48px;padding-top:56px;padding-bottom:56px;align-items:start}
+.hero h1{font-size:clamp(44px,8vw,72px);line-height:.98;font-weight:700;letter-spacing:-.02em;margin:8px 0 16px}
+.hero .role{font-size:21px;line-height:1.35;margin:0 0 20px;max-width:34ch}
+.hero p.bio{max-width:62ch;margin:0 0 24px}
+.links{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 16px;background:var(--block-deep);color:var(--on-block);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;border:0}
+.btn:hover{background:var(--block-red);color:var(--on-block)}
+.btn.alt{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.alt:hover{background:var(--ink);color:var(--surface)}
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://amcmit.github.io/">
-    <meta property="og:title" content="Alex Carroll | PhD Candidate at MIT">
-    <meta property="og:description" content="PhD Candidate at MIT researching agentic AI architectures, reinforcement learning for freight, and firm-level quantum supply chain risk.">
-    <meta property="og:image" content="https://amcmit.github.io/images/og-card.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Alex Carroll — PhD Candidate at MIT CTL. AI for supply chain decision-making under uncertainty.">
-    <meta property="og:site_name" content="Alex Carroll">
+section{padding:56px 0;border-bottom:1px solid var(--hairline)}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:28px}
+.sec-head::before{content:"";width:6px;height:6px;flex:none;align-self:center;margin-right:16px;transform:translateY(-8px);background:var(--block-red);box-shadow:16px 0 0 var(--block-deep),8px 8px 0 var(--mit-gray),16px 8px 0 var(--block-red),0 16px 0 var(--block-deep),8px 16px 0 var(--block-red)}
+.lede{max-width:70ch;margin:0 0 24px}
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://amcmit.github.io/">
-    <meta property="twitter:title" content="Alex Carroll | PhD Candidate at MIT">
-    <meta property="twitter:description" content="PhD Candidate at MIT researching agentic AI, reinforcement learning, and quantum supply chains.">
-    <meta property="twitter:image" content="https://amcmit.github.io/images/og-card.png">
+.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.area{background:var(--surface-alt);padding:20px 22px;border-radius:2px}
+.area p{margin:6px 0 0}
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Person",
-                "@id": "https://amcmit.github.io/#alex",
-                "name": "Alex Carroll",
-                "url": "https://amcmit.github.io/",
-                "image": "https://amcmit.github.io/images/me.jpg",
-                "jobTitle": "PhD Candidate",
-                "email": "mailto:alex629@mit.edu",
-                "worksFor": {
-                    "@type": "Organization",
-                    "name": "MIT Center for Transportation & Logistics",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "Cambridge",
-                        "addressRegion": "MA",
-                        "addressCountry": "US"
-                    }
-                },
-                "alumniOf": [
-                    { "@type": "CollegeOrUniversity", "name": "Massachusetts Institute of Technology" },
-                    { "@type": "CollegeOrUniversity", "name": "University of Illinois at Urbana-Champaign" },
-                    { "@type": "CollegeOrUniversity", "name": "The University of Texas at Austin" }
-                ],
-                "sameAs": [
-                    "https://www.linkedin.com/in/alex-carroll629/",
-                    "https://github.com/amcmit"
-                ],
-                "knowsAbout": ["Agentic AI", "Multi-Agent Systems", "Quantum Supply Chains", "Knowledge Graphs", "Supply Chain Management", "Machine Learning", "Reinforcement Learning", "Dynamic Programming", "Procurement Analytics", "Supplier Intelligence", "Logistics Optimization"]
-            },
-            {
-                "@type": "WebSite",
-                "@id": "https://amcmit.github.io/#website",
-                "url": "https://amcmit.github.io/",
-                "name": "Alex Carroll",
-                "description": "PhD Candidate at MIT CTL researching agentic AI, reinforcement learning for freight, and quantum supply chains.",
-                "author": { "@id": "https://amcmit.github.io/#alex" },
-                "inLanguage": "en"
-            },
-            {
-                "@type": "ScholarlyArticle",
-                "headline": "Enhancing Sentiment Classification of E-commerce Reviews for Actionable Insights Using Large Language Models",
-                "author": [
-                    { "@type": "Person", "name": "K. Power" },
-                    { "@id": "https://amcmit.github.io/#alex" }
-                ],
-                "datePublished": "2025-09",
-                "isPartOf": { "@type": "PublicationEvent", "name": "IEEE High Performance Extreme Computing Conference" },
-                "publisher": { "@type": "Organization", "name": "IEEE" }
-            },
-            {
-                "@type": "ScholarlyArticle",
-                "headline": "Drop Trailer Forecasting in Volatile Networks",
-                "author": [
-                    { "@id": "https://amcmit.github.io/#alex" },
-                    { "@type": "Person", "name": "T. Egar" },
-                    { "@type": "Person", "name": "T. Koch" },
-                    { "@type": "Person", "name": "E. Dugundji" }
-                ],
-                "datePublished": "2024-04",
-                "isPartOf": { "@type": "PublicationEvent", "name": "15th International Conference on Ambient Systems, Networks and Technologies (ANT)" },
-                "publisher": { "@type": "Organization", "name": "Elsevier" }
-            }
-        ]
-    }
-    </script>
+.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.proj{border-top:4px solid var(--ink);padding-top:14px}
+.proj.red{border-top-color:var(--brand)}
+.proj .acr{font-family:var(--display);font-size:26px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.proj .exp{font-size:14px;line-height:20px;color:var(--muted);margin:2px 0 10px}
+.proj p{margin:0;font-size:16px}
+.small-projects{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.small-projects div{border:1px solid var(--hairline);padding:14px 16px;border-radius:2px}
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+.pubs{list-style:none;margin:0;padding:0}
+.pub{display:grid;grid-template-columns:72px 1fr;gap:20px;padding:20px 0;border-top:1px solid var(--hairline)}
+.pub:last-child{border-bottom:1px solid var(--hairline)}
+.year{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink);padding-top:3px}
+.pub h3{font-weight:700}
+.pub .meta{color:var(--muted);font-size:15px;margin:4px 0 0}
+.badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;margin-left:8px;vertical-align:2px;border-radius:0}
+.badge.pub-ok{background:var(--block-deep);color:var(--on-block)}
+.badge.rev{background:var(--tint);color:var(--caution);box-shadow:inset 0 0 0 1px var(--caution)}
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+.teach{list-style:none;margin:0;padding:0}
+.teach li{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:14px 0;border-top:1px solid var(--hairline)}
+.teach li:last-child{border-bottom:1px solid var(--hairline)}
+.teach .when{font-family:var(--mono);font-size:14px;color:var(--muted);padding-top:3px}
+.teach .role{font-weight:700}
+.teach .note{display:block;color:var(--muted);font-size:15px;margin-top:2px}
+.teach ul{margin:8px 0 0;padding-left:18px;font-size:15.5px}
+.teach ul li{display:list-item;border:0;padding:3px 0;grid-template-columns:none}
+.teach ul li:last-child{border:0}
 
-    <link rel="stylesheet" href="css/style.css">
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.skill{border-top:4px solid var(--ink);padding-top:12px}
+.skill:nth-child(odd){border-top-color:var(--brand)}
+.skill p{margin:6px 0 0;font-size:15.5px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:8px}
+.cols p{margin:0;font-size:16px}
+
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.contact dl{margin:0;display:grid;grid-template-columns:110px 1fr;gap:10px 16px}
+.contact dt{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.contact dd{margin:0;word-break:break-word}
+.callout{background:var(--block-deep);color:var(--on-block);padding:28px;border-radius:2px}
+.callout h3{font-size:24px;margin-bottom:8px}
+.callout p{margin:0;opacity:.92}
+
+.demo{background:var(--surface-alt);border-top:4px solid var(--brand);padding:24px;border-radius:2px;margin-top:24px}
+.demo:first-of-type{margin-top:0}
+.demo h3{font-size:22px;margin-bottom:6px}
+.demo>p{margin:0 0 16px;max-width:70ch;font-size:16px}
+.demo svg{display:block;width:100%;height:auto;background:var(--surface);border:1px solid var(--hairline)}
+.demo .mk-grid{stroke:var(--hairline);stroke-width:1}
+.demo .mk-axis{stroke:var(--muted);stroke-width:1.5}
+.demo .mk-label{fill:var(--muted);font-size:12px;font-family:var(--sans)}
+.demo .mk-legend{fill:var(--ink);font-size:12px;font-family:var(--sans)}
+.demo .mk-learned{fill:none;stroke:var(--brand);stroke-width:3}
+.demo .mk-baseline{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-dasharray:6 4}
+.demo .mk-marker{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+.demo .mk-dot-learned{fill:var(--brand)}
+.demo .mk-dot-baseline{fill:var(--ink)}
+.demo-controls{display:flex;align-items:center;gap:14px;margin:16px 0;flex-wrap:wrap}
+.demo-controls label{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.demo-controls input[type=range]{flex:1;min-width:180px;accent-color:var(--brand)}
+.demo-readout{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.demo-stat{background:var(--surface);border:1px solid var(--hairline);padding:12px 14px}
+.demo-stat .k{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.demo-stat .v{display:block;font-family:var(--display);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums}
+.demo-stat .v.accent{color:var(--brand)}
+.demo-note{margin:14px 0 0;font-size:14px;line-height:20px;color:var(--muted)}
+.demo-btn{font:inherit;font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:9px 14px;border:0;background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink);cursor:pointer}
+.demo-btn:hover{background:var(--ink);color:var(--surface)}
+.demo-btn:focus-visible,.masis-qbtn:focus-visible,.qp-mat:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.masis-questions{display:grid;gap:8px;margin-bottom:16px}
+.masis-qbtn{font:inherit;font-size:15.5px;text-align:left;padding:12px 14px;background:var(--surface);color:var(--ink);border:1px solid var(--hairline);cursor:pointer}
+.masis-qbtn:hover{border-color:var(--ink)}
+.masis-qbtn.sel{border-color:var(--brand);box-shadow:inset 4px 0 0 var(--brand)}
+.masis-pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.masis-stage{padding:10px 6px;text-align:center;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--surface);border:1px solid var(--hairline);color:var(--muted)}
+.masis-stage.on{background:var(--brand);border-color:var(--brand);color:var(--on-block)}
+.masis-sources{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.masis-src{padding:6px 10px;font-size:14px;background:var(--surface);border:1px solid var(--hairline);color:var(--muted)}
+.masis-src.hit{background:var(--block-deep);border-color:var(--block-deep);color:var(--on-block)}
+.masis-answer{min-height:3.4em;padding:14px;background:var(--surface);border:1px solid var(--hairline);font-size:16px}
+.qp-col-label{fill:var(--muted);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:var(--sans)}
+.qp-edge{stroke:var(--hairline);stroke-width:2}
+.qp-edge.hot{stroke:var(--brand);stroke-width:3.5}
+.qp-node circle{fill:var(--surface);stroke:var(--muted);stroke-width:2.5}
+.qp-node text{fill:var(--ink);font-size:14px;font-family:var(--sans)}
+.qp-mat{cursor:pointer}
+.qp-mat:hover circle{stroke:var(--ink)}
+.qp-node.disrupted circle{fill:var(--brand);stroke:var(--brand)}
+.qp-node.atrisk circle{fill:var(--tint);stroke:var(--brand)}
+.qp-node.atrisk text{font-weight:700}
+@media (max-width:760px){.demo-readout{grid-template-columns:1fr}.masis-pipeline{grid-template-columns:repeat(2,1fr)}}
+
+button.proj{font:inherit;text-align:left;background:none;border:0;border-top:4px solid var(--ink);padding:14px 0 0;color:inherit;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;width:100%}
+button.proj.red{border-top-color:var(--brand)}
+button.proj .acr{display:block;font-family:var(--display);font-size:26px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+button.proj .exp{display:block;font-size:14px;line-height:20px;color:var(--muted);margin:2px 0 10px}
+button.proj .pd{display:block;font-size:16px;line-height:24px}
+button.proj .more{display:block;margin-top:10px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+button.proj:hover .acr{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+button.proj[aria-expanded=true]{box-shadow:0 6px 0 -2px var(--brand)}
+button.proj:focus-visible,.lvl button:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+.pdetail{margin-top:28px;padding:28px;background:var(--surface-alt);border-left:6px solid var(--brand)}
+.pdetail[hidden]{display:none}
+.pdetail h4{margin-top:22px}
+.ptop{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.ptop h3{font-size:26px;margin:0}
+.lvl{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lvl button{font:inherit;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border:0;background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink);cursor:pointer}
+.lvl button.on{background:var(--ink);color:var(--surface)}
+.pdetail[data-lvl=plain] .tech,.pdetail[data-lvl=tech] .plain{display:none}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.tags span{font-size:13px;font-weight:700;padding:4px 10px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--muted)}
+.bul{margin:8px 0 0;padding-left:20px}.bul li{margin:6px 0;max-width:75ch}
+.pdetail .demo{margin-top:28px;background:var(--surface)}
+.pdetail .demo svg{background:var(--surface-alt)}
+.pdetail .demo-stat,.pdetail .masis-qbtn,.pdetail .masis-stage,.pdetail .masis-src,.pdetail .masis-answer{background:var(--surface-alt)}
+
+footer{background:var(--surface-alt);padding:28px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:760px){
+  .hero .wrap{grid-template-columns:1fr;gap:28px;padding-top:36px;padding-bottom:36px}
+  .areas,.projects,.small-projects,.contact,.skills,.cols{grid-template-columns:1fr}
+  .pub{grid-template-columns:1fr;gap:4px}
+  .teach li{grid-template-columns:1fr;gap:2px}
+  .contact dl{grid-template-columns:90px 1fr}
+  nav li a{padding:10px 7px;font-size:12px}
+  section{padding:40px 0}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#home" class="nav-logo">Alex Carroll</a>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#news" class="nav-link">News</a></li>
-                <li><a href="#research" class="nav-link">Research</a></li>
-                <li><a href="#publications" class="nav-link">Publications</a></li>
-                <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#gallery" class="nav-link">Gallery</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">
-                <i class="fas fa-moon"></i>
-                <i class="fas fa-sun"></i>
-            </button>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
+<nav aria-label="Primary">
+  <div class="wrap">
+    <a class="name" href="#top"><span class="sq" aria-hidden="true"></span>Alex Carroll</a>
+    <ul>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#talks">Talks</a></li>
+      <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#writing">Writing</a></li>
+      <li><a href="#miscellaneous">Misc</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <p class="hero-greeting">PhD Candidate · MIT CTL</p>
-                    <h1 class="hero-title">Alex Carroll</h1>
-                    <p class="hero-subtitle">AI for supply chain decision-making under uncertainty.</p>
-                    <p class="hero-affiliation">Center for Transportation &amp; Logistics — Deep Knowledge Lab</p>
-                    <p class="hero-description">
-                        I research how AI systems can transform supply chain decision-making under uncertainty —
-                        building agentic architectures for procurement intelligence, reinforcement learning for
-                        freight pricing and routing, and firm-level visibility into emerging quantum supply chains.
-                    </p>
-                    <div class="hero-cta">
-                        <a href="#research" class="btn btn-primary">View Research</a>
-                        <a href="CV/Alex_Carroll_CV_MIT.pdf" download class="btn btn-secondary"><i class="fas fa-download"></i> Download CV</a>
-                    </div>
-                    <div class="hero-social">
-                        <a href="https://github.com/amcmit" target="_blank" rel="noopener" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/alex-carroll629/" target="_blank" rel="noopener" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="mailto:alex629@mit.edu" aria-label="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        <a href="https://scholar.google.com" target="_blank" rel="noopener" aria-label="Google Scholar">
-                            <i class="fas fa-graduation-cap"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="hero-image-wrapper">
-                        <img src="images/me.jpg" alt="Alex Carroll — PhD Candidate at MIT" loading="eager">
-                        <div class="hero-image-accent"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="hero-scroll">
-            <a href="#about" aria-label="Scroll down">
-                <span></span>
-            </a>
-        </div>
-    </section>
+<header class="hero" id="top">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <div class="label">MIT Center for Transportation &amp; Logistics</div>
+      <h1>Alex Carroll</h1>
+      <p class="role">PhD student in Transportation. Intelligent freight systems and decisions under uncertainty.</p>
+      <p class="bio">My research combines operations research, reinforcement learning and machine learning to improve decisions in transportation and freight systems. I work in the Deep Knowledge Lab with Prof. Elenna Dugundji. Before MIT I held leadership and analytics roles at Amazon in Tokyo, Flock Freight, Zillow and Arrive Logistics.</p>
+      <div class="links">
+        <a class="btn" href="https://amcmit.github.io/CV/Alex_Carroll_CV_MIT.pdf">CV</a>
+        <a class="btn alt" href="https://scholar.google.com/citations?user=tQMDq_oAAAAJ&amp;hl=en&amp;oi=ao">Google Scholar</a>
+        <a class="btn alt" href="https://github.com/amcmit">GitHub</a>
+        <a class="btn alt" href="https://www.linkedin.com/in/alex-carroll629/">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <!-- About Section -->
-    <section id="about" class="section about">
-        <div class="container">
-            <h2 class="section-title">About</h2>
-            <div class="about-featured-image">
-                <img src="images/Supply_Chain_AI.jpg" alt="MIT CTL Agentic AI Roundtable">
-                <p class="image-caption">MIT Center for Transportation &amp; Logistics — Deep Knowledge Lab</p>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p class="about-lead">
-                        I'm a PhD candidate at MIT's Center for Transportation &amp; Logistics, where my research studies
-                        how AI systems can transform supply chain decision-making under uncertainty.
-                    </p>
-                    <p>
-                        My research examines how AI and operations research can improve supply chain decisions under
-                        uncertainty across three linked areas. First, I build agentic procurement-intelligence systems
-                        that combine hybrid retrieval, knowledge graphs, and bounded verification across heterogeneous
-                        enterprise data — including a multinational supplier-intelligence deployment and a hyperscaler
-                        collaboration on agentic bill-of-materials knowledge graphs. Second, I apply reinforcement
-                        learning, dynamic programming, and ensemble learning to freight pricing, routing, market sizing,
-                        and decarbonization. Third, I map the supply networks behind emerging technologies — especially
-                        quantum computing — using self-hosted search, local language models, and provenance-aware
-                        property graphs to surface chokepoints and single-source dependencies.
-                    </p>
-                    <p>
-                        Before MIT, I held leadership and analytics roles at Amazon (Tokyo), Flock Freight, Zillow, and
-                        Arrive Logistics, where I developed pricing strategies, implemented ML systems, and led operations
-                        teams. My time as a site leader at Amazon Japan gave me a deep appreciation for cross-cultural
-                        leadership and operational excellence at scale.
-                    </p>
+<main>
+<section id="research">
+  <div class="wrap">
+    <div class="sec-head"><h2>Research</h2></div>
+    <p class="lede">Three connected areas guide my work, joined by one method: sequential decision making and learning algorithms, applied to freight pricing, disruption response and supply chain operations.</p>
+    <div class="areas">
+      <div class="area"><h3>Pricing and allocation in freight networks</h3><p>Dynamic pricing and resource allocation in multimodal freight, including maritime and inland waterway transportation.</p></div>
+      <div class="area"><h3>Network resilience</h3><p>Adversarial learning and stochastic optimization to find damaging disruptions and evaluate mitigation strategies.</p></div>
+      <div class="area"><h3>AI-enabled decision support</h3><p>Agentic systems, knowledge graphs and retrieval architectures for complex supply-chain operations, with attention to auditability and reproducibility in AI-augmented procurement.</p></div>
+    </div>
 
-                    <div class="about-interests">
-                        <h3>Research Interests</h3>
-                        <ul class="interest-list">
-                            <li><i class="fas fa-network-wired"></i> Multi-agent architectures for retrieval &amp; reasoning over heterogeneous enterprise data</li>
-                            <li><i class="fas fa-atom"></i> Quantum supply chain visibility &amp; firm-level risk mapping</li>
-                            <li><i class="fas fa-brain"></i> Reinforcement learning &amp; dynamic programming for operational pricing and routing</li>
-                            <li><i class="fas fa-shield-halved"></i> Governance, auditability &amp; reproducibility in AI-augmented procurement</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="about-sidebar">
-                    <div class="education-card">
-                        <h3>Education</h3>
-                        <div class="education-item">
-                            <div class="education-degree">PhD in Transportation</div>
-                            <div class="education-school">Massachusetts Institute of Technology</div>
-                            <div class="education-focus">AI for Supply Chain Systems</div>
-                            <div class="education-year">2026 – Present</div>
-                        </div>
-                        <div class="education-item">
-                            <div class="education-degree">Master of Science in Transportation</div>
-                            <div class="education-school">Massachusetts Institute of Technology</div>
-                            <div class="education-year">2025 – 2026</div>
-                        </div>
-                        <div class="education-item">
-                            <div class="education-degree">Master of Applied Science</div>
-                            <div class="education-school">Massachusetts Institute of Technology</div>
-                            <div class="education-focus">Supply Chain Management</div>
-                            <div class="education-year">2023 – 2024</div>
-                        </div>
-                        <div class="education-item">
-                            <div class="education-degree">Master of Business Administration</div>
-                            <div class="education-school">University of Illinois at Urbana-Champaign</div>
-                            <div class="education-year">2021 – 2023</div>
-                        </div>
-                        <div class="education-item">
-                            <div class="education-degree">Bachelor of Arts</div>
-                            <div class="education-school">The University of Texas at Austin</div>
-                            <div class="education-year">2011 – 2016</div>
-                        </div>
-                    </div>
+    <h4>Projects</h4>
+    <p class="caption" style="margin:4px 0 12px">Select a project to read more and try an interactive demo.</p>
+    <div class="projects" role="tablist">
+      <button type="button" class="proj red" data-p="masis" aria-expanded="false"><span class="acr">MASIS</span><span class="exp">Multi-Agent Supplier Intelligence System</span><span class="pd">Sponsored healthcare procurement research. A five-stage agentic pipeline queries six databases across vector, SQL and graph modalities.</span><span class="more">Details and demo +</span></button>
+      <button type="button" class="proj" data-p="marlin" aria-expanded="false"><span class="acr">MARLIN</span><span class="exp">Maritime Adaptive Reinforcement Learning for Inland Networks</span><span class="pd">Constrained-MDP pricing and routing for Mississippi container barges, with ensemble TAM/SAM/SOM market sizing.</span><span class="more">Details and demo +</span></button>
+      <button type="button" class="proj red" data-p="qp" aria-expanded="false"><span class="acr">Q-PROTECT</span><span class="exp">Quantum Platform Risk Observation through Embedded Company Tracking</span><span class="pd">A knowledge graph of firms, components and materials across five quantum-computing architectures, built on PostgreSQL and Neo4j with a planned GraphRAG layer.</span><span class="more">Details and demo +</span></button>
+    </div>
 
-                    <div class="skills-card">
-                        <h3>Methods &amp; Tools</h3>
-                        <div class="skill-group">
-                            <h4>Optimization &amp; Decision Science</h4>
-                            <div class="skill-tags">
-                                <span>Deep RL (PPO, A2C, SAC, DQN, TD3)</span>
-                                <span>Dynamic Programming</span>
-                                <span>Constrained MDPs</span>
-                                <span>MILP</span>
-                                <span>Vehicle Routing</span>
-                                <span>Dynamic Pricing</span>
-                                <span>Gurobi</span>
-                                <span>Stable-Baselines3</span>
-                                <span>Gymnasium</span>
-                            </div>
-                        </div>
-                        <div class="skill-group">
-                            <h4>AI Systems &amp; NLP</h4>
-                            <div class="skill-tags">
-                                <span>Agentic &amp; Multi-Agent Systems</span>
-                                <span>RAG &amp; GraphRAG</span>
-                                <span>Hybrid Retrieval</span>
-                                <span>Knowledge Graphs</span>
-                                <span>Entity Resolution</span>
-                                <span>Transformer Fine-Tuning</span>
-                                <span>Vector Search</span>
-                                <span>LangGraph</span>
-                                <span>Hugging Face</span>
-                                <span>Local LLMs</span>
-                            </div>
-                        </div>
-                        <div class="skill-group">
-                            <h4>Programming &amp; Frameworks</h4>
-                            <div class="skill-tags">
-                                <span>Python</span>
-                                <span>SQL</span>
-                                <span>Cypher</span>
-                                <span>PyTorch</span>
-                                <span>TensorFlow</span>
-                                <span>Scikit-learn</span>
-                                <span>XGBoost</span>
-                                <span>CatBoost</span>
-                                <span>SHAP</span>
-                                <span>NetworkX</span>
-                                <span>SUMO</span>
-                                <span>Git</span>
-                                <span>LaTeX</span>
-                            </div>
-                        </div>
-                        <div class="skill-group">
-                            <h4>Data &amp; Infrastructure</h4>
-                            <div class="skill-tags">
-                                <span>Neo4j</span>
-                                <span>Amazon Neptune</span>
-                                <span>FAISS</span>
-                                <span>Pinecone</span>
-                                <span>ChromaDB</span>
-                                <span>Docker</span>
-                                <span>AWS (S3, EC2, SageMaker)</span>
-                                <span>Anthropic API</span>
-                                <span>OpenAI API</span>
-                                <span>Ollama</span>
-                                <span>Power BI</span>
-                                <span>Tableau</span>
-                            </div>
-                        </div>
-                    </div>
+    <div class="pdetail" id="p-masis" data-lvl="plain" hidden>
+      <div class="ptop"><h3>MASIS: Multi-Agent Supplier Intelligence System</h3><div class="lvl" role="group" aria-label="Explanation level"><span>Explain it:</span><button type="button" data-l="plain" class="on">Plainly</button><button type="button" data-l="tech">Technically</button></div></div>
+      <div class="tags"><span>Multi-Agent Orchestration</span><span>LangGraph</span><span>Hybrid 3-Tier Routing</span><span>Knowledge Graphs</span><span>Bounded Verification</span></div>
+      <div class="plain"><h4>The problem</h4><p>A procurement team's knowledge is scattered: contracts in one system, spend in another, supplier relationships in a third. Answering one real question, such as "who are we single-sourced with and out of contract?", means logging into several tools and stitching the answers together by hand. MASIS lets you ask in plain English and does the stitching for you, and it can show its work.</p></div>
+      <div class="tech"><h4>The approach</h4><p>MASIS orchestrates six databases across three modalities (vector, SQL, graph) through a five-stage agentic pipeline. A hybrid 3-tier router (LLM reasoning, then embedding similarity, then domain heuristics) decides which sources a question needs, and bounded verification loops gate the answer on correctness and provenance before synthesis. It serves both human users and other AI agents, and consolidates prior in-house research (spend categorization, text-to-SQL, RFx retrieval) into one orchestrated layer, benchmarked across five enterprise retrieval architectures on 80 curated queries.</p></div>
+      <h4>Why it matters</h4>
+      <ul class="bul"><li>One natural-language interface over vector, relational and graph sources, with no tool-switching or manual reconciliation.</li><li>Bounded verification gates answers on correctness and provenance, which is essential for high-stakes procurement decisions.</li><li>Serves both people and other agents, turning siloed prior work into one reusable intelligence layer.</li></ul>
+      <div class="demo" id="masis-demo">
+      <h3>Try it</h3>
+      <div class="masis-questions" id="masis-questions"></div>
+      <div class="masis-pipeline" id="masis-pipeline" aria-label="Agentic pipeline stages">
+        <div class="masis-stage">Plan</div><div class="masis-stage">Route</div><div class="masis-stage">Retrieve</div><div class="masis-stage">Verify</div><div class="masis-stage">Synthesize</div>
+      </div>
+      <div class="masis-sources" id="masis-sources">
+        <span class="masis-src" data-src="vector">Vector: RFx and contracts</span>
+        <span class="masis-src" data-src="sql">SQL: spend and pricing</span>
+        <span class="masis-src" data-src="graph">Graph: supplier network</span>
+      </div>
+      <div class="masis-answer" id="masis-answer" aria-live="polite">Choose a question above.</div>
+      <p class="demo-note">Illustrative orchestration with canned questions and answers, not a live database connection.</p>
+    </div>
+    </div>
 
-                    <div class="languages-card">
-                        <h3>Languages</h3>
-                        <div class="language-item">
-                            <span class="language-name">English</span>
-                            <span class="language-level">Native</span>
-                        </div>
-                        <div class="language-item">
-                            <span class="language-name">Japanese</span>
-                            <span class="language-level">Intermediate</span>
-                        </div>
-                        <div class="language-item">
-                            <span class="language-name">Spanish</span>
-                            <span class="language-level">Basic</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="pdetail" id="p-marlin" data-lvl="plain" hidden>
+      <div class="ptop"><h3>MARLIN: Deep RL for inland freight pricing</h3><div class="lvl" role="group" aria-label="Explanation level"><span>Explain it:</span><button type="button" data-l="plain" class="on">Plainly</button><button type="button" data-l="tech">Technically</button></div></div>
+      <div class="tags"><span>Deep RL</span><span>Constrained MDPs</span><span>PPO</span><span>A2C</span><span>SAC</span><span>DQN</span><span>TD3</span><span>Dynamic Pricing</span><span>Ensemble ML</span></div>
+      <div class="plain"><h4>The problem</h4><p>Barges are a cheap, low-carbon way to move freight, but only if they run full and on time. Price too high and containers go to trucks; price too low and you leave money on the table and still have to cover fixed costs. The right price changes week to week with demand, weather and how much capacity is already committed. MARLIN learns a pricing policy that adapts to those conditions automatically, instead of relying on a fixed markup that is wrong most of the time.</p></div>
+      <div class="tech"><h4>The approach</h4><p>Pricing and routing are formulated as a finite-horizon constrained Markov decision process. The state captures committed load, remaining capacity, service-time slack and demand signals; the action sets a price (and allocation) each week; the reward is discounted profit subject to capacity, dwell and service-time constraints. I implement and benchmark value-based and actor-critic algorithms (PPO, A2C, SAC, DQN and TD3) against an operationally grounded, sponsor-calibrated cost model and a transparent shadow-price (cost-plus) baseline.</p></div>
+      <h4>What the learned policy does</h4>
+      <ul class="bul"><li>In soft demand, it prices below cost-plus to win volume and fill scarce capacity that would otherwise sail empty.</li><li>In strong demand, it holds price above cost-plus, capturing willingness to pay instead of underselling committed capacity.</li><li>It respects the shared capacity constraint. Tightening fixed hours reshapes the policy, and some algorithms degrade more gracefully than others under stress.</li></ul>
+      <div class="demo" id="marlin-demo">
+      <h3>Try it</h3>
+      <svg viewBox="0 0 640 320" role="img" aria-label="Price versus demand chart comparing a learned policy against a cost-plus baseline">
+        <g id="mk-grid"></g>
+        <line class="mk-axis" x1="56" y1="20" x2="56" y2="270"></line>
+        <line class="mk-axis" x1="56" y1="270" x2="616" y2="270"></line>
+        <path id="mk-baseline" class="mk-baseline"></path>
+        <path id="mk-learned" class="mk-learned"></path>
+        <line id="mk-marker" class="mk-marker" y1="20" y2="270"></line>
+        <circle id="mk-dot-base" class="mk-dot-baseline" r="4"></circle>
+        <circle id="mk-dot-learn" class="mk-dot-learned" r="5"></circle>
+        <text class="mk-label" x="330" y="298" text-anchor="middle">Demand for the sailing</text>
+        <text class="mk-label" x="16" y="150" transform="rotate(-90 16 150)" text-anchor="middle">Price $/TEU</text>
+        <line x1="400" y1="28" x2="418" y2="28" class="mk-learned"></line>
+        <text class="mk-legend" x="424" y="32">Learned policy</text>
+        <line x1="400" y1="46" x2="418" y2="46" class="mk-baseline"></line>
+        <text class="mk-legend" x="424" y="50">Cost-plus baseline</text>
+      </svg>
+      <div class="demo-controls">
+        <label for="mk-slider">Demand</label>
+        <input type="range" id="mk-slider" min="0" max="100" value="50">
+        <span id="mk-demand-label" class="caption" style="min-width:3ch">50%</span>
+      </div>
+      <div class="demo-readout">
+        <div class="demo-stat"><span class="k">Learned price</span><span class="v accent" id="mk-learn-price">-</span></div>
+        <div class="demo-stat"><span class="k">Cost-plus price</span><span class="v" id="mk-base-price">-</span></div>
+        <div class="demo-stat"><span class="k">Expected-profit uplift</span><span class="v accent" id="mk-uplift">-</span></div>
+      </div>
+      <p class="demo-note">Illustrative model, not the paper's calibrated results. The learned policy discounts into soft demand to fill capacity and holds price into strong demand to capture value.</p>
+    </div>
+    </div>
 
-    <!-- News Section -->
-    <section id="news" class="section news">
-        <div class="container">
-            <h2 class="section-title">Recent</h2>
-            <p class="section-intro">Talks, papers, and milestones from the last few months.</p>
+    <div class="pdetail" id="p-qp" data-lvl="plain" hidden>
+      <div class="ptop"><h3>Q-PROTECT: mapping quantum hardware supply chains</h3><div class="lvl" role="group" aria-label="Explanation level"><span>Explain it:</span><button type="button" data-l="plain" class="on">Plainly</button><button type="button" data-l="tech">Technically</button></div></div>
+      <div class="tags"><span>Knowledge Graphs</span><span>Trade-Flow Analysis</span><span>Patent / CPC Linkage</span><span>Scenario Stress-Testing</span><span>Local LLMs</span></div>
+      <div class="plain"><h4>The problem</h4><p>Quantum computers are built from exotic materials, some of which come from just one or two places in the world. If any of those inputs is disrupted, whole families of quantum hardware could stall. Today almost nobody has a clear, company-by-company picture of who depends on what. Q-PROTECT builds that picture so the fragile points are visible in advance, across superconducting, ion-trap and photonic ecosystems.</p></div>
+      <div class="tech"><h4>The approach</h4><p>I map supply networks in emerging quantum computing using self-hosted search, local language models and provenance-aware property graphs. The graph is auditable: every edge carries provenance, so chokepoints and single-source dependencies can be traced back to the evidence that established them.</p></div>
+      <h4>Four pillars</h4>
+      <ul class="bul"><li><strong>Firm-network expansion:</strong> grow the entity set from a seed of about 160 to 500+ companies across the ecosystem.</li><li><strong>Patent and CPC linkage:</strong> connect materials and components to the qubit architectures that rely on them.</li><li><strong>Trade-flow analysis:</strong> transaction-level import and export evidence to see where inputs actually move.</li><li><strong>Scenario stress-testing:</strong> remove or constrain critical inputs and trace the cascade through the network.</li></ul>
+      <div class="demo" id="qp-demo">
+      <h3>Try it</h3>
+      <svg id="qp-svg" viewBox="0 0 660 380" role="img" aria-label="Interactive dependency graph between quantum hardware materials and qubit platforms">
+        <text class="qp-col-label" x="40" y="40">Critical materials</text>
+        <text class="qp-col-label" x="470" y="40">Qubit platforms</text>
+        <g id="qp-edges"></g>
+        <g id="qp-nodes"></g>
+      </svg>
+      <div class="demo-controls">
+        <button type="button" class="demo-btn" id="qp-reset">Reset</button>
+        <span id="qp-status" class="caption" aria-live="polite">No disruptions. All platforms nominal.</span>
+      </div>
+      <p class="demo-note">Illustrative dependency map, a simplified public-domain sketch. It is not Q-PROTECT's firm-level graph or data.</p>
+    </div>
+    </div>
+  </div>
+</section>
 
-            <ul class="news-list">
-                <li class="news-item">
-                    <span class="news-date">Jul 2026</span>
-                    <div class="news-body">
-                        <p class="news-headline">Presented the <strong>MARLIN</strong> deep-RL poster at the INFORMS TSL Conference, MIT</p>
-                        <p class="news-detail">Also served as an invited instructor for MIT CTL's executive program, <em>The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders</em>.</p>
-                    </div>
-                </li>
-                <li class="news-item">
-                    <span class="news-date">Jul 2026</span>
-                    <div class="news-body">
-                        <p class="news-headline">Session chair &amp; presenter at the World Conference on Transport Research (WCTR 2026), Toulouse</p>
-                        <p class="news-detail">Presented drop-trailer analytics and freight decarbonization work; invited to submit an extended manuscript to <em>Transportation Research Record</em>.</p>
-                    </div>
-                </li>
-                <li class="news-item">
-                    <span class="news-date">Jun 2026</span>
-                    <div class="news-body">
-                        <p class="news-headline">New paper under review: <em>Agentic Generative AI for Procurement Intelligence</em></p>
-                        <p class="news-detail">Submitted to the <em>International Journal of Production Research</em> special issue on the Agentic Supply Chain.</p>
-                    </div>
-                </li>
-                <li class="news-item">
-                    <span class="news-date">Mar 2026</span>
-                    <div class="news-body">
-                        <p class="news-headline">Spoke on AI-powered automation in ports at the Rutgers DIMACS workshop</p>
-                    </div>
-                </li>
-                <li class="news-item">
-                    <span class="news-date">Jan 2026</span>
-                    <div class="news-body">
-                        <p class="news-headline">Presented barge market-sizing research at the TRB Annual Meeting, Washington, DC</p>
-                    </div>
-                </li>
-                <li class="news-item">
-                    <span class="news-date">Dec 2025</span>
-                    <div class="news-body">
-                        <p class="news-headline">Presented <em>From Silos to Agentic Systems</em> at the MIT CTL Agentic AI Roundtable</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
+<section id="publications">
+  <div class="wrap">
+    <div class="sec-head"><h2>Publications</h2></div>
 
-    <!-- Research Section -->
-    <section id="research" class="section research">
-        <div class="container">
-            <h2 class="section-title">Research</h2>
-            <p class="section-intro">
-                As a PhD researcher at MIT's Deep Knowledge Lab, I work at the intersection of agentic AI,
-                reinforcement learning, and supply chain visibility — with active sponsor engagements in
-                healthcare procurement and quantum hardware ecosystems.
-            </p>
+    <h4>Refereed journal articles</h4>
+    <ul class="pubs" style="margin-top:8px">
+      <li class="pub"><span class="year">2026</span><div><h3>Fast Barge, Smart Prices: Deep Reinforcement Learning for Mississippi Container Service<span class="badge pub-ok">Published</span></h3><p class="meta">A. Carroll. Annals of Operations Research, Special Issue on Innovations in Maritime and Port Logistics</p></div></li>
+      <li class="pub"><span class="year">2026</span><div><h3>A Multi-Filter Market-Sizing Framework for Mississippi River Containerized Freight: Assessing Serviceable Obtainable Demand through Ensemble Machine Learning<span class="badge pub-ok">Published</span></h3><p class="meta">A. Carroll and E. Dugundji. Transportation Research Record</p></div></li>
+    </ul>
 
-            <!-- Featured Projects -->
-            <div class="research-featured">
-                <article class="research-feature is-flagship">
-                    <p class="research-feature-tag">Featured · Agentic Procurement Intelligence</p>
-                    <h3>MASIS — Multi-Agent Supplier Intelligence System</h3>
-                    <p class="research-feature-subtitle">Sponsored research with a global healthcare conglomerate</p>
-                    <p>
-                        A 5-stage agentic pipeline — Plan, Route, Retrieve, Verify, Synthesize — that orchestrates
-                        six databases across three modalities (vector, SQL, graph) under a single natural-language
-                        interface. Hybrid 3-tier routing (LLM reasoning → embedding similarity → domain heuristics)
-                        with bounded verification loops enables cross-source procurement queries that previously
-                        required three separate tools and manual reconciliation.
-                    </p>
-                    <p>
-                        The system serves both human users and other AI agents, turning years of prior in-house
-                        research (spend categorization, text-to-SQL, RFx RAG) into one orchestrated intelligence layer —
-                        benchmarked across five enterprise retrieval architectures on exact-match accuracy, F1,
-                        multi-source recall, abstention, latency, and cache performance.
-                    </p>
-                    <div class="research-feature-refs">
-                        <span class="refs-label">Related work</span>
-                        <ul>
-                            <li>Agentic Generative AI for Procurement Intelligence: A Source-Routing Evaluation — <em>Int. Journal of Production Research</em> (under review)</li>
-                            <li>Performance Engineering of Retrieval Architectures for Enterprise Supply-Chain QA — <em>IEEE HPEC</em> (under review)</li>
-                        </ul>
-                    </div>
-                    <div class="research-feature-tags">
-                        <span>Multi-Agent Orchestration</span>
-                        <span>LangGraph</span>
-                        <span>Hybrid Routing</span>
-                        <span>Knowledge Graphs</span>
-                    </div>
-                    <a class="research-feature-link" href="research/masis.html">Explore MASIS — with an interactive routing demo <i class="fas fa-arrow-right"></i></a>
-                </article>
+    <h4>Under review</h4>
+    <ul class="pubs" style="margin-top:8px">
+      <li class="pub"><span class="year">2026</span><div><h3>When Does Misreporting Pay? Strategic Recovery Notices, Backup Commitments, and Supplier Incentives<span class="badge rev">Under review</span></h3><p class="meta">A. Carroll and Z. Li. Transportation Research Part E. Submitted November 2026</p></div></li>
+      <li class="pub"><span class="year">2026</span><div><h3>Learning-Assisted Freight Stress Testing: When Disruption Search Changes Mitigation Decisions<span class="badge rev">Under review</span></h3><p class="meta">A. Carroll, N. Aristov and Z. Li. Transportation Research Interdisciplinary Perspectives. Submitted October 2026</p></div></li>
+      <li class="pub"><span class="year">2026</span><div><h3>Optimizing Drop Trailer Networks: Does Better Forecasting Lead to Better Trailer Pools?<span class="badge rev">Under review</span></h3><p class="meta">A. Carroll, T. Egar, T. Koch and E. Dugundji. Transportation Research Record. Submitted September 2026</p></div></li>
+      <li class="pub"><span class="year">2026</span><div><h3>Agentic Generative AI for Procurement Intelligence: A Source-Routing Evaluation<span class="badge rev">Under review</span></h3><p class="meta">A. Carroll and E. Dugundji. International Journal of Production Research, Special Issue on The Agentic Supply Chain. Submitted June 2026</p></div></li>
+    </ul>
 
-                <article class="research-feature">
-                    <p class="research-feature-tag">Featured · Reinforcement Learning</p>
-                    <h3>MARLIN — Maritime Adaptive Reinforcement Learning for Inland Networks</h3>
-                    <p class="research-feature-subtitle">Constrained-MDP pricing &amp; routing for Mississippi container barge service</p>
-                    <p>
-                        Constrained Markov decision processes and stochastic simulators for containerized barge
-                        pricing and routing — implementing and benchmarking value-based and actor-critic methods
-                        (PPO, A2C, SAC, DQN, TD3) under capacity, service-time, and cost constraints. Paired with
-                        ensemble market-sizing across 12,587 freight lanes (XGBoost, CatBoost, SHAP) quantifying
-                        serviceable demand under 2030, 2035, and 2040 scenarios.
-                    </p>
-                    <div class="research-feature-refs">
-                        <span class="refs-label">Related work</span>
-                        <ul>
-                            <li>Fast Barge, Smart Prices: Deep RL for Mississippi Container Service — <em>Annals of Operations Research</em> (in revision)</li>
-                            <li>A Multi-Filter Market-Sizing Framework — <em>Transportation Research Record</em> (in revision)</li>
-                        </ul>
-                    </div>
-                    <div class="research-feature-tags">
-                        <span>Deep RL</span>
-                        <span>Constrained MDPs</span>
-                        <span>Ensemble ML</span>
-                        <span>Dynamic Pricing</span>
-                    </div>
-                    <a class="research-feature-link" href="research/marlin.html">Explore MARLIN — try the live pricing demo <i class="fas fa-arrow-right"></i></a>
-                </article>
+    <h4>Refereed conference papers</h4>
+    <ul class="pubs" style="margin-top:8px">
+      <li class="pub"><span class="year">2026</span><div><h3>Performance Engineering of Retrieval Architectures for Enterprise Supply-Chain Question Answering</h3><p class="meta">A. Carroll and E. Dugundji. IEEE High Performance Extreme Computing Conference (HPEC), September 2026</p></div></li>
+      <li class="pub"><span class="year">2025</span><div><h3>Enhancing Sentiment Classification of E-commerce Reviews for Actionable Insights Using Large Language Models</h3><p class="meta">K. Power and A. Carroll. IEEE HPEC (virtual), September 2025</p></div></li>
+      <li class="pub"><span class="year">2024</span><div><h3>Drop Trailer Forecasting in Volatile Networks</h3><p class="meta">A. Carroll, T. Egar, T. Koch and E. Dugundji. Procedia Computer Science, Elsevier. 15th International Conference on Ambient Systems, Networks and Technologies (ANT), April 2024</p></div></li>
+    </ul>
 
-                <article class="research-feature">
-                    <p class="research-feature-tag">Featured · Quantum Supply Chains</p>
-                    <h3>Q-PROTECT — Quantum Platform Risk Observation through Embedded Company Tracking</h3>
-                    <p class="research-feature-subtitle">MIT CTL — firm-level supply-network research</p>
-                    <p>
-                        The first firm-level, multi-platform map of quantum hardware supply chain dependencies
-                        across superconducting, ion-trap, and photonic qubit ecosystems. A four-pillar methodology
-                        combines firm-network expansion (~160 → 500+ entities), patent and CPC-code linkage of
-                        materials to qubit architectures, transaction-level trade-flow analysis (Panjiva, ManifestDB,
-                        USITC), and scenario-based stress testing on critical inputs.
-                    </p>
-                    <p>
-                        The work surfaces single-point failure nodes for materials like helium-3, niobium, nonlinear
-                        crystals, and rare earths — building the visibility policymakers need before the next
-                        disruption, not after.
-                    </p>
-                    <div class="research-feature-tags">
-                        <span>Quantum Supply Chains</span>
-                        <span>Trade-Flow Analysis</span>
-                        <span>Scenario Modeling</span>
-                        <span>Provenance Graphs</span>
-                    </div>
-                    <a class="research-feature-link" href="research/qprotect.html">Explore Q-PROTECT — try the disruption simulator <i class="fas fa-arrow-right"></i></a>
-                </article>
-            </div>
+    <h4>Working papers</h4>
+    <ul class="pubs" style="margin-top:8px">
+      <li class="pub"><span class="year">2026</span><div><h3>Pricing the Release of Emergency Backup Capacity<span class="badge rev">In progress</span></h3></div></li>
+      <li class="pub"><span class="year">2026</span><div><h3>Consumer Demand Shocks and Distribution Network Design: The Freight Impact of GLP-1 Medications on Packaged Food<span class="badge rev">In progress</span></h3></div></li>
+    </ul>
 
-            <!-- Supporting Areas -->
-            <p class="research-supporting-title">Supporting Research Areas</p>
-            <div class="research-areas">
-                <div class="research-card">
-                    <div class="research-icon">
-                        <i class="fas fa-diagram-project"></i>
-                    </div>
-                    <h3>Procurement Knowledge Graphs</h3>
-                    <p>
-                        Tier-1 hyperscaler collaboration on agentic bill-of-materials knowledge graphs that produce
-                        reproducible, joinable parameter tables for downstream optimization — bridging unstructured
-                        documents and structured decision models.
-                    </p>
-                </div>
+    <h4>Other</h4>
+    <ul class="pubs" style="margin-top:8px">
+      <li class="pub"><span class="year">2025</span><div><h3>Drop Trailer Management in Volatile Networks</h3><p class="meta">A. Carroll, T. Egar, T. Koch and E. Dugundji. Supply Chain Management Review, June 25, 2025</p></div></li>
+    </ul>
+  </div>
+</section>
 
-                <div class="research-card">
-                    <div class="research-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>LLMs for Review Mining &amp; Sentiment</h3>
-                    <p>
-                        Transformer fine-tuning and large language models for sentiment classification of
-                        e-commerce reviews, turning unstructured customer feedback into actionable operational
-                        insight — presented at IEEE HPEC.
-                    </p>
-                </div>
+<section id="talks">
+  <div class="wrap">
+    <div class="sec-head"><h2>Talks</h2></div>
+    <ul class="teach">
+      <li><span class="when">Sep 2026</span><div><span class="role">Performance Engineering of Retrieval Architectures for Enterprise Supply-Chain Question Answering</span><span class="note">IEEE HPEC</span></div></li>
+      <li><span class="when">Jul 2026</span><div><span class="role">Optimizing Drop Trailer Networks: Advanced Analytics for Efficient Supply Chains</span><span class="note">World Conference on Transport Research (WCTR), Toulouse, France. Session chair and presenter. Invited to submit an extended manuscript to Transportation Research Record.</span></div></li>
+      <li><span class="when">Jul 2026</span><div><span class="role">Strategic Investments in Freight Decarbonization: Quantifying the Benefits of Zero-Emission Corridor Deployment and Strategic Rail Modal Shifts</span><span class="note">WCTR, Toulouse, France</span></div></li>
+      <li><span class="when">Jul 2026</span><div><span class="role">Deep Reinforcement Learning for Mississippi Container Service</span><span class="note">Poster, INFORMS Transportation Science and Logistics Society Conference, MIT</span></div></li>
+      <li><span class="when">Jul 2026</span><div><span class="role">The Price is Right: Deep Reinforcement Learning for Dynamic Pricing in Freight Markets</span><span class="note">The AI-Driven Supply Chain, MIT. Invited instructor.</span></div></li>
+      <li><span class="when">Jul 2026</span><div><span class="role">Review Mining with Transformers and LLMs</span><span class="note">The AI-Driven Supply Chain, MIT. Invited instructor.</span></div></li>
+      <li><span class="when">Mar 2026</span><div><span class="role">AI-Powered Automation in Ports</span><span class="note">Workshop on AI-Powered Automation in Ports, Rutgers DIMACS Center, Piscataway, NJ</span></div></li>
+      <li><span class="when">Jan 2026</span><div><span class="role">Assessing the Total Addressable Market of Barge Service on the Mississippi River</span><span class="note">Transportation Research Board Annual Meeting, Washington, DC</span></div></li>
+      <li><span class="when">Dec 2025</span><div><span class="role">From Silos to Agentic Systems: Leveraging Agentic AI for Supplier Intelligence</span><span class="note">MIT CTL Agentic AI Roundtable</span></div></li>
+      <li><span class="when">Mar 2025</span><div><span class="role">Advanced Analytics for Efficient Supply Chains</span><span class="note">7th Interdisciplinary Conference on Production, Logistics and Traffic, Darmstadt, Germany</span></div></li>
+      <li><span class="when">Jan 2024</span><div><span class="role">Drop Trailer Management in Volatile Networks</span><span class="note">SCALE Expo, MIT</span></div></li>
+    </ul>
+  </div>
+</section>
 
-                <div class="research-card">
-                    <div class="research-icon">
-                        <i class="fas fa-shield-halved"></i>
-                    </div>
-                    <h3>Governance &amp; Auditability</h3>
-                    <p>
-                        Deterministic ingestion pipelines with agent-assisted extraction, read-only query
-                        architectures with strict access controls, and evaluation frameworks that assess
-                        correctness, latency, and provenance for high-stakes enterprise deployment.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="teaching">
+  <div class="wrap">
+    <div class="sec-head"><h2>Teaching</h2></div>
+    <ul class="teach">
+      <li><span class="when">July 2026</span><div><span class="role">Instructor.</span> The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders, MIT</div></li>
+      <li><span class="when">Spring 2026</span><div><span class="role">Teaching Assistant.</span> SCM.256 Data Science and Machine Learning for Supply Chain Management</div></li>
+      <li><span class="when">Jul to Dec 2025</span><div><span class="role">Research Mentor.</span> GCLOG capstone, MIT CTL<span class="note">Guided problem formulation, pricing models and empirical analysis for the student paper "Monetizing Modal Innovation: Pricing Next-Generation Barge Services."</span></div></li>
+      <li><span class="when">July 2025</span><div><span class="role">Teaching Assistant.</span> AI in Supply Chain and Logistics Management, MIT CTL Summer School</div></li>
+      <li><span class="when">Spring 2025</span><div><span class="role">Industry Partner Project Sponsor.</span> SCM.256 Data Science and Machine Learning for Supply Chain Management</div></li>
+    </ul>
+  </div>
+</section>
 
-    <!-- Publications & Academic Work Section -->
-    <section id="publications" class="section publications">
-        <div class="container">
-            <h2 class="section-title">Publications &amp; Academic Work</h2>
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><h2>Experience</h2></div>
 
-            <!-- Journal Articles Under Review -->
-            <div class="publication-category">
-                <h3 class="category-title"><i class="fas fa-book"></i> Journal Articles Under Review</h3>
-                <div class="publication-list">
-                    <div class="publication-item in-progress">
-                        <div class="publication-type">Under Review</div>
-                        <h4 class="publication-title">Agentic Generative AI for Procurement Intelligence: A Source-Routing Evaluation</h4>
-                        <p class="publication-venue">Carroll, A., &amp; Dugundji, E. · International Journal of Production Research — Special Issue on The Agentic Supply Chain</p>
-                        <p class="publication-date">Submitted June 2026</p>
-                    </div>
+    <h4>Education</h4>
+    <ul class="teach" style="margin-top:8px">
+      <li><span class="when">2026 to present</span><div><span class="role">PhD in Transportation</span><span class="note">Massachusetts Institute of Technology</span></div></li>
+      <li><span class="when">2025 to 2026</span><div><span class="role">MS in Transportation</span><span class="note">Massachusetts Institute of Technology</span></div></li>
+      <li><span class="when">2023 to 2024</span><div><span class="role">Master of Applied Science in Supply Chain Management</span><span class="note">Massachusetts Institute of Technology</span></div></li>
+      <li><span class="when">2021 to 2023</span><div><span class="role">MBA</span><span class="note">University of Illinois at Urbana-Champaign</span></div></li>
+      <li><span class="when">2011 to 2016</span><div><span class="role">BA</span><span class="note">The University of Texas at Austin</span></div></li>
+    </ul>
 
-                    <div class="publication-item in-progress">
-                        <div class="publication-type">In Revision</div>
-                        <h4 class="publication-title">A Multi-Filter Market-Sizing Framework for Mississippi River Containerized Freight: Assessing Serviceable Obtainable Demand through Ensemble Machine Learning</h4>
-                        <p class="publication-venue">Carroll, A., &amp; Dugundji, E. · Transportation Research Record</p>
-                        <p class="publication-date">Submitted March 2026</p>
-                    </div>
+    <h4>Research</h4>
+    <ul class="teach" style="margin-top:8px">
+      <li><span class="when">2025 to present</span><div><span class="role">Research Assistant and Doctoral Researcher</span><span class="note">MIT Center for Transportation and Logistics</span>
+        <ul>
+          <li>Formulated constrained Markov decision processes and stochastic simulators for freight pricing and routing, and evaluated PPO, A2C, SAC, DQN and TD3 under capacity, service-time and cost constraints.</li>
+          <li>Built adversarial reinforcement-learning and conventional disruption-search workflows for freight resilience, and tested how stress scenarios change mitigation investments on separate validation and test demand paths.</li>
+          <li>Estimated TAM, SAM and SOM for Mississippi River container-on-barge service with machine-learning forecasting under geographic, commodity, equipment and capture-rate constraints.</li>
+          <li>Benchmarked five enterprise retrieval architectures on hundreds of curated queries and built agentic procurement workflows over RFx documents, contracts, spend data and supplier records.</li>
+          <li>Developing Q-PROTECT, a knowledge graph with claim-evidence validation to support traceable supply-chain analysis.</li>
+        </ul></div></li>
+    </ul>
 
-                    <div class="publication-item in-progress">
-                        <div class="publication-type">In Revision</div>
-                        <h4 class="publication-title">Fast Barge, Smart Prices: Deep Reinforcement Learning for Mississippi Container Service</h4>
-                        <p class="publication-venue">Carroll, A. · Annals of Operations Research — Special Issue on Innovations in Maritime and Port Logistics</p>
-                        <p class="publication-date">Submitted January 2026</p>
-                    </div>
-                </div>
-            </div>
+    <h4>Industry</h4>
+    <ul class="teach" style="margin-top:8px">
+      <li><span class="when">Jun 2024 to Aug 2025</span><div><span class="role">Senior Operations Manager, Amazon Logistics</span><span class="note">Tokyo, Japan</span>
+        <ul>
+          <li>Raised throughput per labor hour 11% quarter over quarter across 300+ associates and 110,000+ daily packages, with the region's top-ranked site performance in Q3 and Q4.</li>
+          <li>Led an AI-driven sortation process that cut mis-sorts 9% and saves a projected 11,500 labor hours a year.</li>
+          <li>Streamlined inbound, sortation and pick workflows, improving work-in-process compliance 10% and contributing to a 5% gain in on-time outbound delivery.</li>
+          <li>Launched safety and productivity initiatives that cut incident rates 15% and raised employee engagement scores 22% from Q2 to Q4 2024.</li>
+          <li>Worked with academic partners and internal research teams on data-driven process improvement and applied machine learning.</li>
+        </ul></div></li>
+      <li><span class="when">Jan 2022 to Aug 2023</span><div><span class="role">Senior Analyst, Operations &amp; Analytics, Flock Freight</span><span class="note">San Diego, CA</span>
+        <ul>
+          <li>Managed the dynamic pricing model behind real-time quotes for over 60% of revenue.</li>
+          <li>Improved costing accuracy by 10% MAPE, worth $6MM in annual cost savings and $4.2MM in gross profit, and helped launch the APE machine-learning pricing engine, cutting pricing labor hours 40%.</li>
+          <li>Built batch-rating quote automation for enterprise customers, removing the workload of four QA associates.</li>
+          <li>Directed daily pricing audits with Customer Success and Sales, using conversion, gross-profit and cost-savings data to shape customer-specific strategies.</li>
+        </ul></div></li>
+      <li><span class="when">Jun to Dec 2021</span><div><span class="role">Pricing Analyst, Acquisitions, Zillow</span><span class="note">Seattle, WA</span>
+        <ul>
+          <li>Led valuation of more than $200MM in residential real estate using internal and external datasets, financial models and risk analysis.</li>
+          <li>Led Austin and San Antonio market research with Tableau, Excel, SQL, Python and proprietary machine-learning tools.</li>
+          <li>Improved team valuation accuracy by 2.7% MAPE through outlier analysis in the sales funnel.</li>
+          <li>Executed five adopted proposals to revamp efficiency metrics, cutting case time per analyst 18%.</li></ul></div></li>
+      <li><span class="when">Feb 2017 to Jun 2021</span><div><span class="role">Pricing Analyst, Strategy, Arrive Logistics</span><span class="note">Austin, TX</span>
+        <ul>
+          <li>Built pricing programs that grew contract revenue 320% from January 2018 to January 2021.</li>
+          <li>Led multiple simultaneous deals ($1MM to $30MM), closing more than $150MM in revenue over the tenure.</li>
+          <li>Tracked industry trends and market dynamics to advise internal and enterprise stakeholders.</li></ul></div></li>
+    </ul>
+  </div>
+</section>
 
-            <!-- Conference Papers & Proceedings -->
-            <div class="publication-category">
-                <h3 class="category-title"><i class="fas fa-file-alt"></i> Conference Papers &amp; Proceedings</h3>
-                <div class="publication-list">
-                    <div class="publication-item in-progress">
-                        <div class="publication-type">Under Review</div>
-                        <h4 class="publication-title">Performance Engineering of Retrieval Architectures for Enterprise Supply-Chain Question Answering</h4>
-                        <p class="publication-venue">Carroll, A., &amp; Dugundji, E. · IEEE High Performance Extreme Computing Conference (Virtual)</p>
-                        <p class="publication-date">Submitted July 2026</p>
-                    </div>
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><h2>Skills and Service</h2></div>
+    <div class="skills">
+      <div class="skill"><h3>Optimization and transportation modeling</h3><p>Reinforcement learning (PPO, A2C, SAC, DQN, TD3, adversarial RL), dynamic programming, constrained MDPs, mixed-integer linear programming, network flows, vehicle routing, dynamic pricing, stochastic simulation, SUMO traffic microsimulation.</p></div>
+      <div class="skill"><h3>Machine learning and statistics</h3><p>XGBoost, CatBoost, ensembles, time-series forecasting, demand modeling, synthetic data, SHAP, geospatial and network analysis.</p></div>
+      <div class="skill"><h3>AI and knowledge systems</h3><p>Agentic and multi-agent systems, retrieval-augmented generation, GraphRAG, hybrid retrieval, knowledge graphs, entity resolution, transformers, local LLM deployment.</p></div>
+      <div class="skill"><h3>Programming and infrastructure</h3><p>Python (NumPy, Pandas, SciPy, scikit-learn, PyTorch, TensorFlow), SQL, Cypher, Git, LaTeX, Gurobi, Stable-Baselines3, Gymnasium, NetworkX, LangGraph, Neo4j, PostgreSQL, FAISS, Docker, AWS.</p></div>
+    </div>
+    <div class="cols" style="margin-top:32px">
+      <div><h4 style="margin-top:0">Service and community</h4>
+        <p>Session Chair, WCTR 2026 SIG B1: Supply Chain Management<br>MIT Science Policy Initiative, Executive Visit Days<br>Austin-Oita Sister City Committee<br>Japan Society of Boston<br>Keep Austin Beautiful</p></div>
+      <div><h4 style="margin-top:0">Memberships and languages</h4>
+        <p>INFORMS<br>World Conference on Transport Research Society<br>English (native), Japanese (intermediate), Spanish (basic)</p></div>
+    </div>
+  </div>
+</section>
 
-                    <div class="publication-item">
-                        <div class="publication-type">IEEE Conference Proceedings</div>
-                        <h4 class="publication-title">Enhancing Sentiment Classification of E-commerce Reviews for Actionable Insights Using Large Language Models</h4>
-                        <p class="publication-venue">Power, K., &amp; Carroll, A. · IEEE High Performance Extreme Computing Conference (Virtual)</p>
-                        <p class="publication-date">September 2025</p>
-                    </div>
+<section id="writing">
+  <div class="wrap">
+    <div class="sec-head"><h2>Writing</h2></div>
+    <p style="max-width:62ch;margin:0 0 20px">Essays, notes and posts outside the journals.</p>
+    <ul class="pubs">
+      <li class="pub"><span class="year">Year</span><div><h3>Your first piece goes here</h3><p class="meta">Placeholder. Send me the titles, dates and links and I will fill this list in.</p></div></li>
+    </ul>
+  </div>
+</section>
 
-                    <div class="publication-item">
-                        <div class="publication-type">Procedia Computer Science · Elsevier</div>
-                        <h4 class="publication-title">Drop Trailer Forecasting in Volatile Networks</h4>
-                        <p class="publication-venue">Carroll, A., Egar, T., Koch, T., &amp; Dugundji, E. · 15th International Conference on Ambient Systems, Networks and Technologies (ANT)</p>
-                        <p class="publication-date">April 2024</p>
-                    </div>
-                </div>
-            </div>
+<section id="miscellaneous">
+  <div class="wrap">
+    <div class="sec-head"><h2>Miscellaneous</h2></div>
+    <div class="small-projects">
+      <div><h3><a href="https://amcmit.github.io/retirement-planner/">Retirement Planner</a></h3><p class="caption" style="margin:4px 0 0">Browser calculator for tax-aware retirement withdrawal planning, US and Canada.</p></div>
+      <div><h3><a href="https://amcmit.github.io/sudoku/">Sudoku Versus</a></h3><p class="caption" style="margin:4px 0 0">Browser Sudoku game with real-time two-player racing.</p></div>
+    </div>
+  </div>
+</section>
 
-            <!-- Trade Publications & Capstone -->
-            <div class="publication-category">
-                <h3 class="category-title"><i class="fas fa-flask"></i> Trade Publications &amp; Capstone</h3>
-                <div class="publication-list">
-                    <div class="publication-item">
-                        <div class="publication-type">Supply Chain Management Review</div>
-                        <h4 class="publication-title">Drop Trailer Management in Volatile Networks</h4>
-                        <p class="publication-venue">Carroll, A., Egar, T., Koch, T., &amp; Dugundji, E. · Trade publication article</p>
-                        <p class="publication-date">June 2025</p>
-                    </div>
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><h2>Contact</h2></div>
+    <div class="contact">
+      <dl>
+        <dt>Email</dt><dd>alex629@mit.edu</dd>
+        <dt>Affiliation</dt><dd>MIT Center for Transportation &amp; Logistics, Deep Knowledge Lab, Cambridge, MA</dd>
+        <dt>Web</dt><dd><a href="https://amcmit.github.io/">amcmit.github.io</a></dd>
+        <dt>Profiles</dt><dd><a href="https://github.com/amcmit">GitHub</a>, <a href="https://www.linkedin.com/in/alex-carroll629/">LinkedIn</a></dd>
+      </dl>
+      <div class="callout">
+        <h3>Collaboration</h3>
+        <p>I am always interested in discussing research collaborations, industry partnerships and opportunities to advance supply chain innovation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
 
-                    <div class="publication-item">
-                        <div class="publication-type">MIT Capstone Research</div>
-                        <h4 class="publication-title">Drop Trailer Management in Volatile Networks</h4>
-                        <p class="publication-venue">MIT DSpace · Supply Chain Management Capstone</p>
-                        <p class="publication-date">May 2024</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Talks and Presentations -->
-            <div class="publication-category">
-                <h3 class="category-title"><i class="fas fa-microphone"></i> Talks &amp; Presentations</h3>
-                <div class="publication-list">
-                    <div class="publication-item">
-                        <div class="publication-type">Session Chair &amp; Presenter</div>
-                        <h4 class="publication-title">Optimizing Drop Trailer Networks: Advanced Analytics for Efficient Supply Chains</h4>
-                        <p class="publication-venue">World Conference on Transport Research (WCTR 2026), Toulouse, France · Invited to submit an extended manuscript to Transportation Research Record</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Presenter</div>
-                        <h4 class="publication-title">Strategic Investments in Freight Decarbonization: Quantifying the Benefits of Zero-Emission Corridor Deployment and Strategic Rail Modal Shifts</h4>
-                        <p class="publication-venue">World Conference on Transport Research (WCTR 2026), Toulouse, France</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Poster Session</div>
-                        <h4 class="publication-title">Deep Reinforcement Learning for Mississippi Container Service</h4>
-                        <p class="publication-venue">INFORMS Transportation Science and Logistics Society Conference, MIT, Cambridge, MA</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Invited Instructor</div>
-                        <h4 class="publication-title">The Price is Right: Deep Reinforcement Learning for Dynamic Pricing in Freight Markets</h4>
-                        <p class="publication-venue">The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders, MIT, Cambridge, MA</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Invited Instructor</div>
-                        <h4 class="publication-title">Review Mining with Transformers and LLMs</h4>
-                        <p class="publication-venue">The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders, MIT, Cambridge, MA</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Workshop Speaker</div>
-                        <h4 class="publication-title">AI-Powered Automation in Ports</h4>
-                        <p class="publication-venue">Workshop on AI-Powered Automation in Ports, Rutgers University DIMACS Center, Piscataway, NJ</p>
-                        <p class="publication-date">March 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Presenter</div>
-                        <h4 class="publication-title">Assessing the Total Addressable Market of Barge Service on the Mississippi River</h4>
-                        <p class="publication-venue">Transportation Research Board Annual Meeting (TRB 2026), Washington, DC</p>
-                        <p class="publication-date">January 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Presenter</div>
-                        <h4 class="publication-title">From Silos to Agentic Systems: Leveraging Agentic AI for Supplier Intelligence</h4>
-                        <p class="publication-venue">MIT CTL Agentic AI Roundtable</p>
-                        <p class="publication-date">December 2025</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Presenter</div>
-                        <h4 class="publication-title">Advanced Analytics for Efficient Supply Chains</h4>
-                        <p class="publication-venue">7th Interdisciplinary Conference on Production, Logistics and Traffic, Darmstadt, Germany</p>
-                        <p class="publication-date">March 2025</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Presenter</div>
-                        <h4 class="publication-title">Drop Trailer Management in Volatile Networks</h4>
-                        <p class="publication-venue">SCALE Expo, MIT</p>
-                        <p class="publication-date">January 2024</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Teaching Experience -->
-            <div class="publication-category">
-                <h3 class="category-title"><i class="fas fa-chalkboard-teacher"></i> Teaching</h3>
-                <div class="publication-list">
-                    <div class="publication-item">
-                        <div class="publication-type">Instructor</div>
-                        <h4 class="publication-title">The AI-Driven Supply Chain: Advanced Training for Next-Gen Leaders</h4>
-                        <p class="publication-venue">MIT Center for Transportation &amp; Logistics</p>
-                        <p class="publication-date">July 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Teaching Assistant</div>
-                        <h4 class="publication-title">SCM.256 Data Science and Machine Learning for Supply Chain Management</h4>
-                        <p class="publication-venue">MIT Center for Transportation &amp; Logistics</p>
-                        <p class="publication-date">Spring 2026</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Research Mentor</div>
-                        <h4 class="publication-title">GCLOG Capstone: Monetizing Modal Innovation — Pricing Next-Generation Barge Services</h4>
-                        <p class="publication-venue">MIT CTL — technical and methodological guidance on problem formulation, pricing models, and empirical analysis</p>
-                        <p class="publication-date">July – December 2025</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Teaching Assistant</div>
-                        <h4 class="publication-title">AI in Supply Chain and Logistics Management</h4>
-                        <p class="publication-venue">MIT CTL Summer School</p>
-                        <p class="publication-date">July 2025</p>
-                    </div>
-
-                    <div class="publication-item">
-                        <div class="publication-type">Industry Partner Project Sponsor</div>
-                        <h4 class="publication-title">SCM.256 Data Science and Machine Learning for Supply Chain Management</h4>
-                        <p class="publication-venue">MIT Center for Transportation &amp; Logistics</p>
-                        <p class="publication-date">Spring 2025</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="section experience">
-        <div class="container">
-            <h2 class="section-title">Experience</h2>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Senior Operations Manager, Amazon Logistics</h3>
-                            <span class="timeline-company">Amazon</span>
-                            <span class="timeline-location">Tokyo, Japan</span>
-                        </div>
-                        <div class="timeline-date">Jun 2024 – Aug 2025</div>
-                        <ul class="timeline-details">
-                            <li>Increased throughput per labor hour by 11% quarter over quarter, led daily processing of 110,000+ packages across 300+ associates, and achieved the region's highest-ranked site performance in Q3 and Q4</li>
-                            <li>Directed implementation of an AI-driven sortation process — reduced mis-sorts by 9% and saved a projected 11,500 labor hours annually across multiple cycle shifts</li>
-                            <li>Streamlined inbound, sortation, and pick workflows — improved work-in-process compliance by 10% and contributed to a 5% improvement in on-time outbound delivery performance</li>
-                            <li>Launched safety and productivity initiatives that reduced incident rates by 15% and increased employee engagement scores by 22% from Q2 to Q4 2024</li>
-                            <li>Collaborated with academic partners and internal research teams on data-driven process improvement and applied machine learning initiatives</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Senior Analyst — Operations &amp; Analytics</h3>
-                            <span class="timeline-company">Flock Freight</span>
-                            <span class="timeline-location">San Diego, CA</span>
-                        </div>
-                        <div class="timeline-date">Jan 2022 – Aug 2023</div>
-                        <ul class="timeline-details">
-                            <li>Managed dynamic pricing model providing real-time quoting for 60%+ of company revenue</li>
-                            <li>Improved costing model accuracy by 10% (MAPE), generating $6MM YoY in cost savings and a $4.2MM increase in gross profit</li>
-                            <li>Implemented APE ML pricing engine cross-functionally with engineering and data science — reduced labor hours by 40%</li>
-                            <li>Built batch rating quoting automation for enterprise customers, removing workload equivalent of four QA associates</li>
-                            <li>Directed daily pricing audits with Customer Success and Sales, using conversion, gross-profit, and cost-savings data to shape customer-specific strategies</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Pricing Analyst — Acquisitions</h3>
-                            <span class="timeline-company">Zillow</span>
-                            <span class="timeline-location">Seattle, WA</span>
-                        </div>
-                        <div class="timeline-date">Jun 2021 – Dec 2021</div>
-                        <ul class="timeline-details">
-                            <li>Led valuation of $200MM+ in residential real estate using internal and external datasets, financial models, and risk analysis</li>
-                            <li>Led Austin and San Antonio market research using Tableau, Excel, SQL, Python, and proprietary machine learning tools</li>
-                            <li>Enhanced team accuracy (MAPE) by 2.7% through outlier analysis within the sales funnel</li>
-                            <li>Executed five adopted proposals to revamp efficiency metrics — reduced case time per analyst by 18%</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Pricing Analyst — Strategy</h3>
-                            <span class="timeline-company">Arrive Logistics</span>
-                            <span class="timeline-location">Austin, TX</span>
-                        </div>
-                        <div class="timeline-date">Feb 2017 – Jun 2021</div>
-                        <ul class="timeline-details">
-                            <li>Championed strategic pricing optimization, increasing contract revenue by 320% from Jan 2018 to Jan 2021</li>
-                            <li>Led multiple simultaneous deals ($1MM–$30MM), closing $150MM+ in revenue through tenure</li>
-                            <li>Maintained in-depth knowledge of industry trends and market dynamics for strategic insights to internal and enterprise stakeholders</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="section gallery">
-        <div class="container">
-            <h2 class="section-title">Presentations &amp; Events</h2>
-            <p class="section-intro">
-                A selection of conferences, roundtables, and academic events where I've presented research
-                and engaged with industry and academic leaders.
-            </p>
-
-            <div class="gallery-grid">
-                <div class="gallery-item large">
-                    <img src="images/informs-tsl-mit.jpg" alt="Alex Carroll presenting the Deep Reinforcement Learning for Mississippi Container Service poster at the INFORMS TSL Conference at MIT" loading="lazy">
-                    <div class="gallery-overlay">
-                        <p>Deep RL Poster · INFORMS TSL Conference, MIT</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/wctr-toulouse.jpg" alt="Alex Carroll presenting a two-stage forecast-then-optimize analytics pipeline at the World Conference on Transport Research in Toulouse, France" loading="lazy">
-                    <div class="gallery-overlay">
-                        <p>Drop Trailer Analytics · WCTR 2026, Toulouse</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/presenting-1.png" alt="Alex Carroll presenting on Three Approaches — Descriptive to Prescriptive Analytics" loading="lazy">
-                    <div class="gallery-overlay">
-                        <p>Presenting on Prescriptive Analytics</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/presenting-2.png" alt="Alex Carroll presenting on Agentic Orchestration for Supplier Intelligence" loading="lazy">
-                    <div class="gallery-overlay">
-                        <p>Agentic AI for Supplier Intelligence</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/team.jpg" alt="Alex Carroll with research team" loading="lazy">
-                    <div class="gallery-overlay">
-                        <p>Research Collaboration</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/roundtable-1.jpg" alt="Academic roundtable discussion" loading="lazy">
-                    <div class="gallery-overlay">
-                        <p>Industry-Academic Roundtable</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/roundtable-2.jpg" alt="Working session at conference" loading="lazy">
-                    <div class="gallery-overlay">
-                        <p>Working Session</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Miscellaneous Projects Section -->
-    <section id="projects" class="section projects">
-        <div class="container">
-            <h2 class="section-title">Miscellaneous Projects</h2>
-            <p class="section-intro">
-                Independent builds outside the lab — tools I made because I wanted to use them myself.
-            </p>
-
-            <div class="projects-grid">
-                <article class="project-card">
-                    <p class="project-card-tag">Personal Finance Tool</p>
-                    <h3>Retirement Planner</h3>
-                    <p>
-                        A single-page calculator that projects account growth through retirement and simulates
-                        a tax-optimized withdrawal strategy — filling low brackets with traditional withdrawals,
-                        supplementing with Roth and taxable accounts, and handling RMDs, Social Security/CPP,
-                        and early-withdrawal penalties. Supports both US and Canadian account types.
-                    </p>
-                    <div class="project-card-tags">
-                        <span>React</span>
-                        <span>TypeScript</span>
-                        <span>Recharts</span>
-                        <span>Tax Modeling</span>
-                    </div>
-                    <a class="project-card-link" href="retirement-planner/" target="_blank" rel="noopener noreferrer">
-                        Open the Retirement Planner <i class="fas fa-arrow-up-right-from-square"></i>
-                    </a>
-                </article>
-
-                <article class="project-card">
-                    <p class="project-card-tag">Browser Game</p>
-                    <h3>Sudoku Versus</h3>
-                    <p>
-                        A Sudoku app with Solo and head-to-head Versus modes — two players race the same puzzle
-                        on separate devices in real time, with live scoring, pencil-mark notes, in-game chat, and
-                        a shared leaderboard. Solo mode needs no connection at all.
-                    </p>
-                    <div class="project-card-tags">
-                        <span>JavaScript</span>
-                        <span>Firebase Realtime DB</span>
-                        <span>Real-Time Multiplayer</span>
-                    </div>
-                    <a class="project-card-link" href="sudoku/" target="_blank" rel="noopener noreferrer">
-                        Play Sudoku Versus <i class="fas fa-arrow-up-right-from-square"></i>
-                    </a>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <p class="section-intro">
-                I'm always interested in discussing research collaborations, industry partnerships,
-                and opportunities to advance supply chain innovation.
-            </p>
-
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email</h4>
-                            <a href="mailto:alex629@mit.edu">alex629@mit.edu</a>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-building"></i>
-                        <div>
-                            <h4>Affiliation</h4>
-                            <p>MIT Center for Transportation &amp; Logistics<br>Deep Knowledge Lab<br>Cambridge, MA</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-social">
-                    <h3>Connect</h3>
-                    <div class="social-links">
-                        <a href="https://github.com/amcmit" target="_blank" rel="noopener" class="social-link">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/alex-carroll629/" target="_blank" rel="noopener" class="social-link">
-                            <i class="fab fa-linkedin-in"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://scholar.google.com" target="_blank" rel="noopener" class="social-link">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span>Google Scholar</span>
-                        </a>
-                    </div>
-
-                    <h3>Memberships</h3>
-                    <ul class="membership-list">
-                        <li>INFORMS</li>
-                        <li>World Conference on Transport Research Society</li>
-                    </ul>
-
-                    <h3>Service &amp; Community</h3>
-                    <ul class="membership-list">
-                        <li>Session Chair, SIG B1: Supply Chain Management — WCTR 2026</li>
-                        <li>MIT Science Policy Initiative — Executive Visit Days Participant</li>
-                        <li>Austin-Oita Sister City Committee Member</li>
-                        <li>Japan Society of Boston Member</li>
-                        <li>Keep Austin Beautiful Member</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Alex Carroll. All rights reserved.</p>
-            <p class="footer-affiliation">PhD Candidate · MIT Center for Transportation &amp; Logistics</p>
-            <a href="emulator.html" class="arcade-link" title="Secret Arcade">
-                <i class="fas fa-gamepad"></i>
-            </a>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
+<footer>
+  <div class="wrap">
+    <span class="caption">Alex Carroll. MIT Center for Transportation &amp; Logistics.</span>
+    <a class="caption" href="#top">Back to top</a>
+  </div>
+</footer>
+<script>
+(function(){
+  var c=document.getElementById('net'); if(!c||!c.getContext) return;
+  var x=c.getContext('2d'), W=0, H=0, nodes=[], edges=[], pulses=[], last=0, raf=0;
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function v(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+  function build(){
+    var r=c.getBoundingClientRect(), dpr=Math.min(window.devicePixelRatio||1,2);
+    W=r.width; H=r.height; c.width=W*dpr; c.height=H*dpr; x.setTransform(dpr,0,0,dpr,0,0);
+    var m=28, narrow=W<600;
+    nodes=[]; edges=[]; pulses=[]; var tiers=[];
+    var counts=narrow?[4,6,7,7,6,4]:[6,9,11,11,9,6];
+    var xs=narrow?[0.04,0.22,0.42,0.62,0.80,0.96]:[0.03,0.21,0.40,0.60,0.79,0.97];
+    counts.forEach(function(n,i){
+      var col=[];
+      for(var j=0;j<n;j++){
+        var nd={t:i,x:m+(W-2*m)*xs[i],y:H/2+(j-(n-1)/2)*(H*0.84/(Math.max.apply(null,counts)-1)),hot:false};
+        nodes.push(nd); col.push(nd);
+      }
+      tiers.push(col);
+    });
+    for(var i=0;i<5;i++){
+      tiers[i].forEach(function(p){ tiers[i+1].forEach(function(q){ edges.push({a:p,b:q}); }); });
+    }
+    [tiers[0][2],tiers[1][3],tiers[2][1],tiers[3][4],tiers[4][5]].forEach(function(n){ if(n) n.hot=true; });
+  }
+  function draw(){
+    var line=v('--hairline'), brand=v('--brand'), surf=v('--surface'), mut=v('--muted');
+    x.clearRect(0,0,W,H);
+    x.globalAlpha=0.6; x.strokeStyle=line; x.lineWidth=1;
+    edges.forEach(function(e){ x.beginPath(); x.moveTo(e.a.x,e.a.y); x.lineTo(e.b.x,e.b.y); x.stroke(); });
+    x.globalAlpha=1;
+    pulses.forEach(function(p){
+      var e=p.e, t=p.t; if(t>1) return;
+      var px=e.a.x+(e.b.x-e.a.x)*t, py=e.a.y+(e.b.y-e.a.y)*t;
+      x.fillStyle=brand; x.fillRect(px-3,py-3,6,6);
+    });
+    var ph=(performance.now()/900)%1;
+    nodes.forEach(function(n){
+      var s=5;
+      if(n.hot){ x.strokeStyle=brand; x.globalAlpha=reduce?0.5:1-ph; x.lineWidth=1.5; x.beginPath(); x.arc(n.x,n.y,s+4+ph*12,0,6.2832); x.stroke(); x.globalAlpha=1; }
+      x.lineWidth=1.5; x.fillStyle=n.hot?brand:surf; x.strokeStyle=n.hot?brand:mut;
+      x.beginPath(); x.arc(n.x,n.y,s,0,6.2832); x.fill(); x.stroke();
+    });
+  }
+  function step(ts){
+    var dt=Math.min((ts-last)/1000,0.05); last=ts;
+    pulses.forEach(function(p){p.t+=dt*p.s;});
+    pulses=pulses.filter(function(p){return p.t<1.15;});
+    if(pulses.length<30 && Math.random()<dt*7 && edges.length){pulses.push({e:edges[Math.floor(Math.random()*edges.length)],t:0,s:0.25+Math.random()*0.3});}
+    draw(); raf=requestAnimationFrame(step);
+  }
+  function start(){
+    cancelAnimationFrame(raf); build();
+    if(reduce){ for(var i=0;i<9&&edges.length;i++) pulses.push({e:edges[(i*5)%edges.length],t:0.3+0.05*i,s:0}); draw(); }
+    else { last=performance.now(); raf=requestAnimationFrame(step); }
+  }
+  var tm; window.addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(start,150);});
+  try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){ if(reduce) draw(); });}catch(e){}
+  start();
+})();
+</script>
+<script>
+(function(){
+  var X0=56,X1=616,Y0=270,Y1=20,PMIN=120,PMAX=320,UNIT=150;
+  function px(d){return X0+(d/100)*(X1-X0);}
+  function py(p){return Y0+((p-PMIN)/(PMAX-PMIN))*(Y1-Y0);}
+  function baseline(d){return 188+0.14*d;}
+  function value(d){return 165+1.35*d;}
+  function accept(p,d){return 1/(1+Math.exp((p-value(d))/9));}
+  function profit(p,d){return (p-UNIT)*accept(p,d);}
+  function learned(d){var b=UNIT,bp=-Infinity;for(var p=UNIT;p<=PMAX;p++){var pr=profit(p,d);if(pr>bp){bp=pr;b=p;}}return b;}
+  var g='';
+  for(var i=0;i<=4;i++){var yy=Y1+(Y0-Y1)*i/4,pv=Math.round(PMAX-(PMAX-PMIN)*i/4);
+    g+='<line class="mk-grid" x1="'+X0+'" y1="'+yy+'" x2="'+X1+'" y2="'+yy+'"></line><text class="mk-label" x="'+(X0-8)+'" y="'+(yy+4)+'" text-anchor="end">$'+pv+'</text>';}
+  document.getElementById('mk-grid').innerHTML=g;
+  function path(fn){var d='';for(var x=0;x<=100;x+=2){d+=(x===0?'M':'L')+px(x).toFixed(1)+' '+py(fn(x)).toFixed(1)+' ';}return d.trim();}
+  document.getElementById('mk-baseline').setAttribute('d',path(baseline));
+  document.getElementById('mk-learned').setAttribute('d',path(learned));
+  var s=document.getElementById('mk-slider');
+  function upd(){
+    var d=+s.value,lp=learned(d),bp=baseline(d);
+    var m=document.getElementById('mk-marker');m.setAttribute('x1',px(d));m.setAttribute('x2',px(d));
+    var a=document.getElementById('mk-dot-learn');a.setAttribute('cx',px(d));a.setAttribute('cy',py(lp));
+    var b=document.getElementById('mk-dot-base');b.setAttribute('cx',px(d));b.setAttribute('cy',py(bp));
+    document.getElementById('mk-demand-label').textContent=d+'%';
+    document.getElementById('mk-learn-price').textContent='$'+Math.round(lp);
+    document.getElementById('mk-base-price').textContent='$'+Math.round(bp);
+    var u=(profit(lp,d)/Math.max(profit(bp,d),1)-1)*100;
+    document.getElementById('mk-uplift').textContent=(u>=0?'+':'')+u.toFixed(0)+'%';
+  }
+  s.addEventListener('input',upd);upd();
+})();
+(function(){
+  var qs=[
+    {q:'Which suppliers of titanium fasteners are single-sourced and out of contract?',src:['sql','graph'],a:'3 single-source suppliers found; 2 have contracts that expired in the last quarter. Ownership graph flags one as a subsidiary of a consolidated parent.'},
+    {q:'Summarize the risk and termination clauses across our cold-chain RFx documents.',src:['vector'],a:'Retrieved 11 RFx documents; termination-for-convenience appears in 7, and only 4 specify temperature-excursion penalties. Consolidated summary with citations returned.'},
+    {q:'What is our total spend with tier-2 suppliers linked to a flagged parent company?',src:['sql','graph'],a:'$4.2M across 6 tier-2 suppliers traced through the ownership graph to the flagged parent; 68% concentrated in a single category.'},
+    {q:'Find contracts similar to our current MRI service agreement and compare pricing.',src:['vector','sql'],a:'5 similar agreements retrieved by embedding similarity; joined to spend shows current pricing is 12% above the median of comparable contracts.'}
+  ];
+  var wrap=document.getElementById('masis-questions'),stages=[].slice.call(document.querySelectorAll('#masis-pipeline .masis-stage')),
+      srcs=[].slice.call(document.querySelectorAll('#masis-sources .masis-src')),ans=document.getElementById('masis-answer'),timers=[],btns=[];
+  function clear(){timers.forEach(clearTimeout);timers=[];stages.forEach(function(x){x.classList.remove('on');});srcs.forEach(function(x){x.classList.remove('hit');});ans.textContent='';btns.forEach(function(b){b.classList.remove('sel');});}
+  function run(item,btn){
+    clear();btn.classList.add('sel');
+    stages.forEach(function(st,i){
+      timers.push(setTimeout(function(){
+        st.classList.add('on');if(i>0)stages[i-1].classList.remove('on');
+        if(i===1)item.src.forEach(function(k){var el=document.querySelector('.masis-src[data-src="'+k+'"]');if(el)el.classList.add('hit');});
+        if(i===stages.length-1)timers.push(setTimeout(function(){ans.textContent=item.a;},520));
+      },520*i));
+    });
+  }
+  qs.forEach(function(item){var b=document.createElement('button');b.type='button';b.className='masis-qbtn';b.textContent=item.q;b.addEventListener('click',function(){run(item,b);});btns.push(b);wrap.appendChild(b);});
+})();
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var mats=[{id:'he3',label:'Helium-3'},{id:'nb',label:'Niobium'},{id:'xtal',label:'Nonlinear crystals'},{id:'ree',label:'Rare earths'},{id:'laser',label:'Specialty lasers'}];
+  var plats=[{id:'sc',label:'Superconducting'},{id:'ion',label:'Ion-trap'},{id:'pho',label:'Photonic'}];
+  var edges=[['he3','sc'],['nb','sc'],['ree','ion'],['laser','ion'],['xtal','pho'],['laser','pho']];
+  mats.forEach(function(m,i){m.x=200;m.y=80+i*62;});
+  plats.forEach(function(p,i){p.x=470;p.y=120+i*100;});
+  var by={};mats.concat(plats).forEach(function(n){by[n.id]=n;});
+  var eg=document.getElementById('qp-edges'),ng=document.getElementById('qp-nodes'),dis={};
+  edges.forEach(function(e){var a=by[e[0]],b=by[e[1]],l=document.createElementNS(NS,'line');l.setAttribute('class','qp-edge');
+    l.setAttribute('x1',a.x);l.setAttribute('y1',a.y);l.setAttribute('x2',b.x);l.setAttribute('y2',b.y);l.dataset.mat=e[0];l.dataset.plat=e[1];eg.appendChild(l);});
+  function node(n,isMat){
+    var g=document.createElementNS(NS,'g');g.setAttribute('class','qp-node '+(isMat?'qp-mat':'qp-plat'));g.dataset.id=n.id;
+    var c=document.createElementNS(NS,'circle');c.setAttribute('cx',n.x);c.setAttribute('cy',n.y);c.setAttribute('r','10');
+    var t=document.createElementNS(NS,'text');t.setAttribute('y',n.y+5);
+    if(isMat){t.setAttribute('x',n.x-18);t.setAttribute('text-anchor','end');}else{t.setAttribute('x',n.x+18);}
+    t.textContent=n.label;g.appendChild(c);g.appendChild(t);return g;
+  }
+  mats.forEach(function(m){var g=node(m,true);g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label','Disrupt '+m.label);
+    g.addEventListener('click',function(){tog(m.id);});
+    g.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();tog(m.id);}});ng.appendChild(g);});
+  plats.forEach(function(p){ng.appendChild(node(p,false));});
+  var st=document.getElementById('qp-status');
+  function render(){
+    document.querySelectorAll('#qp-svg .qp-node').forEach(function(g){g.classList.remove('disrupted','atrisk');});
+    document.querySelectorAll('#qp-svg .qp-edge').forEach(function(l){l.classList.remove('hot');});
+    var risk={};
+    Object.keys(dis).forEach(function(mid){if(!dis[mid])return;
+      var g=document.querySelector('#qp-svg .qp-node[data-id="'+mid+'"]');if(g)g.classList.add('disrupted');
+      edges.forEach(function(e){if(e[0]===mid){risk[e[1]]=true;var l=document.querySelector('#qp-svg .qp-edge[data-mat="'+mid+'"][data-plat="'+e[1]+'"]');if(l)l.classList.add('hot');}});});
+    Object.keys(risk).forEach(function(pid){var g=document.querySelector('#qp-svg .qp-node[data-id="'+pid+'"]');if(g)g.classList.add('atrisk');});
+    var names=Object.keys(risk).map(function(pid){return by[pid].label;});
+    st.textContent=names.length?names.length+' of 3 platforms at risk: '+names.join(', ')+'.':'No disruptions. All platforms nominal.';
+  }
+  function tog(id){dis[id]=!dis[id];render();}
+  document.getElementById('qp-reset').addEventListener('click',function(){dis={};render();});
+  render();
+})();
+</script>
+<script>
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('button.proj'));
+  cards.forEach(function(c){c.addEventListener('click',function(){
+    var id='p-'+c.dataset.p,panel=document.getElementById(id),open=panel.hidden;
+    cards.forEach(function(x){x.setAttribute('aria-expanded','false');document.getElementById('p-'+x.dataset.p).hidden=true;x.querySelector('.more').textContent='Details and demo +';});
+    if(open){panel.hidden=false;c.setAttribute('aria-expanded','true');c.querySelector('.more').textContent='Hide details −';panel.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  });});
+  [].slice.call(document.querySelectorAll('.pdetail')).forEach(function(p){
+    p.querySelectorAll('.lvl button').forEach(function(b){b.addEventListener('click',function(){
+      p.dataset.lvl=b.dataset.l;p.querySelectorAll('.lvl button').forEach(function(x){x.classList.toggle('on',x===b);});});});
+  });
+})();
+</script>
 </body>
 </html>
