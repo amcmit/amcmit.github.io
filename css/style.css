@@ -144,6 +144,7 @@ button:focus-visible,
 }
 
 .nav-logo {
+    white-space: nowrap;
     font-family: var(--font-display);
     font-size: 1.4rem;
     font-weight: 600;
@@ -299,7 +300,7 @@ button:focus-visible,
 .hero-cta {
     display: flex;
     gap: var(--space-md);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
     flex-wrap: wrap;
 }
 
@@ -1699,36 +1700,6 @@ button:focus-visible,
         padding: var(--space-xl) 0;
     }
 
-    .nav-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 280px;
-        height: 100vh;
-        background: var(--paper);
-        flex-direction: column;
-        padding: 80px var(--space-lg) var(--space-lg);
-        gap: 0;
-        box-shadow: var(--shadow-lg);
-        border-left: 1px solid var(--rule);
-        transition: right var(--transition-base);
-    }
-
-    .nav-menu.active {
-        right: 0;
-    }
-
-    .nav-menu .nav-link {
-        color: var(--ink);
-        padding: var(--space-md) 0;
-        border-bottom: 1px solid var(--rule);
-    }
-
-    .nav-toggle {
-        display: flex;
-        z-index: 1001;
-    }
-
     .hero-image-wrapper {
         width: 200px;
         height: 250px;
@@ -1911,9 +1882,50 @@ button:focus-visible,
     :root:not([data-theme="light"]) .theme-toggle .fa-moon { display: none; }
 }
 
-@media (max-width: 768px) {
-    .theme-toggle {
+/* Compact menu on mid-size screens so 9 links + toggle fit on one line */
+@media (max-width: 1100px) {
+    .nav-menu { gap: 1.25rem; }
+    .nav-link { font-size: 0.86rem; }
+    .theme-toggle { margin-left: 1.25rem; }
+}
+
+/* Hamburger drawer (raised from 768px: the full menu no longer fits below ~900px) */
+@media (max-width: 900px) {
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--paper);
+        flex-direction: column;
+        padding: 80px var(--space-lg) var(--space-lg);
+        gap: 0;
+        box-shadow: var(--shadow-lg);
+        border-left: 1px solid var(--rule);
+        transition: right var(--transition-base);
         margin-left: 0;
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-menu .nav-link {
+        font-size: 0.9rem;
+        color: var(--ink);
+        padding: var(--space-md) 0;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-toggle {
+        display: flex;
+        z-index: 1001;
+    }
+
+    /* keep the theme toggle beside the hamburger, not floating mid-bar */
+    .theme-toggle {
+        margin-left: auto;
         margin-right: var(--space-md);
     }
 }
@@ -2166,3 +2178,78 @@ body.level-technical .level.technical { display: block; }
 .masis-answer { margin-top: var(--space-md); font-family: var(--font-display); color: var(--ink); line-height: 1.6; min-height: 1.5em; }
 .masis-qbtn { display:block; width:100%; text-align:left; font-family: var(--font-body); font-size: 0.9rem; padding: 10px 12px; border:1px solid var(--rule-strong); background:transparent; color:var(--ink-soft); border-radius:3px; cursor:pointer; margin-bottom:8px; transition: all 0.15s ease; }
 .masis-qbtn:hover { border-color: var(--mit-red); color: var(--mit-red); }
+
+/* ===================================
+   Collapsible lists ("Show earlier / all")
+   =================================== */
+.more-details {
+    margin-top: var(--space-sm);
+}
+
+.more-details > summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--mit-red);
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast);
+}
+
+.more-details > summary::-webkit-details-marker { display: none; }
+
+.more-details > summary::after {
+    content: '+';
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.more-details[open] > summary::after { content: '\2212'; }
+
+.more-details > summary:hover { border-bottom-color: var(--mit-red); }
+
+.more-details > summary:focus-visible {
+    outline: 2px solid var(--mit-red);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+.more-details[open] > summary { margin-bottom: var(--space-sm); }
+
+/* ===================================
+   Hero: featured-work quick links
+   =================================== */
+.hero-featured {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.hero-featured-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+    font-weight: 500;
+}
+
+.hero-featured a {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 1px;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.hero-featured a:hover {
+    color: var(--mit-red);
+    border-bottom-color: var(--mit-red);
+}
